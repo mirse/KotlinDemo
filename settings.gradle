@@ -1,2 +1,6 @@
+include ':module_article'
+include ':module_account'
+include ':module_main'
 rootProject.name='KotlinDemo'
 include ':app'
+include ':common'

@@ -1,0 +1,120 @@
+ext{
+    isModule = false
+
+
+    versions = [
+            compileSdkVersion:                  30,
+            buildToolsVersion:                  "30.0.0",
+            applicationId:                      "com.wdz.kotlindemo",
+            minSdkVersion:                      21,
+            targetSdkVersion:                   30,
+            versionCode:                        1,
+            coreKtxVersion:                     "1.3.2",
+            kotlinVersion:                      "1.4.10",
+            ankoVersion:                        "0.10.8",
+            versionName:                        "1.0",
+            testInstrumentationRunner:          "androidx.test.runner.AndroidJUnitRunner",
+            appcompatVersion:                   "1.2.0",
+            constraintlayoutVersion:            "2.0.2",
+            junitVersion:                       "4.12" ,
+            runnerVersion:                      "1.1.2",
+            espressoVersion:                    "3.3.0",
+            recyclerviewVersion:                "1.0.0",
+            asyncVersion:                       "1.4.9",
+            butterknifeVersion:                 "10.0.0",
+            butterknifeCompilerVersion:         "10.0.0",
+            legacyVersion:                      "1.0.0",
+            roomRuntimeVersion:                 "2.2.0",
+            roomCompilerVersion:                "2.2.0",
+            roomRxjava2Version:                 "2.2.0",
+            roomGuavaVersion:                   "2.2.0",
+            roomTestingVersion:                 "2.2.0",
+            rxandroidVersion:                   "2.1.1",
+            retrofitVersion:                    "2.1.0",
+            retrofit2Rxjava2AdapterVersion:     "1.0.0",
+            converterGsonVersion:               "2.1.0",
+            rxbindingVersion:                   "3.0.0",
+            lottieVersion:                      "3.4.1",
+            lifecycleExtensionsVersion:         "2.2.0",
+            materialVersion:                    "1.1.0",
+            okhttpVersion:                      "4.2.1",
+            eventbusVersion:                    "3.1.1",
+            glideVersion:                       "4.10.0",
+            glideCompilerVersion:               "4.10.0",
+            multidexVersion:                    "1.0.3",
+            leakcanaryAndroidVersion:           "2.2",
+            BaseAdapterVersion:                 "1.1.5",
+            arouterVersion:                     "1.5.0",
+            arouterCompilerVersion:             "1.2.2",
+            colorpickerviewVersion:             "2.2.0",
+            swiperefreshlayoutVersion:          "1.0.0",
+            //下拉刷新
+            refreshlayoutkernelVersion:         "2.0.1", //核心必须依赖
+            refreshHeaderClassicsVersion:       "2.0.1",//经典刷新头
+
+            //viewpager2
+            viewPager2Version:                  "1.1.0-alpha01",
+            loggingInterceptorVersion:          "3.12.2"
+
+    ]
+    dependencies = [
+            //kotlin
+            ktx:                             "androidx.core:core-ktx:${versions["coreKtxVersion"]}",
+            kotlin:                          "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions["kotlinVersion"]}",
+            anko:                            "org.jetbrains.anko:anko:${versions["ankoVersion"]}",
+
+            appcompat:                       "androidx.appcompat:appcompat:${versions["appcompatVersion"]}",
+            constraintlayout:                "androidx.constraintlayout:constraintlayout:${versions["constraintlayoutVersion"]}",
+            junit:                           "junit:junit:${versions["junitVersion"]}",
+            runner:                          "androidx.test:runner:${versions["runnerVersion"]}",
+            espresso:                        "androidx.test.espresso:espresso-core:${versions["espressoVersion"]}",
+            recyclerview:                    "androidx.recyclerview:recyclerview:${versions["recyclerviewVersion"]}",
+            async:                           "com.loopj.android:android-async-http:${versions["asyncVersion"]}",
+            butterknife:                     "com.jakewharton:butterknife:${versions["butterknifeVersion"]}",
+            butterknife_compiler:            "com.jakewharton:butterknife-compiler:${versions["butterknifeCompilerVersion"]}",
+            legacy:                          "androidx.legacy:legacy-support-v4:${versions["legacyVersion"]}",
+            room_runtime:                    "androidx.room:room-runtime:${versions["roomRuntimeVersion"]}",
+            room_compiler:                   "androidx.room:room-compiler:${versions["roomCompilerVersion"]}",
+            room_rxjava2:                    "androidx.room:room-rxjava2:${versions["roomRxjava2Version"]}",
+            rxjava2:                         "io.reactivex.rxjava2:rxjava:2.1.7",// 必要rxjava2依赖
+            room_guava:                      "androidx.room:room-guava:${versions["roomGuavaVersion"]}",
+            room_testing:                    "androidx.room:room-testing:${versions["roomTestingVersion"]}",
+            rxandroid:                       "io.reactivex.rxjava2:rxandroid:${versions["rxandroidVersion"]}",
+            retrofit:                        "com.squareup.retrofit2:retrofit:${versions["retrofitVersion"]}",
+            retrofit2_rxjava2_adapter:       "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${versions["retrofit2Rxjava2AdapterVersion"]}",
+            converter_gson:                  "com.squareup.retrofit2:converter-gson:${versions["converterGsonVersion"]}",
+            rxbinding:                       "com.jakewharton.rxbinding3:rxbinding:${versions["rxbindingVersion"]}",
+            lottie:                          "com.airbnb.android:lottie:${versions["lottieVersion"]}",
+            lifecycle_extensions:            "androidx.lifecycle:lifecycle-extensions:${versions["lifecycleExtensionsVersion"]}",
+            material:                        "com.google.android.material:material:${versions["materialVersion"]}",
+            okhttp:                          "com.squareup.okhttp3:okhttp:${versions["okhttpVersion"]}",
+            eventbus:                        "org.greenrobot:eventbus:${versions["eventbusVersion"]}",
+            glide:                           "com.github.bumptech.glide:glide:${versions["glideVersion"]}",
+            glide_compiler:                  "com.github.bumptech.glide:compiler:${versions["glideCompilerVersion"]}",
+            multidex:                        "com.android.support:multidex:${versions["multidexVersion"]}",
+            leakcanary_android:              "com.squareup.leakcanary:leakcanary-android:${versions["leakcanaryAndroidVersion"]}",
+            BaseAdapter:                     "com.othershe:BaseAdapter:${versions["BaseAdapterVersion"]}",
+            arouter:                         "com.alibaba:arouter-api:${versions["arouterVersion"]}",
+            arouter_compiler:                "com.alibaba:arouter-compiler:${versions["arouterCompilerVersion"]}",
+            colorpickerview:                 "com.github.skydoves:colorpickerview:${versions["colorpickerviewVersion"]}",
+            swiperefreshlayout:              "androidx.swiperefreshlayout:swiperefreshlayout:${versions["swiperefreshlayoutVersion"]}",
+            refreshlayoutkernel:             "com.scwang.smart:refresh-layout-kernel:${versions["refreshlayoutkernelVersion"]}", //核心必须依赖
+            refreshHeaderClassics:           "com.scwang.smart:refresh-header-classics:${versions["refreshHeaderClassicsVersion"]}",//经典刷新头
+
+            zxing_android_core:              'com.google.zxing:android-core:3.3.0',
+            zxing_core:                      'com.google.zxing:core:3.3.3',
+
+            //dagger
+            dagger:                          'com.google.dagger:dagger:2.21',
+            dagger_compiler:                 'com.google.dagger:dagger-compiler:2.21',
+            dagger_android:                  'com.google.dagger:dagger-android:2.21',
+            dagger_android_support:          'com.google.dagger:dagger-android-support:2.21',
+            dagger_android_processor:        'com.google.dagger:dagger-android-processor:2.21',
+            //viewpager2
+            viewpager2:                      "androidx.viewpager2:viewpager2:${versions["viewPager2Version"]}",
+
+            logging_interceptor:             "com.squareup.okhttp3:logging-interceptor:${versions["loggingInterceptorVersion"]}",
+
+            tencent_mmkv:                    'com.tencent:mmkv:1.0.22',
+    ]
+}
