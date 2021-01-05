@@ -19,6 +19,7 @@ import com.wdz.common.net.response.WxResponse;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -139,7 +140,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("user/register")
-    Single<BaseResponse<BaseResponse.DataBean>> register(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
+    Single<BaseResponse<ResponseBody>> register(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
 
     /**
      * 退出

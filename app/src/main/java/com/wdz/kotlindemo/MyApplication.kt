@@ -3,6 +3,7 @@ package com.wdz.kotlindemo
 import android.app.Application
 import androidx.multidex.BuildConfig
 import com.alibaba.android.arouter.launcher.ARouter
+import com.tencent.mmkv.MMKV
 
 
 public class MyApplication: Application() {
@@ -16,5 +17,6 @@ public class MyApplication: Application() {
         // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         ARouter.openLog()
         ARouter.init(this)
+        MMKV.initialize(this)
     }
 }

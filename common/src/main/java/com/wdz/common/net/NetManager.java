@@ -10,6 +10,8 @@ import androidx.databinding.BaseObservable;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wdz.common.net.api.ApiService;
 import com.wdz.common.net.base.BaseResponse;
+import com.wdz.common.net.http.AddCookiesInterceptor;
+import com.wdz.common.net.http.ReceivedCookiesInterceptor;
 import com.wdz.common.net.response.BannerResponse;
 import com.wdz.common.net.response.CollectArticleResponse;
 import com.wdz.common.net.response.CollectWebResponse;
@@ -81,8 +83,7 @@ public class NetManager {
 
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//设定日志级别
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                //cookie管理
-                //.cookieJar(new CookiesManager())
+
                 //设置连接超时时间
                 .connectTimeout(HTTP_TIME, TimeUnit.SECONDS)
                 //设置读取超时时间
@@ -90,6 +91,8 @@ public class NetManager {
                 //设置写入超时时间
                 .writeTimeout(HTTP_TIME, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(new AddCookiesInterceptor())
+                .addInterceptor(new ReceivedCookiesInterceptor())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -102,24 +105,7 @@ public class NetManager {
         apiService = retrofit.create(ApiService.class);
     }
 
-//    private class CookiesManager implements CookieJar {
-//
-//
-//        @Override
-//        public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-//            if (cookies != null && cookies.size() > 0) {
-//                for (Cookie item : cookies) {
-//                    cookieStore.add(url, item);
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public List<Cookie> loadForRequest(HttpUrl url) {
-//            List<Cookie> cookies = cookieStore.get(url);
-//            return cookies;
-//        }
-//    }
+
 
 
     //1、首页相关
