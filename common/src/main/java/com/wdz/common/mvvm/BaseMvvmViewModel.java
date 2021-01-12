@@ -56,10 +56,7 @@ public abstract class BaseMvvmViewModel<V,M extends BaseModel> extends ViewModel
             mViewRef.clear();
             mViewRef = null;
         }
-//        if (null != model)
-//        {
-//            model.cancel();
-//        }
+
     }
 
 
