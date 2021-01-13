@@ -5,6 +5,8 @@ package com.wdz.common.constant;
  * @author wdz
  */
 public interface ARouterConstant {
+    //app
+    String ACTIVITY_MAIN = "/app/MainActivity";
     //module_account
     String FRAGMENT_ACCOUNT = "/module_account/AccountFragment";
     String ACTIVITY_LOGIN = "/module_account/LoginActivity";

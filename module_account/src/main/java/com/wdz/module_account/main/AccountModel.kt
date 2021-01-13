@@ -1,4 +1,6 @@
 package com.wdz.module_account.main
 
-public class AccountModel {
+import com.wdz.common.mvvm.BaseModel
+
+public class AccountModel:BaseModel(){
 }

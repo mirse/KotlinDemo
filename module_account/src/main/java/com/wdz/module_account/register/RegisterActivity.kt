@@ -11,7 +11,7 @@ import com.wdz.module_account.databinding.ActivityRegisterBinding
 import com.wdz.module_account.login.LoginViewModel
 
 @Route(path = ARouterConstant.ACTIVITY_REGISTER)
-class RegisterActivity : BaseMvvmActivity<LoginViewModel, ActivityRegisterBinding>() {
+class RegisterActivity : BaseMvvmActivity<LoginViewModel>() {
 
     override fun isTransparentBar(): Boolean {
         return true;
@@ -26,6 +26,14 @@ class RegisterActivity : BaseMvvmActivity<LoginViewModel, ActivityRegisterBindin
     }
 
     override fun initData() {
+
+    }
+
+    override fun isUseDataBinding(): Boolean {
+        return false
+    }
+
+    override fun vmToDataBinding() {
 
     }
 }

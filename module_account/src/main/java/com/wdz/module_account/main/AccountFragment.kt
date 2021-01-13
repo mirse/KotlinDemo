@@ -4,15 +4,17 @@ import android.content.Intent
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmFragment
+import com.wdz.common.net.response.LoginResponse
 import com.wdz.module_account.R
 import com.wdz.module_account.databinding.FragmentAccountBinding
 import com.wdz.module_account.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_account.*
 
 @Route(path = ARouterConstant.FRAGMENT_ACCOUNT)
-public class AccountFragment : BaseMvvmFragment<AccountViewModel, FragmentAccountBinding>(),
+public class AccountFragment : BaseMvvmFragment<AccountViewModel>(),
     View.OnClickListener {
     override fun getLayoutId(): Int {
         return R.layout.fragment_account
@@ -27,6 +29,11 @@ public class AccountFragment : BaseMvvmFragment<AccountViewModel, FragmentAccoun
     }
 
     override fun initData() {
+        val userInfo = (activity?.application as MyApplication).uerInfo
+        if (userInfo!=null){
+            tv_name.text = userInfo.nickname
+        }
+
 
     }
 
@@ -39,6 +46,14 @@ public class AccountFragment : BaseMvvmFragment<AccountViewModel, FragmentAccoun
             //如果已登录显示用户信息修改，未登录显示登录界面
             ARouter.getInstance().build(ARouterConstant.ACTIVITY_LOGIN).navigation();
         }
+    }
+
+    override fun vmToDataBinding() {
+
+    }
+
+    override fun isUseDataBinding(): Boolean {
+        return false
     }
 
 

@@ -11,7 +11,7 @@ public class LoginModel: BaseModel() {
     fun login(userName: String, pwd: String,loginListener: LoginListener) {
         NetManager.getInstance().login(userName,pwd,object : BaseObserver<LoginResponse>() {
             override fun onRequestSuccess(t: LoginResponse?) {
-                loginListener.loginSuccess()
+                loginListener.loginSuccess(t)
             }
 
             override fun onRequestError(errorCode: Int, errorMsg: String?) {
@@ -69,7 +69,7 @@ public class LoginModel: BaseModel() {
 
 
     interface LoginListener{
-        fun loginSuccess()
+        fun loginSuccess(t:LoginResponse?)
         fun loginFail(errorMsg:String)
     }
 

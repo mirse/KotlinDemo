@@ -5,7 +5,8 @@
     <application
         android:allowBackup="true"
         android:supportsRtl="true">
-        <activity android:name=".register.RegisterActivity"></activity>
+
+        <activity android:name=".register.RegisterActivity" />
         <activity android:name=".login.LoginActivity" />
     </application>
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmActivity
@@ -12,8 +13,8 @@ import com.wdz.kotlindemo.R
 import com.wdz.kotlindemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.tab_buttom.*
-
-class MainActivity : BaseMvvmActivity<MainViewModel,ActivityMainBinding>(), View.OnClickListener {
+@Route(path = ARouterConstant.ACTIVITY_MAIN)
+class MainActivity : BaseMvvmActivity<MainViewModel>(), View.OnClickListener {
     private var fragmentArrayList:ArrayList<Fragment> = arrayListOf();
 
 
@@ -119,5 +120,13 @@ class MainActivity : BaseMvvmActivity<MainViewModel,ActivityMainBinding>(), View
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
+    }
+
+    override fun isUseDataBinding(): Boolean {
+        return false
+    }
+
+    override fun vmToDataBinding() {
+
     }
 }

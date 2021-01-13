@@ -7,15 +7,17 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmActivity
 import com.wdz.module_account.R
 import com.wdz.module_account.databinding.ActivityLoginBinding
+import com.wdz.module_account.login.bean.LoginStatus
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 
 @Route(path = ARouterConstant.ACTIVITY_LOGIN)
-class LoginActivity : BaseMvvmActivity<LoginViewModel,ActivityLoginBinding>(),
+class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
     View.OnClickListener {
     private val TAG = "LoginActivity"
 
@@ -31,23 +33,24 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel,ActivityLoginBinding>(),
         et_id.setHint("请输入账号")
         register.setOnClickListener(this)
         bt_login.setOnClickListener(this)
-        vm.loginStatus.observe(this,object :Observer<Boolean>{
-            override fun onChanged(t: Boolean) {
-                if (t){
-                    toast("登录成功")
-                    hideLoading()
-                }
-                else{
-                    toast("登录失败")
-                    hideLoading()
-                }
-            }
+        iv_return.setOnClickListener(this)
 
-        })
     }
 
     override fun initData() {
-
+        vm.loginStatus.observe(this,
+            { t ->
+                if (t != null) {
+                    if (t.isLoginSuccess!!){
+                        (application as MyApplication).setUserInfo(t.loginResponse)
+                        toast("登录成功")
+                        hideLoading()
+                    } else{
+                        toast("登录失败:"+t.errorMsg)
+                        hideLoading()
+                    }
+                }
+            })
     }
 
     override fun onClick(p0: View?) {
@@ -60,6 +63,17 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel,ActivityLoginBinding>(),
             vm.login(et_id.text.toString().trim(),et_pwd.text.toString().trim())
             showLoading()
         }
+        else if (R.id.iv_return == id){
+            finish()
+        }
+    }
+
+    override fun isUseDataBinding(): Boolean {
+        return true
+    }
+
+    override fun vmToDataBinding() {
+        (viewDataBinding as ActivityLoginBinding).model = LoginModel()
     }
 
 }

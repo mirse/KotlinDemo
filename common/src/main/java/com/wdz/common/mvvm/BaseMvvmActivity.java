@@ -11,33 +11,32 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.wdz.common.view.LoadingDialog;
 
 import java.lang.reflect.ParameterizedType;
 
-public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel,VDB extends ViewDataBinding> extends AppCompatActivity implements BaseView {
+public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel> extends AppCompatActivity implements BaseView {
 
-    protected VDB viewDataBinding;
     protected VM vm;
     private int mColor = 0;
     public LoadingDialog mLoadingDialog;
+    protected ViewDataBinding viewDataBinding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTransparentBar();
-
-        viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
-        viewDataBinding.setLifecycleOwner(this);
         Class<VM> vmClass = (Class<VM>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication());
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, factory);
-        vm = viewModelProvider.get(vmClass);
-        vm.attachView(this);
+        vm = new ViewModelProvider(this).get(vmClass);
         vm.initModel();
+        if (isUseDataBinding()){
+            initDataBinding();
+        }
+        else{
+            setContentView(getLayoutId());
+        }
         initView();
         mLoadingDialog = new LoadingDialog(this);
         initData();
@@ -45,13 +44,15 @@ public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel,VDB extends 
 
     }
 
+    private void initDataBinding() {
+        viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
+        viewDataBinding.setLifecycleOwner(this);
+        vmToDataBinding();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (null != vm && vm.isViewAttach())
-        {
-            vm.detachView();
-        }
     }
 
     private void setTransparentBar() {
@@ -94,8 +95,33 @@ public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel,VDB extends 
         }
     }
 
+    /**
+     * 状态栏是否透明
+     * @return
+     */
     public abstract boolean isTransparentBar();
+    /**
+     * 是否使用databinding
+     * @return
+     */
+    public abstract boolean isUseDataBinding();
+    /**
+     * 设置ui视图
+     * @return
+     */
     public abstract int getLayoutId();
+
+    /**
+     * 只有isUseDataBinding == true时需要设置
+     * 将viewModel与DataBinding关联
+     */
+    public abstract void vmToDataBinding();
+    /**
+     * 初始化view相关
+     */
     public abstract void initView();
+    /**
+     * 初始化data相关
+     */
     public abstract void initData();
 }

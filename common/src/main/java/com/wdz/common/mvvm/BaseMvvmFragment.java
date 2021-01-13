@@ -17,11 +17,13 @@ import com.wdz.common.view.LoadingDialog;
 
 import java.lang.reflect.ParameterizedType;
 
-public abstract class BaseMvvmFragment<VM extends ViewModel,VDB extends ViewDataBinding> extends Fragment implements BaseView {
+public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fragment implements BaseView {
 
-    private VDB viewDataBinding;
+
     private VM vm;
     public LoadingDialog mLoadingDialog;
+    protected ViewDataBinding viewDataBinding;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,16 +33,22 @@ public abstract class BaseMvvmFragment<VM extends ViewModel,VDB extends ViewData
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-        viewDataBinding.setLifecycleOwner(this);
-        Class<VM> vmClass = (Class<VM>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication());
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, factory);
-        vm = viewModelProvider.get(vmClass);
 
-        return viewDataBinding.getRoot();
+        Class<VM> vmClass = (Class<VM>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        vm = new ViewModelProvider(this).get(vmClass);
+
+        if (isUseDataBinding()){
+            viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+            viewDataBinding.setLifecycleOwner(this);
+            return viewDataBinding.getRoot();
+        }
+        else{
+            return inflater.inflate(getLayoutId(), container, false);
+        }
+
 
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -83,5 +91,16 @@ public abstract class BaseMvvmFragment<VM extends ViewModel,VDB extends ViewData
      * 加载数据
      */
     public abstract void initData();
+
+    /**
+     * 只有isUseDataBinding == true时需要设置
+     * 将viewModel与DataBinding关联
+     */
+    public abstract void vmToDataBinding();
+    /**
+     * 是否使用databinding
+     * @return
+     */
+    public abstract boolean isUseDataBinding();
 
 }
