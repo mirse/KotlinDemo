@@ -59,6 +59,7 @@ android {
     dataBinding {
         enabled = true
     }
+
 }
 
 dependencies {
@@ -91,6 +92,11 @@ dependencies {
     implementation rootProject.ext.dependencies.rxjava2
     // 支持Gson解析
     implementation rootProject.ext.dependencies.converter_gson
+
+    // rxbinding
+    implementation rootProject.ext.dependencies.rxbinding
+
+
 
 
     implementation project(path: ':common')

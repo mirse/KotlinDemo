@@ -1,20 +1,22 @@
 package com.wdz.module_account.login
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.jakewharton.rxbinding3.widget.textChanges
+
 import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmActivity
+import com.wdz.common.net.HttpRequestStatus
 import com.wdz.module_account.R
 import com.wdz.module_account.databinding.ActivityLoginBinding
-import com.wdz.module_account.login.bean.LoginStatus
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
+
 
 @Route(path = ARouterConstant.ACTIVITY_LOGIN)
 class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
@@ -30,24 +32,41 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
     }
 
     override fun initView() {
+
         et_id.setHint("请输入账号")
+        et_pwd.setHint("请输入密码")
         register.setOnClickListener(this)
         bt_login.setOnClickListener(this)
         iv_return.setOnClickListener(this)
 
+        val disposable = Observable.combineLatest(et_id.textChanges(),et_pwd.textChanges(),
+            object : BiFunction<CharSequence, CharSequence, Boolean> {
+                override fun apply(p0: CharSequence, p1: CharSequence): Boolean {
+                    return p0.isNotBlank() && p1.isNotBlank()
+                }
+            }
+        ).subscribe(object:Consumer<Boolean>{
+            override fun accept(t: Boolean?) {
+                bt_login.isEnabled = t!!
+            }
+        })
+        addDisposable(disposable)
     }
 
     override fun initData() {
         vm.loginStatus.observe(this,
             { t ->
                 if (t != null) {
-                    if (t.isLoginSuccess!!){
+                    if (t.requestStatus == HttpRequestStatus.REQUEST_SUCCESS){
                         (application as MyApplication).setUserInfo(t.loginResponse)
                         toast("登录成功")
                         hideLoading()
-                    } else{
+                    } else if (t.requestStatus == HttpRequestStatus.REQUEST_FAIL){
                         toast("登录失败:"+t.errorMsg)
                         hideLoading()
+                    }
+                    else if (t.requestStatus == HttpRequestStatus.REQUESTING){
+                        showLoading()
                     }
                 }
             })
@@ -59,10 +78,7 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
             ARouter.getInstance().build(ARouterConstant.ACTIVITY_REGISTER).navigation()
             finish()
         }
-        else if (R.id.bt_login == id){
-            vm.login(et_id.text.toString().trim(),et_pwd.text.toString().trim())
-            showLoading()
-        }
+
         else if (R.id.iv_return == id){
             finish()
         }
@@ -73,7 +89,7 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
     }
 
     override fun vmToDataBinding() {
-        (viewDataBinding as ActivityLoginBinding).model = LoginModel()
+        (viewDataBinding as ActivityLoginBinding).model = vm
     }
 
 }

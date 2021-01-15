@@ -32,6 +32,7 @@ android {
         enabled = true
     }
 
+
 }
 
 dependencies {
@@ -70,4 +71,5 @@ dependencies {
     implementation rootProject.ext.dependencies.logging_interceptor
 
     implementation rootProject.ext.dependencies.tencent_mmkv
+
 }

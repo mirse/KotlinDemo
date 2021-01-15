@@ -10,9 +10,12 @@ import com.wdz.common.net.response.LoginResponse
  * @Date 2021/1/13 11:35
 
  */
-class LoginStatus {
+class RegisterStatus {
     var requestStatus: HttpRequestStatus? = HttpRequestStatus.NONE
     var errorMsg:String = ""
+
+    var isLogin:Boolean = false
+    var loginErrorMsg:String = ""
     var loginResponse:LoginResponse = LoginResponse()
 
 }

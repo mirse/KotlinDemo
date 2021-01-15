@@ -49,6 +49,13 @@ public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fra
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (viewDataBinding!=null){
+            viewDataBinding = null;
+        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

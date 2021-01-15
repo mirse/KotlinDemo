@@ -33,7 +33,6 @@ ext{
             retrofitVersion:                    "2.1.0",
             retrofit2Rxjava2AdapterVersion:     "1.0.0",
             converterGsonVersion:               "2.1.0",
-            rxbindingVersion:                   "3.0.0",
             lottieVersion:                      "3.4.1",
             lifecycleExtensionsVersion:         "2.2.0",
             materialVersion:                    "1.1.0",
@@ -83,7 +82,6 @@ ext{
             retrofit:                        "com.squareup.retrofit2:retrofit:${versions["retrofitVersion"]}",
             retrofit2_rxjava2_adapter:       "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${versions["retrofit2Rxjava2AdapterVersion"]}",
             converter_gson:                  "com.squareup.retrofit2:converter-gson:${versions["converterGsonVersion"]}",
-            rxbinding:                       "com.jakewharton.rxbinding3:rxbinding:${versions["rxbindingVersion"]}",
             lottie:                          "com.airbnb.android:lottie:${versions["lottieVersion"]}",
             lifecycle_extensions:            "androidx.lifecycle:lifecycle-extensions:${versions["lifecycleExtensionsVersion"]}",
             material:                        "com.google.android.material:material:${versions["materialVersion"]}",
@@ -116,5 +114,9 @@ ext{
             logging_interceptor:             "com.squareup.okhttp3:logging-interceptor:${versions["loggingInterceptorVersion"]}",
 
             tencent_mmkv:                    'com.tencent:mmkv:1.0.22',
+
+            //rxBinding
+            rxbinding:                       'com.jakewharton.rxbinding3:rxbinding:3.0.0',
+
     ]
 }

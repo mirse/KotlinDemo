@@ -17,12 +17,16 @@ import com.wdz.common.view.LoadingDialog;
 
 import java.lang.reflect.ParameterizedType;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel> extends AppCompatActivity implements BaseView {
 
     protected VM vm;
     private int mColor = 0;
     public LoadingDialog mLoadingDialog;
     protected ViewDataBinding viewDataBinding;
+    private CompositeDisposable compositeDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,9 +54,31 @@ public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel> extends App
         vmToDataBinding();
     }
 
+    /**
+     * 添加订阅
+     * 配合RxView、RxTextView、RxCompoundButton相关
+     * @param disposable
+     */
+    public void addDisposable(Disposable disposable){
+        if (compositeDisposable == null){
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(disposable);
+    }
+    /**
+     * 取消所有订阅
+     */
+    public void clearDisposable(){
+        if (compositeDisposable!=null){
+            compositeDisposable.clear();
+        }
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        clearDisposable();
     }
 
     private void setTransparentBar() {
@@ -124,4 +150,5 @@ public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel> extends App
      * 初始化data相关
      */
     public abstract void initData();
+
 }

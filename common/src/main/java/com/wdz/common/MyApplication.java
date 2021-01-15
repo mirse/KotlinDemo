@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.tencent.mmkv.MMKV;
 import com.wdz.common.net.response.LoginResponse;
 import com.wdz.common.util.Log;
+import com.wdz.common.util.MmkvUtils;
 
 /**
  * @Author dezhi.wang
@@ -38,6 +39,11 @@ public class MyApplication extends Application {
         this.loginResponse = loginResponse;
     }
     public LoginResponse getUerInfo(){
+        //如果loginResponse为null，重新从mmkv读取
+        if (loginResponse == null){
+            LoginResponse loginUser = MmkvUtils.getLoginUser();
+            setUserInfo(loginUser);
+        }
         return loginResponse;
     }
 }

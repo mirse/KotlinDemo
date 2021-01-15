@@ -76,6 +76,7 @@ dependencies {
     implementation rootProject.ext.dependencies.arouter
     kapt  rootProject.ext.dependencies.arouter_compiler
     implementation rootProject.ext.dependencies.recyclerview
+
     implementation project(path: ':common')
 }
 

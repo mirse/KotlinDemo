@@ -8,6 +8,26 @@ import com.wdz.common.net.NetManager
 import com.wdz.common.net.response.LoginResponse
 
 public class LoginModel: BaseModel() {
+
+//    单例
+//    companion object{
+//        @Volatile
+//        private var instance:LoginModel? = null
+//        fun getInstance():LoginModel{
+//            if (instance == null){
+//                synchronized(this){
+//                    if (instance == null)
+//                    {
+//                        instance = LoginModel()
+//                    }
+//                }
+//            }
+//            return instance!!;
+//        }
+//    }
+
+
+
     fun login(userName: String, pwd: String,loginListener: LoginListener) {
         NetManager.getInstance().login(userName,pwd,object : BaseObserver<LoginResponse>() {
             override fun onRequestSuccess(t: LoginResponse?) {
@@ -37,35 +57,7 @@ public class LoginModel: BaseModel() {
     }
 
 
-    val userTextWatch = object :TextWatcher{
-        override fun afterTextChanged(p0: Editable?) {
 
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-    }
-
-    val pwdWatch = object :TextWatcher{
-        override fun afterTextChanged(p0: Editable?) {
-
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-    }
 
 
     interface LoginListener{
