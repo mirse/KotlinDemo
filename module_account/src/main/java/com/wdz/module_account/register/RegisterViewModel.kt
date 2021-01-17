@@ -46,6 +46,9 @@ public class RegisterViewModel: BaseMvvmViewModel<RegisterModel>() {
         })
     }
 
+    /*
+    * 注册成功直接登录账号
+    */
     private fun loginNext() {
         model.login(userName,pwd,object:LoginModel.LoginListener{
             override fun loginSuccess(t: LoginResponse?) {
