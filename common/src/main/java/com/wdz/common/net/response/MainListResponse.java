@@ -25,7 +25,7 @@ public class MainListResponse {
                 '}';
     }
 
-    class Datas{
+    public class Datas{
 
         public String apkLink;
         public int audit;
@@ -110,7 +110,7 @@ public class MainListResponse {
                 "author": "",
                 "canEdit": false,
                 "chapterId": 502,
-                "chapterName": "自助",
+                "chapterName": "自助",!
                 "collect": false,
                 "courseId": 13,
                 "desc": "",
@@ -118,9 +118,9 @@ public class MainListResponse {
                 "envelopePic": "",
                 "fresh": true,
                 "id": 16627,
-                "link": "https://juejin.cn/post/6910524131407003656/",
+                "link": "https://juejin.cn/post/6910524131407003656/", !
                 "niceDate": "1天前",
-                "niceShareDate": "1天前",
+                "niceShareDate": "1天前",!
                 "origin": "",
                 "prefix": "",
                 "projectLink": "",
@@ -130,9 +130,9 @@ public class MainListResponse {
                 "shareDate": 1608982882000,
                 "shareUser": "lcfspark",
                 "superChapterId": 494,
-                "superChapterName": "广场Tab",
+                "superChapterName": "广场Tab",!
                 "tags": [],
-                "title": "重学系统---类加载机制（Java&amp;Android）",
+                "title": "重学系统---类加载机制（Java&amp;Android）",!
                 "type": 0,
                 "userId": 28772,
                 "visible": 1,

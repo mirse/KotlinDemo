@@ -117,6 +117,8 @@ ext{
 
             //rxBinding
             rxbinding:                       'com.jakewharton.rxbinding3:rxbinding:3.0.0',
-
+            
+            //paging
+            paging:                          "androidx.paging:paging-runtime:2.1.2",
     ]
 }

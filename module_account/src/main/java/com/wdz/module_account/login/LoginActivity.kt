@@ -61,6 +61,7 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
                         (application as MyApplication).setUserInfo(t.loginResponse)
                         toast("登录成功")
                         hideLoading()
+                        finish()
                     } else if (t.requestStatus == HttpRequestStatus.REQUEST_FAIL){
                         toast("登录失败:"+t.errorMsg)
                         hideLoading()

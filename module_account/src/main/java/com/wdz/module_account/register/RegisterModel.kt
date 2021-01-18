@@ -5,6 +5,7 @@ import com.wdz.common.net.BaseObserver
 import com.wdz.common.net.NetManager
 import com.wdz.common.net.base.BaseResponse
 import com.wdz.common.net.response.LoginResponse
+import com.wdz.common.util.MmkvUtils
 import com.wdz.module_account.login.LoginModel
 
 public class RegisterModel: BaseModel() {
@@ -44,6 +45,7 @@ public class RegisterModel: BaseModel() {
     fun login(userName: String, pwd: String,loginListener: LoginModel.LoginListener) {
         NetManager.getInstance().login(userName,pwd,object : BaseObserver<LoginResponse>() {
             override fun onRequestSuccess(t: LoginResponse?) {
+                MmkvUtils.setLoginUser(t)
                 loginListener.loginSuccess(t)
             }
 

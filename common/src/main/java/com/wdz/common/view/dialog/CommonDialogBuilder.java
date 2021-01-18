@@ -46,14 +46,14 @@ public abstract class CommonDialogBuilder {
     /**
      * 常规dialog点击监听
      */
-    interface OnClickListener{
+    public interface OnClickListener{
         void onClick(CommonDialogFragment commonDialogFragment);
     }
 
     /**
      * 输入dialog按钮确认点击监听
      */
-    interface OnClickEditListener{
+    public interface OnClickEditListener{
         /**
          * @param content 输入框文字
          */

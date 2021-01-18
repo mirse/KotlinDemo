@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
 
 
@@ -77,6 +78,22 @@ dependencies {
     implementation rootProject.ext.dependencies.arouter
     kapt  rootProject.ext.dependencies.arouter_compiler
     implementation rootProject.ext.dependencies.recyclerview
+
+    //网络操作 retrofit2+rxJava2
+    implementation rootProject.ext.dependencies.rxandroid
+    implementation rootProject.ext.dependencies.retrofit
+    // 衔接 Retrofit & RxJava
+    // 此处一定要注意使用RxJava2的版本
+    implementation rootProject.ext.dependencies.retrofit2_rxjava2_adapter
+    implementation rootProject.ext.dependencies.rxjava2
+    // 支持Gson解析
+    implementation rootProject.ext.dependencies.converter_gson
+
+    // rxbinding
+    implementation rootProject.ext.dependencies.rxbinding
+
+    //paging
+    implementation rootProject.ext.dependencies.paging
 
     implementation project(path: ':common')
 }

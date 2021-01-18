@@ -43,6 +43,14 @@ public class MmkvUtils {
     }
 
     /**
+     * 清空loginResponse
+     */
+    public synchronized static void clearLoginUser(){
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.remove("loginResponse");
+    }
+
+    /**
      * 读取loginResponse
      * @return
      */

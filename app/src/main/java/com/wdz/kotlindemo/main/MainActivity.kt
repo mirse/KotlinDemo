@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmActivity
 import com.wdz.kotlindemo.FragmentAdapter
@@ -20,7 +21,6 @@ class MainActivity : BaseMvvmActivity<MainViewModel>(), View.OnClickListener {
 
     override fun initView() {
         fragmentArrayList.clear()
-
         fragmentArrayList.add(
             (ARouter.getInstance().build(ARouterConstant.FRAGMENT_MAIN)
                 .navigation() as Fragment)

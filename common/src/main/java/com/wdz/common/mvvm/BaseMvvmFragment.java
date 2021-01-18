@@ -20,7 +20,7 @@ import java.lang.reflect.ParameterizedType;
 public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fragment implements BaseView {
 
 
-    private VM vm;
+    protected VM vm;
     public LoadingDialog mLoadingDialog;
     protected ViewDataBinding viewDataBinding;
 
@@ -36,7 +36,7 @@ public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fra
 
         Class<VM> vmClass = (Class<VM>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         vm = new ViewModelProvider(this).get(vmClass);
-
+        vm.initModel();
         if (isUseDataBinding()){
             viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
             viewDataBinding.setLifecycleOwner(this);

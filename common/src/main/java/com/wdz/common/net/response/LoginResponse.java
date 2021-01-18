@@ -176,4 +176,23 @@ public class LoginResponse implements Parcelable {
             return new LoginResponse[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "LoginResponse{" +
+                "admin=" + admin +
+                ", chapterTops=" + chapterTops +
+                ", coinCount=" + coinCount +
+                ", collectIds=" + collectIds +
+                ", email='" + email + '\'' +
+                ", icon='" + icon + '\'' +
+                ", id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", publicName='" + publicName + '\'' +
+                ", token='" + token + '\'' +
+                ", type=" + type +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

@@ -2,6 +2,8 @@ package com.wdz.common;
 
 import android.app.Application;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.tencent.mmkv.MMKV;
 import com.wdz.common.net.response.LoginResponse;
@@ -16,6 +18,7 @@ public class MyApplication extends Application {
     private final String TAG = this.getClass().getSimpleName();
     private MyApplication instance;
     private LoginResponse loginResponse;
+    private MutableLiveData<LoginResponse> loginResponseMutableLiveData = new MutableLiveData<>();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,14 +40,16 @@ public class MyApplication extends Application {
     }
     public void setUserInfo(LoginResponse loginResponse){
         this.loginResponse = loginResponse;
+        loginResponseMutableLiveData.postValue(loginResponse);
     }
-    public LoginResponse getUerInfo(){
+    public MutableLiveData<LoginResponse> getUerInfo(){
         //如果loginResponse为null，重新从mmkv读取
         if (loginResponse == null){
             LoginResponse loginUser = MmkvUtils.getLoginUser();
             setUserInfo(loginUser);
         }
-        return loginResponse;
+        return loginResponseMutableLiveData;
+
     }
 }
 
