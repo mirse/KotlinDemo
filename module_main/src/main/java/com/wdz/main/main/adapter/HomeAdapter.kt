@@ -19,12 +19,12 @@ import com.wdz.main.main.bean.MainArticle
  * @Date 2021/1/18 14:05
 
  */
-public class HomeAdapter(val context: Context,val mainArticles:List<MainArticle>, diffCallback:DiffUtil.ItemCallback<MainArticle>)
+public class HomeAdapter(val mainArticles:List<MainArticle>, diffCallback:DiffUtil.ItemCallback<MainArticle>)
     : PagedListAdapter<MainArticle, HomeAdapter.MyViewHolder>(diffCallback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.recycler_item_main_article, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item_main_article, parent, false)
         return MyViewHolder(view)
     }
 
