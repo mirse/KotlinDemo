@@ -19,13 +19,17 @@ import com.wdz.main.main.paging.ArticleDataSourceFactory
  */
 class HomeViewModel:BaseMvvmViewModel<HomeModel>(){
 
-    var articleList:LiveData<PagedList<MainArticle>>
+    var articleList:LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
 
     override fun initModel() {
         model = HomeModel()
     }
 
     init {
+
+    }
+
+    fun getArticle(){
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(true)
             .setPageSize(15)
@@ -35,18 +39,5 @@ class HomeViewModel:BaseMvvmViewModel<HomeModel>(){
             .build()
 
         articleList = LivePagedListBuilder<Int, MainArticle>(ArticleDataSourceFactory(), config).build()
-    }
-
-    fun getArticle(page: Int){
-        model.getArticle(page, object : HomeModel.GetArticleListener {
-            override fun getArticleSuccess(response: MainListResponse?) {
-
-            }
-
-            override fun getArticleFail(errorMsg: String) {
-
-            }
-
-        })
     }
 }

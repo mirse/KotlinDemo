@@ -49,7 +49,7 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>() {
     }
 
     override fun initData() {
-        //vm.getArticle(0)
+        vm.getArticle()
 
         vm.articleList.observe(this,object:Observer<PagedList<MainArticle>>{
             override fun onChanged(t: PagedList<MainArticle>?) {

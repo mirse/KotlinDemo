@@ -33,7 +33,10 @@ public class HomeAdapter(val mainArticles:List<MainArticle>, diffCallback:DiffUt
         val tvDate = holder.itemView.findViewById<TextView>(R.id.tv_date)
         val tvSource = holder.itemView.findViewById<TextView>(R.id.tv_source)
 
-        tvTitle.setText(mainArticles.get(position).title)
+        if (mainArticles.size>0){
+            tvTitle.setText(mainArticles.get(position).title)
+        }
+
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -39,7 +39,7 @@ public interface ApiService {
      * @param page
      * @return
      */
-    @GET("article/list/{page}}/json")
+    @GET("article/list/{page}/json")
     Single<BaseResponse<MainListResponse>> getArticle(@Path("page") int page);
 
     /**
