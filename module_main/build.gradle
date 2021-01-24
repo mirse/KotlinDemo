@@ -78,6 +78,7 @@ dependencies {
     implementation rootProject.ext.dependencies.arouter
     kapt  rootProject.ext.dependencies.arouter_compiler
     implementation rootProject.ext.dependencies.recyclerview
+    implementation rootProject.ext.dependencies.material
 
     //网络操作 retrofit2+rxJava2
     implementation rootProject.ext.dependencies.rxandroid

@@ -2,6 +2,7 @@ package com.wdz.main.main.paging
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import androidx.paging.PositionalDataSource
 import com.wdz.main.main.bean.MainArticle
 
 /**
@@ -14,10 +15,9 @@ import com.wdz.main.main.bean.MainArticle
 class ArticleDataSourceFactory:DataSource.Factory<Int,MainArticle>() {
 
     val mutableLiveData = MutableLiveData<PositionArticleDataSource>()
-
     override fun create(): DataSource<Int, MainArticle> {
         val positionArticleDataSource = PositionArticleDataSource()
         mutableLiveData.postValue(positionArticleDataSource)
-        return positionArticleDataSource
+        return positionArticleDataSource as DataSource<Int, MainArticle>
     }
 }

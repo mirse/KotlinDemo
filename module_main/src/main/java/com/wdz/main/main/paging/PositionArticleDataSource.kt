@@ -1,14 +1,23 @@
 package com.wdz.main.main.paging
 
-import androidx.paging.PositionalDataSource
+import androidx.paging.PageKeyedDataSource
 import com.wdz.common.net.BaseObserver
 import com.wdz.common.net.NetManager
 import com.wdz.common.net.response.MainListResponse
 import com.wdz.main.main.bean.MainArticle
-
-public class PositionArticleDataSource:PositionalDataSource<MainArticle>(){
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<MainArticle>) {
-        NetManager.getInstance().getArticle(params.startPosition,object:BaseObserver<MainListResponse>(){
+/*
+* PositionalDataSource-> 适用于目标数据总数固定，通过特定的位置加载
+* ItemKeyedDataSource -> 适用于目标数据的加载依赖特定条目，比如根据第N条的信息加载第N+1条的数据
+* PageKeyedDataSource -> 适用于目标数据根据页信息请求数据的场景，即参数中包含next/previous等类似页数信息
+*
+*/
+public class PositionArticleDataSource: PageKeyedDataSource<String,MainArticle>(){
+    private var mPage = 0
+    override fun loadInitial(
+        params: LoadInitialParams<String>,
+        callback: LoadInitialCallback<String, MainArticle>
+    ) {
+        NetManager.getInstance().getArticle(mPage,object: BaseObserver<MainListResponse>(){
             override fun onRequestSuccess(t: MainListResponse?) {
                 if (t!=null){
                     val mList = mutableListOf<MainArticle>()
@@ -20,7 +29,7 @@ public class PositionArticleDataSource:PositionalDataSource<MainArticle>(){
                         mainArticle.title = t.datas[i].title
                         mList.add(mainArticle)
                     }
-                    callback.onResult(mList)
+                    callback.onResult(mList,"before","after")
                 }
             }
 
@@ -35,11 +44,12 @@ public class PositionArticleDataSource:PositionalDataSource<MainArticle>(){
         })
     }
 
-    override fun loadInitial(
-        params: LoadInitialParams,
-        callback: LoadInitialCallback<MainArticle>
+    override fun loadAfter(
+        params: LoadParams<String>,
+        callback: LoadCallback<String, MainArticle>
     ) {
-        NetManager.getInstance().getArticle(0,object:BaseObserver<MainListResponse>(){
+        mPage++
+        NetManager.getInstance().getArticle(mPage,object: BaseObserver<MainListResponse>(){
             override fun onRequestSuccess(t: MainListResponse?) {
                 if (t!=null){
                     val mList = mutableListOf<MainArticle>()
@@ -51,7 +61,7 @@ public class PositionArticleDataSource:PositionalDataSource<MainArticle>(){
                         mainArticle.title = t.datas[i].title
                         mList.add(mainArticle)
                     }
-                    callback.onResult(mList,0,mList.size)
+                    callback.onResult(mList,params.key)
                 }
             }
 
@@ -64,5 +74,12 @@ public class PositionArticleDataSource:PositionalDataSource<MainArticle>(){
             }
 
         })
+    }
+
+    override fun loadBefore(
+        params: LoadParams<String>,
+        callback: LoadCallback<String, MainArticle>
+    ) {
+
     }
 }

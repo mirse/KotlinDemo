@@ -29,30 +29,28 @@ public class HomeAdapter(val mainArticles:List<MainArticle>, diffCallback:DiffUt
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        //获取数据的方法 pging特定
+        val article = getItem(position)
         val tvTitle = holder.itemView.findViewById<TextView>(R.id.tv_title)
         val tvDate = holder.itemView.findViewById<TextView>(R.id.tv_date)
         val tvSource = holder.itemView.findViewById<TextView>(R.id.tv_source)
 
-        if (mainArticles.size>0){
-            tvTitle.setText(mainArticles.get(position).title)
+
+        if (article != null) {
+            tvTitle.text = article.title
+            tvDate.text = article.niceShareDate
+            tvSource.text = article.chapterName
         }
 
+
     }
+
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
 
-//    class ArticleItemCallback:DiffUtil.ItemCallback<MainArticle>(){
-//        override fun areItemsTheSame(oldItem: MainArticle, newItem: MainArticle): Boolean {
-//            return oldItem.link == newItem.link
-//        }
-//
-//        override fun areContentsTheSame(oldItem: MainArticle, newItem: MainArticle): Boolean {
-//            return oldItem == newItem
-//        }
-//
-//    }
+
 
 
 

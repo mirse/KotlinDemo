@@ -12,7 +12,7 @@ public class HotKeyResponse {
                 '}';
     }
 
-    class Data{
+    public class Data{
         public int id;
         public String link;
         public String name;
