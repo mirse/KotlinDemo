@@ -144,7 +144,7 @@ public class NetManager {
      * 热搜词
      * @param observer
      */
-    public void getHotKey(BaseObserver<HotKeyResponse> observer){
+    public void getHotKey(BaseObserver<List<HotKeyResponse>> observer){
         apiService.getHotKey()
                 .compose(threadTransformer())
                 .subscribe(observer);

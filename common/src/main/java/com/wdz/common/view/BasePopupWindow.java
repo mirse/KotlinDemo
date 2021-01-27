@@ -23,7 +23,6 @@ public abstract class BasePopupWindow extends PopupWindow {
         initData();
     }
 
-    protected abstract void initData();
 
 
     protected void initView() {
@@ -58,6 +57,10 @@ public abstract class BasePopupWindow extends PopupWindow {
         return context;
     }
 
+    /**
+     * 初始化数据
+     */
+    protected abstract void initData();
     /**
      * 获取popWindow layoutId
      *

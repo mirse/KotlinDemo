@@ -10,30 +10,33 @@ import com.wdz.common.net.NetManager
 import com.wdz.common.net.response.HotKeyResponse
 import com.wdz.common.view.BasePopupWindow
 import com.wdz.main.R
+import com.wdz.main.main.adapter.SearchAdapter
 
-class SearchPopupWindow(context: Context?) : BasePopupWindow(context) {
+class SearchPopupWindow(context: Context?,hotKeyList:MutableList<String>) : BasePopupWindow(context) {
 
-    var hotKeyList = mutableListOf<String>()
+    private var hotKeyList:MutableList<String>
+    lateinit var searchAdapter:SearchAdapter
+    init {
+        this.hotKeyList = hotKeyList;
+    }
 
     override fun initView() {
         super.initView()
         val rvSearch:RecyclerView = getItemView(R.id.rv_search) as RecyclerView
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
+        searchAdapter = SearchAdapter(context,hotKeyList)
         rvSearch.layoutManager = linearLayoutManager
-
+        rvSearch.adapter = searchAdapter
+    }
+    fun setData(keyList:List<String>){
+        this.hotKeyList.clear()
+        hotKeyList.addAll(keyList)
+        searchAdapter.notifyDataSetChanged()
     }
 
     override fun initData() {
-        hotKeyList.clear()
-        NetManager.getInstance().getHotKey(object: BaseObserver<HotKeyResponse>(){
-            override fun onRequestSuccess(t: HotKeyResponse?) {
-                if (t!=null){
-                    for (i in t.data.indices){
-                        hotKeyList.add(t.data.get(i).name)
-                    }
-                }
-            }
+
+        NetManager.getInstance().getHotKey(object: BaseObserver<List<HotKeyResponse>>(){
 
             override fun onRequestError(errorCode: Int, errorMsg: String?) {
 
@@ -43,6 +46,16 @@ class SearchPopupWindow(context: Context?) : BasePopupWindow(context) {
 
             }
 
+            override fun onRequestSuccess(t: List<HotKeyResponse>?) {
+                hotKeyList.clear()
+                if (t!=null){
+                    for (i in t.indices){
+                        hotKeyList.add(t.get(i).name)
+                    }
+                    searchAdapter.notifyDataSetChanged()
+                }
+            }
+
         })
     }
 
@@ -50,12 +63,14 @@ class SearchPopupWindow(context: Context?) : BasePopupWindow(context) {
             return R.layout.popup_window_search
     }
 
+
+
     override fun getPopupWidth(): Int {
         return WindowManager.LayoutParams.MATCH_PARENT
     }
 
     override fun getPopupHeight(): Int {
-        return WindowManager.LayoutParams.MATCH_PARENT
+        return WindowManager.LayoutParams.WRAP_CONTENT
     }
 
     override fun getBackgroundDrawable(): ColorDrawable {

@@ -17,6 +17,8 @@ import com.wdz.common.net.response.TreeArticleResponse;
 import com.wdz.common.net.response.TreeResponse;
 import com.wdz.common.net.response.WxResponse;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
@@ -61,7 +63,7 @@ public interface ApiService {
      * @return
      */
     @GET("hotkey/json")
-    Single<BaseResponse<HotKeyResponse>> getHotKey();
+    Single<BaseResponse<List<HotKeyResponse>>> getHotKey();
 
     /**
      * 置顶文章

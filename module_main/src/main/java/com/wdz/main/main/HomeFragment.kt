@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
 
     var mainArticles = listOf<MainArticle>()
+    var hotKeyList:MutableList<String> = mutableListOf()
     lateinit var searchPopupWindow:SearchPopupWindow
     private lateinit var homeAdapter: HomeAdapter
 
@@ -38,10 +39,10 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
     }
 
     override fun initView() {
-        searchPopupWindow = SearchPopupWindow(activity);
+        searchPopupWindow = SearchPopupWindow(activity,hotKeyList);
         textInput.setOnClickListener(this)
         rv_article_main.layoutManager = LinearLayoutManager(activity)
-        homeAdapter =   HomeAdapter(mainArticles,object: DiffUtil.ItemCallback<MainArticle>() {
+        homeAdapter = HomeAdapter(mainArticles,object: DiffUtil.ItemCallback<MainArticle>() {
             override fun areItemsTheSame(oldItem: MainArticle, newItem: MainArticle): Boolean {
                 return oldItem.link == newItem.link
             }
@@ -59,6 +60,7 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
                 homeAdapter.submitList(t)
             }
         })
+
 
     }
 
