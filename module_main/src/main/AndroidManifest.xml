@@ -3,10 +3,9 @@
     package="com.wdz.main">
 
     <application
-
         android:allowBackup="true"
         android:supportsRtl="true">
-
+        <activity android:name=".main.search.SearchActivity"></activity>
     </application>
 
 </manifest>

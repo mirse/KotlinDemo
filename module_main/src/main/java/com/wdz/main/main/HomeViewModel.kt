@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.wdz.common.mvvm.BaseMvvmViewModel
+import com.wdz.common.net.response.HotKeyResponse
 import com.wdz.common.net.response.MainListResponse
 import com.wdz.main.main.bean.MainArticle
 import com.wdz.main.main.paging.ArticleDataSourceFactory
@@ -20,7 +21,6 @@ import com.wdz.main.main.paging.ArticleDataSourceFactory
 class HomeViewModel:BaseMvvmViewModel<HomeModel>(){
 
     var articleList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
-
     override fun initModel() {
         model = HomeModel()
     }
@@ -40,4 +40,5 @@ class HomeViewModel:BaseMvvmViewModel<HomeModel>(){
     fun  getArticle():LiveData<PagedList<MainArticle>>{
         return articleList
     }
+
 }

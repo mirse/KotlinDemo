@@ -12,55 +12,34 @@ import com.wdz.common.view.BasePopupWindow
 import com.wdz.main.R
 import com.wdz.main.main.adapter.SearchAdapter
 
-class SearchPopupWindow(context: Context?,hotKeyList:MutableList<String>) : BasePopupWindow(context) {
+class SearchPopupWindow(context: Context?) : BasePopupWindow(context) {
 
-    private var hotKeyList:MutableList<String>
+    lateinit var hotKeyList:MutableList<String>
     lateinit var searchAdapter:SearchAdapter
-    init {
-        this.hotKeyList = hotKeyList;
-    }
+    lateinit var rvSearch:RecyclerView
 
     override fun initView() {
-        super.initView()
-        val rvSearch:RecyclerView = getItemView(R.id.rv_search) as RecyclerView
+        rvSearch = getItemView(R.id.rv_search) as RecyclerView
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        searchAdapter = SearchAdapter(context,hotKeyList)
         rvSearch.layoutManager = linearLayoutManager
+    }
+    override fun initData() {
+        hotKeyList = mutableListOf()
+        searchAdapter = SearchAdapter(context,this.hotKeyList)
         rvSearch.adapter = searchAdapter
     }
+    /*
+    * 更新数据
+    */
     fun setData(keyList:List<String>){
         this.hotKeyList.clear()
-        hotKeyList.addAll(keyList)
+        this.hotKeyList.addAll(keyList)
         searchAdapter.notifyDataSetChanged()
     }
 
-    override fun initData() {
-
-        NetManager.getInstance().getHotKey(object: BaseObserver<List<HotKeyResponse>>(){
-
-            override fun onRequestError(errorCode: Int, errorMsg: String?) {
-
-            }
-
-            override fun onRequestFailure(errorMsg: String?) {
-
-            }
-
-            override fun onRequestSuccess(t: List<HotKeyResponse>?) {
-                hotKeyList.clear()
-                if (t!=null){
-                    for (i in t.indices){
-                        hotKeyList.add(t.get(i).name)
-                    }
-                    searchAdapter.notifyDataSetChanged()
-                }
-            }
-
-        })
-    }
 
     override fun getLayoutId(): Int {
-            return R.layout.popup_window_search
+        return R.layout.popup_window_search
     }
 
 

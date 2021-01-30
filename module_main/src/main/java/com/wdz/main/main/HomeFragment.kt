@@ -1,32 +1,27 @@
 package com.wdz.main.main
 
-import android.os.Bundle
-import android.view.Gravity
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmFragment
-import com.wdz.common.net.response.MainListResponse
 import com.wdz.main.R
 import com.wdz.main.databinding.FragmentHomeBinding
 import com.wdz.main.main.adapter.HomeAdapter
 import com.wdz.main.main.bean.MainArticle
 import com.wdz.main.view.SearchPopupWindow
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.jetbrains.anko.support.v4.runOnUiThread
 
 
 @Route(path = ARouterConstant.FRAGMENT_MAIN)
 class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
 
     var mainArticles = listOf<MainArticle>()
-    var hotKeyList:MutableList<String> = mutableListOf()
     lateinit var searchPopupWindow:SearchPopupWindow
     private lateinit var homeAdapter: HomeAdapter
 
@@ -39,7 +34,7 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
     }
 
     override fun initView() {
-        searchPopupWindow = SearchPopupWindow(activity,hotKeyList);
+        searchPopupWindow = SearchPopupWindow(activity);
         textInput.setOnClickListener(this)
         rv_article_main.layoutManager = LinearLayoutManager(activity)
         homeAdapter = HomeAdapter(mainArticles,object: DiffUtil.ItemCallback<MainArticle>() {
@@ -62,6 +57,7 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
         })
 
 
+
     }
 
     override fun vmToDataBinding() {
@@ -75,8 +71,7 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
     override fun onClick(p0: View?) {
         if (p0!=null){
             if (p0.id == R.id.textInput){
-                //弹出搜索框
-                searchPopupWindow.showAsDropDown(textInput,0,0,Gravity.CENTER)
+                ARouter.getInstance().build(ARouterConstant.ACTIVITY_SEARCH).navigation()
             }
         }
     }

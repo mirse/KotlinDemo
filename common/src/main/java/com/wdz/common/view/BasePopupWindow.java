@@ -16,16 +16,17 @@ public abstract class BasePopupWindow extends PopupWindow {
     private Context context;
     private View mView;
 
+
     public BasePopupWindow(Context context) {
         super(context);
         this.context = context;
-        initView();
+        initPopupView();
         initData();
     }
 
 
 
-    protected void initView() {
+    protected void initPopupView() {
         mView = LayoutInflater.from(getContext()).inflate(getLayoutId(), null);
         this.setContentView(mView);
         this.setAnimationStyle(getPopupAnimationStyle());
@@ -40,6 +41,7 @@ public abstract class BasePopupWindow extends PopupWindow {
                 return true;
             }
         });
+        initView();
     }
     /**
      * 获取子View
@@ -57,6 +59,11 @@ public abstract class BasePopupWindow extends PopupWindow {
         return context;
     }
 
+
+    /**
+     * 初始化视图
+     */
+    protected abstract void initView();
     /**
      * 初始化数据
      */
