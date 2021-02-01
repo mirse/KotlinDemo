@@ -72,4 +72,9 @@ dependencies {
 
     implementation rootProject.ext.dependencies.tencent_mmkv
 
+    // Room
+    implementation rootProject.ext.dependencies.room_runtime
+    annotationProcessor rootProject.ext.dependencies.room_compiler
+    implementation rootProject.ext.dependencies.room_rxjava2
+
 }

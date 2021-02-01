@@ -96,6 +96,9 @@ dependencies {
     //paging
     implementation rootProject.ext.dependencies.paging
 
+    //paging
+    implementation rootProject.ext.dependencies.chipsLayoutManager
+
     implementation project(path: ':common')
 }
 
