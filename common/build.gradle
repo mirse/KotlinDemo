@@ -77,4 +77,7 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies.room_compiler
     implementation rootProject.ext.dependencies.room_rxjava2
 
+    //autoDiapose
+    implementation rootProject.ext.dependencies.auto_disposearchcomponents
+    implementation rootProject.ext.dependencies.auto_dispose
 }

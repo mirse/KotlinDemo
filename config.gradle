@@ -122,6 +122,9 @@ ext{
             paging:                          "androidx.paging:paging-runtime:2.1.2",
 
             //chipsLayoutManager
-            chipsLayoutManager:              "com.beloo.widget:ChipsLayoutManager:0.3.7@aar"
+            chipsLayoutManager:              "com.beloo.widget:ChipsLayoutManager:0.3.7@aar",
+
+            auto_disposearchcomponents:      'com.uber.autodispose:autodispose-android-archcomponents:0.6.1',
+            auto_dispose:                     'com.uber.autodispose:autodispose:0.6.1',
     ]
 }
