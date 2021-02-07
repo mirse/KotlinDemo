@@ -34,7 +34,8 @@ public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel> extends App
         setTransparentBar();
         Class<VM> vmClass = (Class<VM>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         vm = new ViewModelProvider(this).get(vmClass);
-        vm.initModel();
+        vm.initModel(this);
+        vm.setLifecycleOwner(this);
         if (isUseDataBinding()){
             initDataBinding();
         }

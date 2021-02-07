@@ -4,10 +4,14 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 import androidx.room.Update;
+
+import com.wdz.common.room.entity.History;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 /**
@@ -20,7 +24,7 @@ public interface BaseDao<T> {
     /*返回的类型是Long也只能是Long，否则无法通过编译。
        返回的Long值，是指的插入的行id。*/
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Single<Long> insertItems(T... items);
+    Single<List<Long>> insertItems(T... items);
 
 
     /*返回的类型为Integer也只能是Integer，否则无法通过编译。
@@ -30,4 +34,6 @@ public interface BaseDao<T> {
 
     @Update
     Single<Integer> updateItems(T... items);
+
+
 }

@@ -1,5 +1,6 @@
 package com.wdz.module_account.main
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.wdz.common.mvvm.BaseMvvmViewModel
@@ -11,7 +12,7 @@ import com.wdz.module_account.login.bean.RegisterStatus
 public class AccountViewModel: BaseMvvmViewModel<AccountModel>() {
     var logoutStatus: MutableLiveData<NetRequestStatus<BaseResponse.DataBean>> = MutableLiveData()
     var mLogoutStatus:NetRequestStatus<BaseResponse.DataBean> = NetRequestStatus()
-    override fun initModel() {
+    override fun initModel(context: Context) {
         model = AccountModel()
     }
 

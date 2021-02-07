@@ -1,5 +1,6 @@
 package com.wdz.module_account.register
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -20,7 +21,7 @@ public class RegisterViewModel: BaseMvvmViewModel<RegisterModel>() {
     var pwd:String = ""
     var rePwd:String = ""
     var isLoginNext:Boolean = false
-    override fun initModel() {
+    override fun initModel(context: Context) {
         model = RegisterModel()
     }
     fun register(v: View){

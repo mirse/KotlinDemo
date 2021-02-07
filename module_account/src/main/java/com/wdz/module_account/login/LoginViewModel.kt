@@ -1,5 +1,6 @@
 package com.wdz.module_account.login
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -16,7 +17,7 @@ public class LoginViewModel: BaseMvvmViewModel<LoginModel>(){
     var mLoginStatus:LoginStatus = LoginStatus()
     var userName:String = ""
     var pwd:String = ""
-    override fun initModel() {
+    override fun initModel(context: Context) {
         model = LoginModel()
     }
 

@@ -38,8 +38,11 @@
 
 
         <EditText
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
+            android:id="@+id/et_search"
+            android:inputType="text"
+            android:maxLines="1"
+            android:imeOptions="actionSearch"
+            android:padding="5dp"
             android:drawableEnd="@drawable/ic_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

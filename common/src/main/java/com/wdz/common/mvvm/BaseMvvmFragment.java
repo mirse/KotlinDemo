@@ -36,7 +36,7 @@ public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fra
 
         Class<VM> vmClass = (Class<VM>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         vm = new ViewModelProvider(this).get(vmClass);
-        vm.initModel();
+        vm.initModel(getContext());
         if (isUseDataBinding()){
             viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
             viewDataBinding.setLifecycleOwner(this);

@@ -1,5 +1,6 @@
 package com.wdz.main.main
 
+import android.content.Context
 import androidx.lifecycle.ComputableLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +22,7 @@ import com.wdz.main.main.paging.ArticleDataSourceFactory
 class HomeViewModel:BaseMvvmViewModel<HomeModel>(){
 
     var articleList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
-    override fun initModel() {
+    override fun initModel(context: Context) {
         model = HomeModel()
     }
 

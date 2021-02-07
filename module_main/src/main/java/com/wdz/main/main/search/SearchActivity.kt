@@ -3,6 +3,9 @@ package com.wdz.main.main.search
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +15,7 @@ import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmActivity
+import com.wdz.common.room.entity.History
 import com.wdz.common.util.DisplayUtils
 import com.wdz.main.R
 import com.wdz.main.databinding.ActivitySearchBinding
@@ -24,6 +28,7 @@ import java.util.*
 @Route(path = ARouterConstant.ACTIVITY_SEARCH)
 class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
     var hotKeyList = mutableListOf<String>()
+    var searchHistoryList = mutableListOf<History>()
     lateinit var searchAdapter:SearchAdapter
     override fun isTransparentBar(): Boolean {
         return true
@@ -42,7 +47,6 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
     }
 
     override fun initView() {
-        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
             .setMaxViewsInRow(3)
             .setGravityResolver(object : IChildGravityResolver {
@@ -54,11 +58,28 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
             .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
             .withLastRow(true)
             .build()
-
         rv_search.layoutManager = chipsLayoutManager
         searchAdapter = SearchAdapter(this,hotKeyList)
         rv_search.addItemDecoration(SpacingItemDecoration(DisplayUtils.dpToPx(10),DisplayUtils.dpToPx(10)))
         rv_search.adapter = searchAdapter
+
+        rv_history.layoutManager = chipsLayoutManager
+
+
+
+
+
+
+        et_search.setOnEditorActionListener(object:TextView.OnEditorActionListener{
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p1 == EditorInfo.IME_ACTION_SEARCH && p2!=null){
+                    //vm.getHotKey()
+                }
+
+                return false
+            }
+
+        })
     }
 
     override fun initData() {
@@ -70,6 +91,13 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
                     hotKeyList.addAll(t)
                     searchAdapter.notifyDataSetChanged()
                 }
+
+            }
+        })
+
+        vm.getSearchHistory()
+        vm.searchHistoryList.observe(this,object:Observer<List<History>>{
+            override fun onChanged(t: List<History>?) {
 
             }
 
