@@ -1,6 +1,5 @@
 package com.wdz.main.main.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,6 @@ import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.wdz.common.net.response.MainListResponse
 import com.wdz.main.R
 import com.wdz.main.main.bean.MainArticle
 
@@ -16,11 +14,11 @@ import com.wdz.main.main.bean.MainArticle
 
  * @Author dezhi.wang
 
- * @Date 2021/1/18 14:05
+ * @Date 2021/2/19 16:13
 
  */
-public class HomeAdapter(val mainArticles:List<MainArticle>, diffCallback:DiffUtil.ItemCallback<MainArticle>)
-    : PagedListAdapter<MainArticle, HomeAdapter.MyViewHolder>(diffCallback) {
+class SearchInfoAdapter(val mainArticles:List<MainArticle>,diffCallback: DiffUtil.ItemCallback<MainArticle>):
+PagedListAdapter<MainArticle,SearchInfoAdapter.MyViewHolder>(diffCallback){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -41,18 +39,10 @@ public class HomeAdapter(val mainArticles:List<MainArticle>, diffCallback:DiffUt
             tvDate.text = article.niceShareDate
             tvSource.text = article.chapterName
         }
-
-
     }
-
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
-
-
-
-
-
 
 }

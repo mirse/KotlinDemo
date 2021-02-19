@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.wdz.common.view.LoadingDialog;
 
 import java.lang.reflect.ParameterizedType;
@@ -31,6 +32,7 @@ public abstract class BaseMvvmActivity<VM extends BaseMvvmViewModel> extends App
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ARouter.getInstance().inject(this);
         setTransparentBar();
         Class<VM> vmClass = (Class<VM>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         vm = new ViewModelProvider(this).get(vmClass);

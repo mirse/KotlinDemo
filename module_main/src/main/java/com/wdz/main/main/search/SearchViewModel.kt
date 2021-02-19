@@ -25,7 +25,7 @@ import java.util.*
 class SearchViewModel:BaseMvvmViewModel<SearchModel>(){
 
     val hotKeyList = MutableLiveData<List<String>>()
-    val searchHistoryList = MutableLiveData<List<History>>()
+    val searchHistoryList = MutableLiveData<MutableList<History>>()
     override fun initModel(context:Context) {
         model = SearchModel(context)
 
@@ -44,7 +44,7 @@ class SearchViewModel:BaseMvvmViewModel<SearchModel>(){
     fun getSearchHistory(){
         model.getSearchHistory(getLifecycleOwner(),object: DatabaseOperationListener<History>{
             override fun onSuccess(items: MutableList<History>?) {
-                val list = items?.toList()
+                val list = items?.toMutableList()
                 searchHistoryList.postValue(list)
             }
 

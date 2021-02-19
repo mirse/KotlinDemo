@@ -5,7 +5,8 @@
     <application
         android:allowBackup="true"
         android:supportsRtl="true">
-        <activity android:name=".main.search.SearchActivity"></activity>
+        <activity android:name=".main.search.SearchInfoActivity"></activity>
+        <activity android:name=".main.search.SearchActivity" />
     </application>
 
 </manifest>

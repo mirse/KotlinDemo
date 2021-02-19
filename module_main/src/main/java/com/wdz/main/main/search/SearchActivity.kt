@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver
@@ -21,6 +23,7 @@ import com.wdz.main.R
 import com.wdz.main.databinding.ActivitySearchBinding
 import com.wdz.main.databinding.FragmentHomeBinding
 import com.wdz.main.main.adapter.SearchAdapter
+import com.wdz.main.main.adapter.SearchHistoryAdapter
 import com.wdz.main.main.bean.MainArticle
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
@@ -30,6 +33,7 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
     var hotKeyList = mutableListOf<String>()
     var searchHistoryList = mutableListOf<History>()
     lateinit var searchAdapter:SearchAdapter
+    lateinit var searchHistoryAdapter:SearchHistoryAdapter
     override fun isTransparentBar(): Boolean {
         return true
     }
@@ -58,12 +62,26 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
             .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
             .withLastRow(true)
             .build()
+        val searchHistorychipsLayoutManager = ChipsLayoutManager.newBuilder(this)
+            .setMaxViewsInRow(3)
+            .setGravityResolver(object : IChildGravityResolver {
+                override fun getItemGravity(p0: Int): Int {
+                    return Gravity.CENTER
+                }
+            })
+            .setOrientation(ChipsLayoutManager.HORIZONTAL)
+            .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
+            .withLastRow(true)
+            .build()
         rv_search.layoutManager = chipsLayoutManager
         searchAdapter = SearchAdapter(this,hotKeyList)
         rv_search.addItemDecoration(SpacingItemDecoration(DisplayUtils.dpToPx(10),DisplayUtils.dpToPx(10)))
         rv_search.adapter = searchAdapter
 
-        rv_history.layoutManager = chipsLayoutManager
+        rv_history.layoutManager = searchHistorychipsLayoutManager
+        searchHistoryAdapter = SearchHistoryAdapter(this,searchHistoryList)
+        rv_history.addItemDecoration(SpacingItemDecoration(DisplayUtils.dpToPx(10),DisplayUtils.dpToPx(10)))
+        rv_history.adapter = searchHistoryAdapter
 
 
 
@@ -72,8 +90,11 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
 
         et_search.setOnEditorActionListener(object:TextView.OnEditorActionListener{
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_SEARCH && p2!=null){
-                    //vm.getHotKey()
+                if (p1 == EditorInfo.IME_ACTION_SEARCH||
+                    (p2 != null && p2.getKeyCode() == KeyEvent.KEYCODE_SEARCH)){
+                    ARouter.getInstance().build(ARouterConstant.ACTIVITY_SEARCH_INFO)
+                        .withString("searchName",p0?.text.toString().trim())
+                        .navigation()
                 }
 
                 return false
@@ -96,9 +117,19 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
         })
 
         vm.getSearchHistory()
-        vm.searchHistoryList.observe(this,object:Observer<List<History>>{
-            override fun onChanged(t: List<History>?) {
-
+        vm.searchHistoryList.observe(this,object:Observer<MutableList<History>>{
+            override fun onChanged(t: MutableList<History>?) {
+                if (t != null){
+                    if (t.isEmpty()){
+                        tv_history.visibility = View.GONE
+                    }
+                    else{
+                        tv_history.visibility = View.VISIBLE
+                        searchHistoryList.clear()
+                        searchHistoryList = t
+                        searchHistoryAdapter.notifyDataSetChanged()
+                    }
+                }
             }
 
         })

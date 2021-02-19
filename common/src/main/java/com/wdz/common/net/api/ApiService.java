@@ -27,6 +27,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -218,10 +219,12 @@ public interface ApiService {
     //7、搜索
     /**
      * 搜索
+     * @param page
+     * @param k
      * @return
      */
-    @POST("article/query/{page}}/json")
-    Single<BaseResponse<CollectArticleResponse>> query(@Path("page") int page,@Path("k") String k);
+    @POST("article/query/{page}/json")
+    Single<BaseResponse<CollectArticleResponse>> query(@Path(value = "page") int page,@Query("k") String k);
 
     //10、广场
     /**

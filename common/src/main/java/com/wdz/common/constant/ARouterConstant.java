@@ -20,4 +20,5 @@ public interface ARouterConstant {
     //module_main
     String FRAGMENT_MAIN = "/module_main/MainFragment";
     String ACTIVITY_SEARCH = "/module_main/SearchActivity";
+    String ACTIVITY_SEARCH_INFO = "/module_main/SearchInfoActivity";
 }
