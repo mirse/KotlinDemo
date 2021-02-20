@@ -45,14 +45,14 @@ public class CollectArticleResponse {
         public String origin;
         public String prefix;
         public String projectLink;
-        public int publishTime;
+        public long publishTime;
         public int realSuperChapterId;
         public int selfVisible;
-        public int shareDate;
+        public long shareDate;
         public String shareUser;
         public int superChapterId;
         public String superChapterName;
-        public List<String> tags;
+        public List<Object> tags;
         public String title;
         public int type;
         public int userId;

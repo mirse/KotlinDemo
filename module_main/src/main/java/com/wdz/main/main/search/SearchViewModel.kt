@@ -51,7 +51,18 @@ class SearchViewModel:BaseMvvmViewModel<SearchModel>(){
             override fun onFailure() {
 
             }
+        })
+    }
 
+    fun saveSearchHistory(searchHistory: History){
+        model.saveSearchHistory(searchHistory,getLifecycleOwner(),object:DatabaseOperationListener<History>{
+            override fun onSuccess(items: MutableList<History>?) {
+
+            }
+
+            override fun onFailure() {
+
+            }
 
         })
     }

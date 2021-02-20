@@ -32,7 +32,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class HistoryRepository extends BaseRepository<History, HistoryDao> {
     private static HistoryRepository mInstance;
-    private final HistoryDao historyDao;
     private LifecycleOwner lifecycleOwner;
 
     public static HistoryRepository getInstance(Context context,LifecycleOwner lifecycleOwner) {
@@ -47,7 +46,7 @@ public class HistoryRepository extends BaseRepository<History, HistoryDao> {
     }
 
     public HistoryRepository(Context context,LifecycleOwner lifecycleOwner) {
-        historyDao = BaseDatabase.getInstance(context).historyDao();
+        mDao = BaseDatabase.getInstance(context).historyDao();
         this.lifecycleOwner = lifecycleOwner;
     }
 
@@ -57,7 +56,7 @@ public class HistoryRepository extends BaseRepository<History, HistoryDao> {
     }
 
     public void getAllHistory(final DatabaseOperationListener<History> databaseOperationListener){
-        Flowable<List<History>> historyListFlowable = historyDao.loadAllHistory();
+        Flowable<List<History>> historyListFlowable = mDao.loadAllHistory();
         execute(historyListFlowable, new Consumer<List<History>>() {
             @Override
             public void accept(List<History> histories) throws Exception {

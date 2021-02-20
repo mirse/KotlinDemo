@@ -26,6 +26,9 @@ class SearchModel(context: Context): BaseModel() {
     private val context:Context = context
 
 
+    /*
+    * 获取热搜词
+    */
     fun getHotKey(getHotKeyListener:GetHotKeyListener){
         NetManager.getInstance().getHotKey(object:BaseObserver<List<HotKeyResponse>>(){
             override fun onRequestSuccess(t: List<HotKeyResponse>?) {
@@ -52,25 +55,18 @@ class SearchModel(context: Context): BaseModel() {
         })
     }
 
-    fun search(key: String){
-        NetManager.getInstance().query(0,key,object :BaseObserver<CollectArticleResponse>(){
-            override fun onRequestSuccess(t: CollectArticleResponse?) {
-
-            }
-
-            override fun onRequestError(errorCode: Int, errorMsg: String?) {
-
-            }
-
-            override fun onRequestFailure(errorMsg: String?) {
-
-            }
-
-        })
-    }
-
+    /*
+     * 获取搜索历史
+     */
     fun getSearchHistory(lifecycleOwner:LifecycleOwner,databaseOperationListener:DatabaseOperationListener<History>){
         HistoryRepository.getInstance(context,lifecycleOwner).getAllHistory(databaseOperationListener)
+    }
+
+    /*
+   * 保存搜索历史
+   */
+    fun saveSearchHistory(searchHistory: History,lifecycleOwner:LifecycleOwner,databaseOperationListener:DatabaseOperationListener<History>){
+        HistoryRepository.getInstance(context,lifecycleOwner).insertItems(databaseOperationListener,searchHistory)
     }
 
     interface GetHotKeyListener{

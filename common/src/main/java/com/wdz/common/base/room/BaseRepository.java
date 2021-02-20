@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
  * @Date 2021/2/1 17:22
  */
 public abstract class BaseRepository<T,R extends BaseDao> {
-    private R mDao;
+    public R mDao;
 
     public abstract LifecycleOwner bindLifecycleOwner();
 

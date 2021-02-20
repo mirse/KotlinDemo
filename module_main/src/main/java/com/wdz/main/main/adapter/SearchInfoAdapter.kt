@@ -1,5 +1,8 @@
 package com.wdz.main.main.adapter
 
+import android.os.Build
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +38,16 @@ PagedListAdapter<MainArticle,SearchInfoAdapter.MyViewHolder>(diffCallback){
 
 
         if (article != null) {
-            tvTitle.text = article.title
+            // TODO: 2021/2/20  TextView显示html代码时，Html.fromHtml转换
+            //FROM_HTML_MODE_COMPACT：html块元素之间使用一个换行符分隔
+            //FROM_HTML_MODE_LEGACY：html块元素之间使用两个换行符分隔
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                tvTitle.text = Html.fromHtml(article.title,FROM_HTML_MODE_COMPACT)
+            }
+            else {
+                tvTitle.text = Html.fromHtml(article.title)
+            }
+
             tvDate.text = article.niceShareDate
             tvSource.text = article.chapterName
         }

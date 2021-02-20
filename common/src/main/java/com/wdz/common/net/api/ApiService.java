@@ -218,13 +218,27 @@ public interface ApiService {
 
     //7、搜索
     /**
+     * todo
+     * GET:
+     * @path 把传递的参数直接拼在url后面，配合{}使用
+     * @Query 把key-value拼接在url后面，不使用{}
+     * @QueryMap 与 @Query差不多，参数多的时候使用
+     *
+     * POST:
+     * 标记类：
+     * @Field/@FieldMap一般配合@FormUrlEncoded使用
+     * @Multipart与@Post使用，做文件的上传
+     * @Streaming 大文件的下载
+     *
+     * @Body适用于post请求，将请求参数放到请求体中
      * 搜索
      * @param page
      * @param k
      * @return
      */
+    @FormUrlEncoded
     @POST("article/query/{page}/json")
-    Single<BaseResponse<CollectArticleResponse>> query(@Path(value = "page") int page,@Query("k") String k);
+    Single<BaseResponse<CollectArticleResponse>> query(@Path(value = "page") int page,@Field("k") String k);
 
     //10、广场
     /**
