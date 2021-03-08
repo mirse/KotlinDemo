@@ -1,15 +1,11 @@
 package com.wdz.main.main.search
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
@@ -20,15 +16,11 @@ import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmActivity
 import com.wdz.common.room.entity.History
 import com.wdz.common.util.DisplayUtils
-import com.wdz.common.view.CommonTitleBar
 import com.wdz.main.R
 import com.wdz.main.databinding.ActivitySearchBinding
-import com.wdz.main.databinding.FragmentHomeBinding
 import com.wdz.main.main.adapter.SearchAdapter
 import com.wdz.main.main.adapter.SearchHistoryAdapter
-import com.wdz.main.main.bean.MainArticle
 import kotlinx.android.synthetic.main.activity_search.*
-import java.util.*
 
 @Route(path = ARouterConstant.ACTIVITY_SEARCH)
 class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
@@ -102,13 +94,25 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
             BaseRecyclerViewAdapter.OnItemClickListener {
             override fun onClickNormal(`object`: Any?, position: Int) {
                 if (`object` is History) {
-                    val history = `object`
                     //跳转至搜索详情界面
                     ARouter.getInstance().build(ARouterConstant.ACTIVITY_SEARCH_INFO)
-                        .withString("searchName", history.searchTitle)
+                        .withString("searchName", `object`.searchTitle)
                         .navigation()
                 }
             }
+        })
+
+        searchAdapter.setOnClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener{
+            override fun onClickNormal(`object`: Any?, position: Int) {
+                //点击热搜词
+                if (`object` is String){
+                    ARouter.getInstance().build(ARouterConstant.ACTIVITY_SEARCH_INFO)
+                        .withString("searchName", `object`)
+                        .navigation()
+                }
+
+            }
+
         })
 
         /*

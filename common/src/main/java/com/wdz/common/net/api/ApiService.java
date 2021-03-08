@@ -79,7 +79,7 @@ public interface ApiService {
      * @return
      */
     @GET("tree/json")
-    Single<BaseResponse<TreeResponse>> getTree();
+    Single<BaseResponse<List<TreeResponse>>> getTree();
 
     /**
      * 体系下的文章

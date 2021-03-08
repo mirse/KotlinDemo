@@ -15,7 +15,6 @@ import com.wdz.main.main.adapter.HomeAdapter
 import com.wdz.main.main.bean.MainArticle
 import com.wdz.main.view.SearchPopupWindow
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.jetbrains.anko.support.v4.runOnUiThread
 
 
 @Route(path = ARouterConstant.FRAGMENT_MAIN)

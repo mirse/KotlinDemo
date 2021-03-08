@@ -165,8 +165,8 @@ public class NetManager {
      * 体系数据
      * @param observer
      */
-    public void getTree(BaseObserver<TreeResponse> observer){
-        apiService.getFriend()
+    public void getTree(BaseObserver<List<TreeResponse>> observer){
+        apiService.getTree()
                 .compose(threadTransformer())
                 .subscribe(observer);
     }
