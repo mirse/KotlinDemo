@@ -87,8 +87,8 @@ public interface ApiService {
      * @param cid
      * @return
      */
-    @GET("article/list/{page}/json?cid={cid}")
-    Single<BaseResponse<TreeArticleResponse>> getTreeArticle(@Path("page") int page, @Path("cid") int cid);
+    @GET("article/list/{page}/json")
+    Single<BaseResponse<TreeArticleResponse>> getTreeArticle(@Path("page") int page, @Query("cid") int cid);
 
     /**
      * 按照作者昵称搜索文章

@@ -14,6 +14,8 @@ public interface ARouterConstant {
 
     //module_article
     String FRAGMENT_SYSTEM = "/module_article/SystemFragment";
+    String ACTIVITY_TREE_INFO = "/module_article/TreeInfoActivity";
+
     String FRAGMENT_ARTICLE = "/module_article/ArticleFragment";
     String FRAGMENT_PROJECT = "/module_article/ProjectFragment";
 

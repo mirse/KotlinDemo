@@ -175,7 +175,7 @@ public class NetManager {
      * 体系下的文章
      * @param observer
      */
-    public void getTreeArticle(int page,int cid,BaseObserver<TreeResponse> observer){
+    public void getTreeArticle(int page,int cid,BaseObserver<TreeArticleResponse> observer){
         apiService.getTreeArticle(page,cid)
                 .compose(threadTransformer())
                 .subscribe(observer);

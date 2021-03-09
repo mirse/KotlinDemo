@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.wdz.common.base.adapter.BaseRecyclerViewAdapter
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmFragment
 import com.wdz.common.net.response.TreeResponse
@@ -36,6 +38,17 @@ class SystemFragment : BaseMvvmFragment<SystemViewModel>() {
         rv_system.layoutManager = LinearLayoutManager(activity)
         adapter = activity?.let { SystemAdapter(it,treeList) }!!
         rv_system.adapter = adapter
+        adapter.setOnClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener{
+            override fun onClickNormal(`object`: Any?, position: Int) {
+                if (`object` is TreeResponse){
+                    //跳转至搜索详情界面
+                    ARouter.getInstance().build(ARouterConstant.ACTIVITY_TREE_INFO)
+                        .withParcelable("systemFragment", `object`)
+                        .navigation()
+                }
+            }
+
+        })
     }
 
     override fun initData() {
