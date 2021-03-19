@@ -114,14 +114,14 @@ public interface ApiService {
      * @return
      */
     @GET("project/tree/json")
-    Single<BaseResponse<ProjectResponse>> getProjectTree();
+    Single<BaseResponse<List<ProjectResponse>>> getProjectTree();
 
     /**
      * 项目列表数据
      * @return
      */
-    @GET("project/list/{page}/json?cid={cid}}")
-    Single<BaseResponse<ProjectInfoResponse>> getProjectInfo(@Path("page") int page, @Path("cid") int cid);
+    @GET("project/list/{page}/json")
+    Single<BaseResponse<ProjectInfoResponse>> getProjectInfo(@Path("page") int page, @Query("cid") int cid);
 
     //5、登录与注册
     /**
@@ -286,7 +286,7 @@ public interface ApiService {
      * @return
      */
     @GET("wxarticle/chapters/json")
-    Single<BaseResponse<WxResponse>> getWxList();
+    Single<BaseResponse<List<WxResponse>>> getWxList();
     /**
      * 查看某个公众号历史数据
      * @return

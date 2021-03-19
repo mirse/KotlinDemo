@@ -93,6 +93,10 @@ dependencies {
     //paging
     implementation rootProject.ext.dependencies.chipsLayoutManager
 
+    //glide
+    implementation rootProject.ext.dependencies.glide
+    annotationProcessor rootProject.ext.dependencies.glide_compiler
+
     implementation project(path: ':common')
 }
 

@@ -206,7 +206,7 @@ public class NetManager {
      * 项目分类
      * @param observer
      */
-    public void getProjectTree(BaseObserver<ProjectResponse> observer){
+    public void getProjectTree(BaseObserver<List<ProjectResponse>> observer){
         apiService.getProjectTree()
                 .compose(threadTransformer())
                 .subscribe(observer);
@@ -409,7 +409,7 @@ public class NetManager {
      * 获取公众号列表
      * @param observer
      */
-    public void getWxList(BaseObserver<WxResponse> observer){
+    public void getWxList(BaseObserver<List<WxResponse>> observer){
         apiService.getWxList()
                 .compose(threadTransformer())
                 .subscribe(observer);
@@ -418,7 +418,7 @@ public class NetManager {
      * 查看某个公众号历史数据
      * @param observer
      */
-    public void getWxArticle(int id,int page,BaseObserver<CollectWebResponse> observer){
+    public void getWxArticle(int id,int page,BaseObserver<CollectArticleResponse> observer){
         apiService.getWxArticle(id,page)
                 .compose(threadTransformer())
                 .subscribe(observer);

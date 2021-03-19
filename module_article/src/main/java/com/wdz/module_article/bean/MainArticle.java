@@ -11,6 +11,8 @@ public class MainArticle {
     public String chapterName;
     public String niceShareDate;
     public String title;
+    public String envelopePic;
+    public String des;
 
     @Override
     public boolean equals(@Nullable Object obj) {
@@ -23,7 +25,7 @@ public class MainArticle {
         }
         MainArticle ob1 = (MainArticle)obj;
         if (this.link.equals(ob1.link) && this.chapterName.equals(ob1.chapterName) && this.niceShareDate.equals(ob1.niceShareDate)
-        && this.title.equals(ob1.title)
+        && this.title.equals(ob1.title) && this.envelopePic.equals(ob1.envelopePic) && this.des.equals(ob1.des)
         ){
             return true;
         }
