@@ -28,12 +28,15 @@ import com.wdz.common.net.response.TreeArticleResponse;
 import com.wdz.common.net.response.TreeResponse;
 import com.wdz.common.net.response.WxResponse;
 
+import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -453,6 +456,20 @@ public class NetManager {
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
             }
+        };
+    }
+
+    public FlowableTransformer flowableTransformer(){
+        return new FlowableTransformer() {
+            @NonNull
+            @Override
+            public Publisher apply(@NonNull Flowable upstream) {
+                return upstream.subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+
+
         };
     }
 }

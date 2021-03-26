@@ -8,11 +8,14 @@ import androidx.paging.PagedList
 import com.wdz.common.mvvm.BaseMvvmViewModel
 import com.wdz.common.net.response.ProjectResponse
 import com.wdz.common.net.response.WxResponse
-import com.wdz.main.main.paging.CategorySourceFactory
-import com.wdz.main.main.paging.TreeInfoSourceFactory
-import com.wdz.main.main.paging.WxArticleSourceFactory
+import com.wdz.main.main.paging.PositionCategoryDataSource
+
+import com.wdz.main.main.paging.PositionTreeInfoDataSource
+import com.wdz.main.main.paging.PositionWxArticleDataSource
+
 import com.wdz.module_article.bean.MainArticle
 import com.wdz.module_article.paging.BaseSourceFactory
+import kotlin.reflect.KClass
 
 /**
 
@@ -34,7 +37,7 @@ class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
     }
 
     fun getTreeInfo(cid:Int): LiveData<PagedList<MainArticle>> {
-        val treeInfoSourceFactory = TreeInfoSourceFactory(cid)
+        val treeInfoSourceFactory = BaseSourceFactory(cid,(PositionTreeInfoDataSource::class as KClass<Any>))
         treeInfoSourceFactory.create()
         treeInfoList = LivePagedListBuilder<Int, MainArticle>(treeInfoSourceFactory, 20).build()
         return treeInfoList
@@ -43,7 +46,7 @@ class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
     * 获取微信文章
     */
     fun getVxArticle(cid:Int): LiveData<PagedList<MainArticle>> {
-        val wxArticleSourceFactory = WxArticleSourceFactory(cid)
+        val wxArticleSourceFactory = BaseSourceFactory(cid,(PositionWxArticleDataSource::class as KClass<Any>))
         wxArticleSourceFactory.create()
         treeInfoList = LivePagedListBuilder<Int, MainArticle>(wxArticleSourceFactory, 20).build()
         return treeInfoList
@@ -78,7 +81,8 @@ class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
     */
     fun getCategoryInfo(cid:Int): LiveData<PagedList<MainArticle>> {
 //        val categorySourceFactory = CategorySourceFactory(cid)
-        val categorySourceFactory = BaseSourceFactory(cid,CategorySourceFactory:class.java)
+        // TODO: 2021/3/23 kotlin转换类型
+        val categorySourceFactory = BaseSourceFactory(cid,(PositionCategoryDataSource::class as KClass<Any>))
         categorySourceFactory.create()
         treeInfoList = LivePagedListBuilder<Int, MainArticle>(categorySourceFactory, 20).build()
         return treeInfoList

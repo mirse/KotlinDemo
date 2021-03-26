@@ -16,11 +16,16 @@ import com.wdz.module_article.bean.MainArticle
 * PageKeyedDataSource -> 适用于目标数据根据页信息请求数据的场景，即参数中包含next/previous等类似页数信息
 *
 */
-public class PositionWxArticleDataSource(cid:Int): PageKeyedDataSource<String, MainArticle>(){
+class PositionWxArticleDataSource(private var mCid:Int): PageKeyedDataSource<String, MainArticle>(){
+//    private var mCid = 0;
+//
+//    constructor(cid:Int):this(){
+//        mCid = cid
+//    }
 
 
     private var mPage = 0
-    private var mCid = cid
+
     override fun loadInitial(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, MainArticle>

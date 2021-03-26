@@ -14,16 +14,15 @@ import com.wdz.module_article.bean.MainArticle
 * PageKeyedDataSource -> 适用于目标数据根据页信息请求数据的场景，即参数中包含next/previous等类似页数信息
 *
 */
-public class PositionTreeInfoDataSource(cid:Int): PageKeyedDataSource<String, MainArticle>(){
-
+public class PositionTreeInfoDataSource(private val cid:Int): PageKeyedDataSource<String, MainArticle>(){
 
     private var mPage = 0
-    private var mCid = cid
+
     override fun loadInitial(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, MainArticle>
     ) {
-        NetManager.getInstance().getTreeArticle(mPage,mCid,object: BaseObserver<TreeArticleResponse>(){
+        NetManager.getInstance().getTreeArticle(mPage,cid,object: BaseObserver<TreeArticleResponse>(){
             override fun onRequestSuccess(t: TreeArticleResponse?) {
                 if (t!=null){
                     val mList = mutableListOf<MainArticle>()
@@ -55,7 +54,7 @@ public class PositionTreeInfoDataSource(cid:Int): PageKeyedDataSource<String, Ma
         callback: LoadCallback<String, MainArticle>
     ) {
         mPage++
-        NetManager.getInstance().getTreeArticle(mPage,mCid,object: BaseObserver<TreeArticleResponse>(){
+        NetManager.getInstance().getTreeArticle(mPage,cid,object: BaseObserver<TreeArticleResponse>(){
             override fun onRequestSuccess(t: TreeArticleResponse?) {
                 if (t!=null){
                     val mList = mutableListOf<MainArticle>()

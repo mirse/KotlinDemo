@@ -62,14 +62,31 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_article_main"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            >
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:id="@+id/rv_article_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

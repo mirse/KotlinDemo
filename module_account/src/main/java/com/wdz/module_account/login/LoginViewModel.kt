@@ -8,35 +8,28 @@ import androidx.lifecycle.MutableLiveData
 import com.wdz.common.mvvm.BaseMvvmViewModel
 import com.wdz.common.net.HttpRequestStatus
 import com.wdz.common.net.response.LoginResponse
-import com.wdz.module_account.login.bean.LoginStatus
+
 import com.wdz.module_account.login.bean.RegisterStatus
 
 public class LoginViewModel: BaseMvvmViewModel<LoginModel>(){
     private val TAG = this::class.simpleName
-    var loginStatus:MutableLiveData<LoginStatus> = MutableLiveData();
-    var mLoginStatus:LoginStatus = LoginStatus()
+//    var loginStatus:MutableLiveData<LoginStatus> = MutableLiveData();
+//    var mLoginStatus:LoginStatus = LoginStatus()
     var userName:String = ""
     var pwd:String = ""
-    override fun initModel(context: Context) {
+    public override fun initModel(context: Context) {
         model = LoginModel()
     }
 
     fun login(v:View){
-        mLoginStatus.requestStatus = HttpRequestStatus.REQUESTING
-        loginStatus.postValue(mLoginStatus)
+        httpLiveData.postValue(HttpRequestStatus.REQUESTING)
         model.login(userName,pwd,object :LoginModel.LoginListener{
             override fun loginSuccess(t: LoginResponse?) {
-                mLoginStatus.requestStatus = HttpRequestStatus.REQUEST_SUCCESS
-                if (t!=null){
-                    mLoginStatus.loginResponse = t
-                }
-                loginStatus.postValue(mLoginStatus)
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(t))
             }
 
             override fun loginFail(errorMsg: String) {
-                mLoginStatus.requestStatus = HttpRequestStatus.REQUEST_FAIL
-                mLoginStatus.errorMsg = errorMsg
-                loginStatus.postValue(mLoginStatus)
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg(errorMsg))
             }
         })
     }

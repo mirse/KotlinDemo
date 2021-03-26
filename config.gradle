@@ -125,6 +125,9 @@ ext{
             chipsLayoutManager:              "com.beloo.widget:ChipsLayoutManager:0.3.7@aar",
 
             auto_disposearchcomponents:      'com.uber.autodispose:autodispose-android-archcomponents:0.6.1',
-            auto_dispose:                     'com.uber.autodispose:autodispose:0.6.1',
+            auto_dispose:                    'com.uber.autodispose:autodispose:0.6.1',
+
+            //startUp-可在应用启动时简单、高效地初始化组件。
+            startUp:                         "androidx.startup:startup-runtime:1.0.0"
     ]
 }

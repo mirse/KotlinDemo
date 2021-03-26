@@ -17,63 +17,63 @@ public class PositionArticleDataSource: PageKeyedDataSource<String,MainArticle>(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, MainArticle>
     ) {
-        NetManager.getInstance().getArticle(mPage,object: BaseObserver<MainListResponse>(){
-            override fun onRequestSuccess(t: MainListResponse?) {
-                if (t!=null){
-                    val mList = mutableListOf<MainArticle>()
-                    for (i in t.datas.indices){
-                        val mainArticle = MainArticle()
-                        mainArticle.link = t.datas[i].link
-                        mainArticle.chapterName = t.datas[i].chapterName
-                        mainArticle.niceShareDate = t.datas[i].niceShareDate
-                        mainArticle.title = t.datas[i].title
-                        mList.add(mainArticle)
-                    }
-                    callback.onResult(mList,"before","after")
-                }
-            }
-
-            override fun onRequestError(errorCode: Int, errorMsg: String?) {
-
-            }
-
-            override fun onRequestFailure(errorMsg: String?) {
-
-            }
-
-        })
+//        NetManager.getInstance().getArticle(mPage,object: BaseObserver<MainListResponse>(){
+//            override fun onRequestSuccess(t: MainListResponse?) {
+//                if (t!=null){
+//                    val mList = mutableListOf<MainArticle>()
+//                    for (i in t.datas.indices){
+//                        val mainArticle = MainArticle()
+//                        mainArticle.link = t.datas[i].link
+//                        mainArticle.chapterName = t.datas[i].chapterName
+//                        mainArticle.niceShareDate = t.datas[i].niceShareDate
+//                        mainArticle.title = t.datas[i].title
+//                        mList.add(mainArticle)
+//                    }
+//                    callback.onResult(mList,"before","after")
+//                }
+//            }
+//
+//            override fun onRequestError(errorCode: Int, errorMsg: String?) {
+//
+//            }
+//
+//            override fun onRequestFailure(errorMsg: String?) {
+//
+//            }
+//
+//        })
     }
 
     override fun loadAfter(
         params: LoadParams<String>,
         callback: LoadCallback<String, MainArticle>
     ) {
-        mPage++
-        NetManager.getInstance().getArticle(mPage,object: BaseObserver<MainListResponse>(){
-            override fun onRequestSuccess(t: MainListResponse?) {
-                if (t!=null){
-                    val mList = mutableListOf<MainArticle>()
-                    for (i in t.datas.indices){
-                        val mainArticle = MainArticle()
-                        mainArticle.link = t.datas[i].link
-                        mainArticle.chapterName = t.datas[i].chapterName
-                        mainArticle.niceShareDate = t.datas[i].niceShareDate
-                        mainArticle.title = t.datas[i].title
-                        mList.add(mainArticle)
-                    }
-                    callback.onResult(mList,params.key)
-                }
-            }
-
-            override fun onRequestError(errorCode: Int, errorMsg: String?) {
-
-            }
-
-            override fun onRequestFailure(errorMsg: String?) {
-
-            }
-
-        })
+//        mPage++
+//        NetManager.getInstance().getArticle(mPage,object: BaseObserver<MainListResponse>(){
+//            override fun onRequestSuccess(t: MainListResponse?) {
+//                if (t!=null){
+//                    val mList = mutableListOf<MainArticle>()
+//                    for (i in t.datas.indices){
+//                        val mainArticle = MainArticle()
+//                        mainArticle.link = t.datas[i].link
+//                        mainArticle.chapterName = t.datas[i].chapterName
+//                        mainArticle.niceShareDate = t.datas[i].niceShareDate
+//                        mainArticle.title = t.datas[i].title
+//                        mList.add(mainArticle)
+//                    }
+//                    callback.onResult(mList,params.key)
+//                }
+//            }
+//
+//            override fun onRequestError(errorCode: Int, errorMsg: String?) {
+//
+//            }
+//
+//            override fun onRequestFailure(errorMsg: String?) {
+//
+//            }
+//
+//        })
     }
 
     override fun loadBefore(

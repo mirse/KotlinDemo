@@ -16,7 +16,7 @@ import com.wdz.common.mvvm.BaseMvvmActivity
 import com.wdz.main.R
 import com.wdz.main.databinding.ActivitySearchBinding
 import com.wdz.main.databinding.ActivitySearchInfoBinding
-import com.wdz.main.main.adapter.HomeAdapter
+
 import com.wdz.main.main.adapter.SearchInfoAdapter
 import com.wdz.main.main.bean.MainArticle
 import kotlinx.android.synthetic.main.activity_search_info.*

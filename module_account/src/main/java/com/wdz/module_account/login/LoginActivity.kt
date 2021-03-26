@@ -1,6 +1,9 @@
 package com.wdz.module_account.login
 
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.jakewharton.rxbinding3.widget.textChanges
@@ -8,9 +11,13 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
 import com.wdz.common.mvvm.BaseMvvmActivity
+import com.wdz.common.mvvm.kotlin.BaseKVmActivity
 import com.wdz.common.net.HttpRequestStatus
+import com.wdz.common.net.response.LoginResponse
 import com.wdz.module_account.R
 import com.wdz.module_account.databinding.ActivityLoginBinding
+import com.wdz.module_account.databinding.ActivityRegisterBinding
+
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
@@ -19,9 +26,11 @@ import org.jetbrains.anko.toast
 
 
 @Route(path = ARouterConstant.ACTIVITY_LOGIN)
-class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
+class LoginActivity : BaseKVmActivity(),
     View.OnClickListener {
     private val TAG = "LoginActivity"
+    private val binding by dataBinding<ActivityLoginBinding>()
+    private val vm by getVm<LoginViewModel>()
 
     override fun isTransparentBar(): Boolean {
         return true;
@@ -32,6 +41,12 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
     }
 
     override fun initView() {
+        Log.i("BaseKVmActivity", "initView: ")
+        (binding as ActivityLoginBinding).run {
+            model = vm
+            vm.initModel(this@LoginActivity)
+        }
+
 
         et_id.setHint("请输入账号")
         et_pwd.setHint("请输入密码")
@@ -54,23 +69,26 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
     }
 
     override fun initData() {
-        vm.loginStatus.observe(this,
-            { t ->
-                if (t != null) {
-                    if (t.requestStatus == HttpRequestStatus.REQUEST_SUCCESS){
-                        (application as MyApplication).setUserInfo(t.loginResponse)
+        Log.i("BaseKVmActivity", "initData: ")
+        vm.apply {
+            httpLiveData.observe(this@LoginActivity, Observer{
+                when(it){
+                    HttpRequestStatus.REQUEST_SUCCESS ->{
+                        (application as MyApplication).setUserInfo(it.msg as LoginResponse)
                         toast("登录成功")
                         hideLoading()
-                        finish()
-                    } else if (t.requestStatus == HttpRequestStatus.REQUEST_FAIL){
-                        toast("登录失败:"+t.errorMsg)
+                        finish()}
+                    HttpRequestStatus.REQUEST_FAIL -> {
+                        toast("登录失败:" + it.msg)
                         hideLoading()
                     }
-                    else if (t.requestStatus == HttpRequestStatus.REQUESTING){
+                    HttpRequestStatus.REQUESTING -> {
                         showLoading()
                     }
+                    else -> {}
                 }
             })
+        }
     }
 
     override fun onClick(p0: View?) {
@@ -87,10 +105,6 @@ class LoginActivity : BaseMvvmActivity<LoginViewModel>(),
 
     override fun isUseDataBinding(): Boolean {
         return true
-    }
-
-    override fun vmToDataBinding() {
-        (viewDataBinding as ActivityLoginBinding).model = vm
     }
 
 }

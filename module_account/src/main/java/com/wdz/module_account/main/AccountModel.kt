@@ -12,9 +12,7 @@ public class AccountModel:BaseModel(){
         NetManager.getInstance().logout(object: BaseObserver<BaseResponse.DataBean>() {
             override fun onRequestSuccess(t: BaseResponse.DataBean?) {
                 MmkvUtils.clearLoginUser()
-                if (t != null) {
-                    logoutListener.logoutSuccess(t)
-                }
+                logoutListener.logoutSuccess(BaseResponse.DataBean())
             }
 
             override fun onRequestError(errorCode: Int, errorMsg: String?) {

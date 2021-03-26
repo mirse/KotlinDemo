@@ -99,6 +99,10 @@ dependencies {
     //paging
     implementation rootProject.ext.dependencies.chipsLayoutManager
 
+    //smartRefresh
+    implementation rootProject.ext.dependencies.refreshlayoutkernel
+    implementation rootProject.ext.dependencies.refreshHeaderClassics
+
     implementation project(path: ':common')
 }
 

@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_tree_info.*
 class ArticleFragment : BaseMvvmFragment<TreeInfoViewModel>() {
 
     var wxAuthorList = mutableListOf<WxResponse>()
+    val list = mutableListOf<Int>()
     private lateinit var mAdapter:ViewPager2Adapter
     override fun getLayoutId(): Int {
         return R.layout.activity_tree_info
@@ -38,7 +39,9 @@ class ArticleFragment : BaseMvvmFragment<TreeInfoViewModel>() {
     }
 
     override fun initView() {
-
+        mAdapter = ViewPager2Adapter(this@ArticleFragment.childFragmentManager,lifecycle,
+            TYPE_VX_ARTICLE, list)
+        viewPager.adapter = mAdapter
     }
 
     override fun initData() {
@@ -47,14 +50,13 @@ class ArticleFragment : BaseMvvmFragment<TreeInfoViewModel>() {
             override fun onChanged(t: List<WxResponse>?) {
                 if (t!=null){
                     wxAuthorList = t as MutableList<WxResponse>
-                    val list = mutableListOf<Int>()
+                    list.clear()
                     for (i in t.indices){
                         list.add(t[i].id)
                     }
+                    mAdapter.notifyDataSetChanged()
 
-                    mAdapter = ViewPager2Adapter(this@ArticleFragment.childFragmentManager,lifecycle,
-                        TYPE_VX_ARTICLE, list)
-                    viewPager.adapter = mAdapter
+
 
                     TabLayoutMediator(tableLayout,viewPager,true, object:
                         TabLayoutMediator.TabConfigurationStrategy{

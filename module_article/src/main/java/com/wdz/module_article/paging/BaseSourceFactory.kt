@@ -1,9 +1,11 @@
 package com.wdz.module_article.paging
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.wdz.main.main.paging.PositionCategoryDataSource
+import androidx.paging.PageKeyedDataSource
 import com.wdz.module_article.bean.MainArticle
+import kotlin.reflect.KClass
 
 /**
 
@@ -12,15 +14,13 @@ import com.wdz.module_article.bean.MainArticle
  * @Date 2021/3/19 17:00
 
  */
-class BaseSourceFactory(cid:Int,private val dataSource: Class<Any>): DataSource.Factory<Int, MainArticle>() {
-    private val mCid = cid
-    val mutableLiveData = MutableLiveData<BaseDataSource>()
+class BaseSourceFactory(private val cid:Int,private val pageKeyedDataSource: KClass<Any>): DataSource.Factory<Int, MainArticle>() {
+    private val TAG = this::class.simpleName
+    val mutableLiveData = MutableLiveData<PageKeyedDataSource<String, MainArticle>>()
     override fun create(): DataSource<Int, MainArticle> {
-        val javaClass = dataSource.javaClass
-        val newInstance = javaClass.newInstance()
-        val baseDataSource = newInstance as BaseDataSource
-        baseDataSource.cid = mCid;
-        //val positionArticleDataSource = BaseDataSource(mCid)
+
+        val baseDataSource = pageKeyedDataSource.constructors.first().call(cid) as PageKeyedDataSource<String, MainArticle>
+
         mutableLiveData.postValue(baseDataSource)
         return baseDataSource as DataSource<Int, MainArticle>
     }

@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/tv_date"
@@ -29,7 +30,8 @@
         android:textSize="@dimen/sp_10"
         app:layout_constraintBottom_toBottomOf="@+id/tv_source"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_source" />
+        app:layout_constraintTop_toTopOf="@+id/tv_source"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/tv_source"
@@ -42,15 +44,18 @@
         android:textSize="@dimen/sp_10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        android:layout_marginLeft="8dp" />
     <ImageView
+        android:id="@+id/ic_collect"
         android:layout_width="@dimen/dp_25"
         android:layout_height="@dimen/dp_25"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_uncollect"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/collect_selector"
         app:layout_constraintBottom_toTopOf="@+id/tv_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp" />
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"

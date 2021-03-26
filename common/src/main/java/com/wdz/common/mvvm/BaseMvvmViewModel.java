@@ -3,15 +3,19 @@ package com.wdz.common.mvvm;
 import android.content.Context;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
+import com.wdz.common.net.HttpRequestStatus;
 
 public abstract class BaseMvvmViewModel<M extends BaseModel> extends ViewModel{
 
     protected M model;
     protected LifecycleOwner lifecycleOwner;
+    /**
+     * http请求时的状态变化liveData
+     */
+    protected MutableLiveData<HttpRequestStatus> httpLiveData = new MutableLiveData<>();
 
     protected abstract void initModel(Context context);
 
@@ -25,6 +29,10 @@ public abstract class BaseMvvmViewModel<M extends BaseModel> extends ViewModel{
 
     protected LifecycleOwner getLifecycleOwner(){
         return lifecycleOwner;
+    }
+
+    public MutableLiveData<HttpRequestStatus> getHttpLiveData(){
+        return httpLiveData;
     }
 
 }

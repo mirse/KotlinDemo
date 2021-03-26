@@ -1,8 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wdz.common" >
-    <application
-        >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.wdz.common">
+    <application>
 
         <activity android:name=".base.BaseActivity" />
+
+
+        <provider
+            android:authorities="${applicationId}.androidx-startup"
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="com.wdz.common.MyInitializer"
+                android:value="androidx.startup" />
+        </provider>
     </application>
+    
+    
 </manifest>

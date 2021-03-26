@@ -51,7 +51,7 @@ public class TreeArticleResponse {
         public String shareUser;
         public int superChapterId;
         public String superChapterName;
-        public List<String> tags;
+        public List<Object> tags;
         public String title;
         public int type;
         public int userId;

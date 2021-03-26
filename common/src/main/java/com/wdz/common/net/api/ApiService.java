@@ -164,7 +164,7 @@ public interface ApiService {
      * 收藏站内文章
      * @return
      */
-    @POST("lg/collect/{id}}/json")
+    @POST("lg/collect/{id}/json")
     Single<BaseResponse<BaseResponse.DataBean>> collectArticleIn(@Path("id") int id);
 
     /**
@@ -178,7 +178,7 @@ public interface ApiService {
      * 取消收藏 - 文章列表
      * @return
      */
-    @POST("lg/uncollect_originId/{id}}/json")
+    @POST("lg/uncollect_originId/{id}/json")
     Single<BaseResponse<BaseResponse.DataBean>> uncollect(@Path("id") int id);
 
     /**

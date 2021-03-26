@@ -10,19 +10,21 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.wdz.common.net.HttpRequestStatus;
 import com.wdz.common.view.LoadingDialog;
 
 import java.lang.reflect.ParameterizedType;
 
 public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fragment implements BaseView {
 
-
     protected VM vm;
     public LoadingDialog mLoadingDialog;
     protected ViewDataBinding viewDataBinding;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,8 +63,25 @@ public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fra
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        mLoadingDialog = new LoadingDialog(getActivity());
+        if (getContext()!=null){
+            mLoadingDialog = new LoadingDialog(getContext());
+        }
         initData();
+
+        if (getActivity()!=null){
+            vm.httpLiveData.observe(getActivity(), new Observer<HttpRequestStatus>() {
+                @Override
+                public void onChanged(HttpRequestStatus httpRequestStatus) {
+                    if (httpRequestStatus == HttpRequestStatus.REQUESTING){
+                        showLoading();
+                    }
+                    else if (httpRequestStatus == HttpRequestStatus.REQUEST_SUCCESS || httpRequestStatus == HttpRequestStatus.REQUEST_FAIL){
+                        hideLoading();
+                    }
+                }
+            });
+        }
+
     }
 
     @Override
