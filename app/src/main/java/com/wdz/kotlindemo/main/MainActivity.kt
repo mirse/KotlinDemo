@@ -8,18 +8,28 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.mvvm.BaseMvvmActivity
+
+import com.wdz.common.mvvm.kotlin.BaseKVmActivity
 import com.wdz.kotlindemo.FragmentAdapter
 import com.wdz.kotlindemo.R
 import com.wdz.kotlindemo.databinding.ActivityMainBinding
+import com.wdz.module_account.databinding.ActivityLoginBinding
+import com.wdz.module_account.login.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.tab_buttom.*
 @Route(path = ARouterConstant.ACTIVITY_MAIN)
-class MainActivity : BaseMvvmActivity<MainViewModel>(), View.OnClickListener {
+class MainActivity : BaseKVmActivity(), View.OnClickListener {
     private var fragmentArrayList:ArrayList<Fragment> = arrayListOf();
-
+    private val binding by dataBinding<ActivityMainBinding>()
+    private val vm by getVm<MainViewModel>()
 
     override fun initView() {
+        // TODO: 2021/3/29 可能存在不使用viewDataBinding
+        (binding as ActivityMainBinding).run {
+            model = vm
+            vm.initModel(this@MainActivity)
+        }
+
         fragmentArrayList.clear()
         fragmentArrayList.add(
             (ARouter.getInstance().build(ARouterConstant.FRAGMENT_MAIN)
@@ -123,10 +133,7 @@ class MainActivity : BaseMvvmActivity<MainViewModel>(), View.OnClickListener {
     }
 
     override fun isUseDataBinding(): Boolean {
-        return false
+        return true
     }
 
-    override fun vmToDataBinding() {
-
-    }
 }

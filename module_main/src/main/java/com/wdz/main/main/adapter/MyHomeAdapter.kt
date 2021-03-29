@@ -16,11 +16,9 @@ import com.wdz.main.main.bean.MainArticle
 
  */
 class MyHomeAdapter(
-    mContext: Context,
     list: MutableList<MainArticle>,
-    private val vm: HomeViewModel
-) : SingleBindTypeAdapter<MainArticle>(mContext,list) {
-    private var onClickListener:OnClickListener ?= null
+    private val vm: HomeViewModel?
+) : SingleBindTypeAdapter<MainArticle>(list) {
     override fun getLayoutId(): Int {
         return R.layout.recycler_item_main_article_bind
     }
@@ -43,43 +41,8 @@ class MyHomeAdapter(
                 databinding.mainArticle = data
                 databinding.model = vm
             }
-
-
-
-//            val tvTitle = holder.itemView.findViewById<TextView>(R.id.tv_title)
-//            val tvDate = holder.itemView.findViewById<TextView>(R.id.tv_date)
-//            val tvSource = holder.itemView.findViewById<TextView>(R.id.tv_source)
-//            val collect = holder.itemView.findViewById<ImageView>(R.id.ic_collect)
-//
-//            if (data != null) {
-//                tvTitle.text = data.title
-//                tvDate.text = data.niceShareDate
-//                tvSource.text = data.chapterName
-//                collect.isSelected = data.collect
-//
-//
-//                holder.itemView.setOnClickListener {
-//                    onClickListener?.let { it.onClickItem(position,data) }
-//                }
-//                collect.setOnClickListener {
-//                    onClickListener?.let { it.onClickCollect(position,data) }
-//                }
-//            }
-
-
-
         }
 
     }
-
-    fun setOnClickListener(onClickListener: OnClickListener){
-        this.onClickListener = onClickListener
-    }
-
-    interface OnClickListener{
-        fun onClickItem(position:Int,data: MainArticle)
-        fun onClickCollect(position:Int,data: MainArticle)
-    }
-
 
 }

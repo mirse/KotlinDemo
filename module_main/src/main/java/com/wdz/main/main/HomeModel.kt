@@ -57,11 +57,11 @@ class HomeModel: BaseModel() {
             }
 
             override fun onRequestError(errorCode: Int, errorMsg: String?) {
-
+                onCollectArticleListener.onCollectFail(errorMsg)
             }
 
             override fun onRequestFailure(errorMsg: String?) {
-
+                onCollectArticleListener.onCollectFail(errorMsg)
             }
 
         })
@@ -87,12 +87,17 @@ class HomeModel: BaseModel() {
         fun onGetSuccess(list:MutableList<MainArticle>);
     }
 
+    /**
+     * 收藏文章监听
+     */
     interface OnCollectArticleListener{
         fun onCollectSuccess();
+        fun onCollectFail(msg:String?)
     }
 
     interface OnUnCollectArticleListener{
-        fun onUnCollectSuccess();
+        fun onUnCollectSuccess()
+        fun onUnCollectFail(msg:String?)
     }
 
 }

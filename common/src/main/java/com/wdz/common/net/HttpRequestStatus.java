@@ -79,7 +79,12 @@ public enum HttpRequestStatus {
      */
     NONE;
 
+    /**
+     * 请求所携带的消息
+     */
     private Object msg;
+    private Object status;
+
     HttpRequestStatus() {
     }
 
@@ -91,8 +96,27 @@ public enum HttpRequestStatus {
         return msg;
     }
 
+
     public HttpRequestStatus setMsg(Object msg) {
         this.msg = msg;
         return this;
+    }
+
+    public Object getStatus() {
+        return status;
+
+    }
+
+    public HttpRequestStatus setStatus(Object status) {
+        this.status = status;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpRequestStatus{" +
+                "msg=" + msg +
+                ", status=" + status +
+                '}';
     }
 }

@@ -6,14 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.mvvm.BaseMvvmFragment
+
+import com.wdz.common.mvvm.kotlin.BaseKVmFragment
 import com.wdz.common.net.HttpRequestStatus
 import com.wdz.main.R
 import com.wdz.main.databinding.FragmentHomeBinding
 import com.wdz.main.main.adapter.MyHomeAdapter
 import com.wdz.main.main.bean.MainArticle
-import com.wdz.main.view.SearchPopupWindow
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.jetbrains.anko.support.v4.toast
 
 
 /**
@@ -24,12 +25,17 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * @property page Int
  */
 @Route(path = ARouterConstant.FRAGMENT_MAIN)
-class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
+class HomeFragment : BaseKVmFragment(), View.OnClickListener {
     private val TAG = this::class.simpleName
     var mainArticles = mutableListOf<MainArticle>()
-    lateinit var searchPopupWindow:SearchPopupWindow
-    private lateinit var homeAdapter: MyHomeAdapter
     private var page = 0
+
+    private val vm by getVm<HomeViewModel>()
+
+    private val homeAdapter by lazy {
+        MyHomeAdapter(mainArticles,vm)
+    }
+
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -40,36 +46,17 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
     }
 
     override fun initView() {
-
-        searchPopupWindow = SearchPopupWindow(activity);
+        (viewDataBinding as FragmentHomeBinding).run {
+            //绑定数据
+            model = vm
+            activity?.let { vm.initModel(it) }
+        }
         textInput.setOnClickListener(this)
-        rv_article_main.layoutManager = LinearLayoutManager(activity)
+        rv_article_main.run {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = homeAdapter
+        }
 
-        homeAdapter = MyHomeAdapter(context!!, mainArticles,vm)
-
-
-        rv_article_main.adapter = homeAdapter
-
-//        homeAdapter.setOnClickListener(object : MyHomeAdapter.OnClickListener{
-//            override fun onClickItem(position:Int,data: MainArticle) {
-//
-//            }
-//
-//            override fun onClickCollect(position:Int,data: MainArticle) {
-//                Log.i(TAG, "onClickCollect: "+data)
-//                if (data.collect){
-//                    vm.unCollectArticle(data.id)
-//                }
-//                else{
-//                    vm.collectArticle(data.id)
-//                }
-//                showLoading()
-//
-//
-//
-//            }
-//
-//        })
 
         /**
          * 下拉刷新
@@ -91,78 +78,56 @@ class HomeFragment : BaseMvvmFragment<HomeViewModel>(), View.OnClickListener {
     }
 
     override fun initData() {
-//        vm.getArticle().observe(this,object:Observer<PagedList<MainArticle>>{
-//            override fun onChanged(t: PagedList<MainArticle>?) {
-//                // TODO: 2021/3/23 分页时不触发？
-//                homeAdapter.submitList(t)
-//                if (smartRefreshLayout.isRefreshing){
-//                    smartRefreshLayout.finishRefresh()
-//                }
-//
-//            }
-//        })
-
 
         vm.getMyArticle(page)
-        vm.mainPageArticleList.observe(this,object:Observer<MutableList<MainArticle>>{
-            override fun onChanged(t: MutableList<MainArticle>?) {
+        vm.mainPageArticleList.observe(this,
+            Observer<MutableList<MainArticle>> { t ->
                 if (t != null) {
                     mainArticles.clear()
                     mainArticles.addAll(t)
-                    homeAdapter.notifyDataSetChanged()
+                    homeAdapter.notifyItemRangeChanged(0,mainArticles.size)
+                    // TODO: 2021/3/29 使用 RecycleView + SwipeRefreshLayout 刷新时,使用notifyDataSetChange会闪烁
+                    //homeAdapter.notifyDataSetChanged()
                 }
-            }
-        } )
-        vm.otherPageArticleList.observe(this,object:Observer<MutableList<MainArticle>>{
-            override fun onChanged(t: MutableList<MainArticle>?) {
+            })
+        vm.otherPageArticleList.observe(this,
+            Observer<MutableList<MainArticle>> { t ->
                 if (t != null) {
                     mainArticles.addAll(t)
                     homeAdapter.notifyDataSetChanged()
                 }
-            }
-        } )
+            })
 
-
-        /**
-         * collect相关状态判定
-         */
-        vm.collectStatus.observe(this@HomeFragment,object:Observer<Int>{
-            override fun onChanged(t: Int?) {
-                for (i in mainArticles.indices){
-                    if (t == mainArticles[i].id){
-                        mainArticles[i].collect = true
-                        homeAdapter.notifyDataSetChanged()
+        vm.httpLiveData.observe(this@HomeFragment,
+            Observer<HttpRequestStatus> {
+                when(it){
+                    HttpRequestStatus.REQUESTING -> {
+                        showLoading()
+                    }
+                    HttpRequestStatus.REQUEST_SUCCESS -> {
+                        for (i in mainArticles.indices){
+                            if (it.msg == mainArticles[i].id){
+                                mainArticles[i].collect = it.status == "collect"
+                                homeAdapter.notifyItemChanged(i)
+                                break
+                            }
+                        }
                         hideLoading()
-                        return
+
+                    }
+                    HttpRequestStatus.REQUEST_FAIL -> {
+                        toast(it.msg as String)
+                        hideLoading()
+                    }
+                    else -> {
+
                     }
                 }
-                hideLoading()
-            }
-        })
-        /**
-         * unCollect相关状态判定
-         */
-        vm.unCollectStatus.observe(this@HomeFragment,object:Observer<Int>{
-            override fun onChanged(t: Int?) {
-                for (i in mainArticles.indices){
-                    if (t == mainArticles[i].id){
-                        mainArticles[i].collect = false
-                        homeAdapter.notifyDataSetChanged()
-                        hideLoading()
-                        return
-                    }
-                }
-                hideLoading()
-            }
-        })
 
-
+            })
 
     }
 
-    override fun vmToDataBinding() {
-        (viewDataBinding as FragmentHomeBinding).model = vm
-    }
 
     override fun isUseDataBinding(): Boolean {
         return true

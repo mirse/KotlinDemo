@@ -18,7 +18,7 @@ import com.wdz.common.net.response.TreeResponse
 class SystemViewModel: BaseMvvmViewModel<SystemModel>() {
     val tree = MutableLiveData<List<TreeResponse>>()
 
-    override fun initModel(context: Context?) {
+    public override fun initModel(context: Context?) {
         model = SystemModel()
     }
 

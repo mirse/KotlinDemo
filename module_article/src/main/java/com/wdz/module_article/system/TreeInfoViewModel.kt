@@ -28,7 +28,7 @@ class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
     var treeInfoList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
     var wxList = MutableLiveData<List<WxResponse>>()
     var categoryList = MutableLiveData<List<ProjectResponse>>()
-    override fun initModel(context: Context?) {
+    public override fun initModel(context: Context?) {
         model = TreeInfoModel()
     }
     init {

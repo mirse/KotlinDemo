@@ -10,7 +10,7 @@ import com.jakewharton.rxbinding3.widget.textChanges
 
 import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.mvvm.BaseMvvmActivity
+
 import com.wdz.common.mvvm.kotlin.BaseKVmActivity
 import com.wdz.common.net.HttpRequestStatus
 import com.wdz.common.net.response.LoginResponse
@@ -28,7 +28,7 @@ import org.jetbrains.anko.toast
 @Route(path = ARouterConstant.ACTIVITY_LOGIN)
 class LoginActivity : BaseKVmActivity(),
     View.OnClickListener {
-    private val TAG = "LoginActivity"
+    private val TAG = this::class.simpleName
     private val binding by dataBinding<ActivityLoginBinding>()
     private val vm by getVm<LoginViewModel>()
 
@@ -41,7 +41,7 @@ class LoginActivity : BaseKVmActivity(),
     }
 
     override fun initView() {
-        Log.i("BaseKVmActivity", "initView: ")
+
         (binding as ActivityLoginBinding).run {
             model = vm
             vm.initModel(this@LoginActivity)
@@ -72,8 +72,10 @@ class LoginActivity : BaseKVmActivity(),
         Log.i("BaseKVmActivity", "initData: ")
         vm.apply {
             httpLiveData.observe(this@LoginActivity, Observer{
+                Log.i(TAG, "initData: $it")
                 when(it){
                     HttpRequestStatus.REQUEST_SUCCESS ->{
+
                         (application as MyApplication).setUserInfo(it.msg as LoginResponse)
                         toast("登录成功")
                         hideLoading()

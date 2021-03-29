@@ -1,6 +1,7 @@
 package com.wdz.common.mvvm;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,14 @@ public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fra
     protected VM vm;
     public LoadingDialog mLoadingDialog;
     protected ViewDataBinding viewDataBinding;
+    /**
+     *  loading开始时间
+     */
+    private long loadingStartTime;
+    /**
+     * loading结束时间
+     */
+    private long loadingEndTime;
 
 
     @Override
@@ -87,15 +96,31 @@ public abstract class BaseMvvmFragment<VM extends BaseMvvmViewModel> extends Fra
     @Override
     public void showLoading() {
         if (mLoadingDialog != null) {
+            loadingStartTime = System.currentTimeMillis();
             mLoadingDialog.show();
         }
     }
 
     @Override
     public void hideLoading() {
-        if (mLoadingDialog != null) {
-            mLoadingDialog.dismiss();
+        loadingEndTime = System.currentTimeMillis();
+        long loadingDurationTime = loadingEndTime - loadingStartTime;
+        if (loadingDurationTime < 500){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mLoadingDialog != null) {
+                        mLoadingDialog.dismiss();
+                    }
+                }
+            },500 - loadingDurationTime);
         }
+        else {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.dismiss();
+            }
+        }
+
     }
 
     /**

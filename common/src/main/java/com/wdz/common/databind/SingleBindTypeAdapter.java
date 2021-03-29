@@ -10,8 +10,8 @@ import java.util.List;
 public abstract class SingleBindTypeAdapter<T> extends BaseBindRecyclerViewAdapter {
     private static final String TAG = "SingleTypeAdapter";
     private List<T> mList = new ArrayList<>();
-    public SingleBindTypeAdapter(Context mContext, List<T> list) {
-        super(mContext, list);
+    public SingleBindTypeAdapter(List<T> list) {
+        super(list);
         mList = list;
     }
     @Override

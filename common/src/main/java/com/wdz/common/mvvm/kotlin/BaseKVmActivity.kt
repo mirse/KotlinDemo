@@ -32,6 +32,7 @@ abstract class BaseKVmActivity: AppCompatActivity() {
 
     /**
      * 内联函数、懒加载 加载视图
+     * 只有在isUseDataBinding == true时需要调用
      * @return Lazy<Any>
      */
     protected inline fun <reified T:ViewDataBinding> dataBinding(): Lazy<Any> = lazy{

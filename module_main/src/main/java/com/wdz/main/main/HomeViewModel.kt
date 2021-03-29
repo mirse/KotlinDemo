@@ -26,11 +26,9 @@ class HomeViewModel:BaseMvvmViewModel<HomeModel>(){
     var articleList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
     var mainPageArticleList = MutableLiveData<MutableList<MainArticle>>()
     var otherPageArticleList = MutableLiveData<MutableList<MainArticle>>()
-    var collectStatus = MutableLiveData<Int>()
-    var unCollectStatus = MutableLiveData<Int>()
 
 
-    override fun initModel(context: Context) {
+    public override fun initModel(context: Context) {
         model = HomeModel()
     }
 
@@ -71,20 +69,37 @@ class HomeViewModel:BaseMvvmViewModel<HomeModel>(){
         }
     }
 
-    fun collectArticle(id:Int) {
+    /**
+     * 收藏文章
+     * @param id Int
+     */
+    private fun collectArticle(id:Int) {
         model.collectArticle(id,object: HomeModel.OnCollectArticleListener{
             override fun onCollectSuccess() {
-                collectStatus.postValue(id)
-                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS)
+                HttpRequestStatus.REQUEST_SUCCESS.status = "collect"
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(id))
+            }
+
+            override fun onCollectFail(msg: String?) {
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg(msg))
             }
 
         })
     }
-    fun unCollectArticle(id:Int) {
+
+    /**
+     * 取消收藏文章
+     * @param id Int
+     */
+    private fun unCollectArticle(id:Int) {
         model.unCollectArticle(id,object: HomeModel.OnUnCollectArticleListener{
             override fun onUnCollectSuccess() {
-                unCollectStatus.postValue(id)
-                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS)
+                HttpRequestStatus.REQUEST_SUCCESS.status = "unCollect"
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(id))
+            }
+
+            override fun onUnCollectFail(msg: String?) {
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg(msg))
             }
 
         })

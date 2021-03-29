@@ -11,6 +11,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wdz.common.base.adapter.BaseRecyclerViewAdapter;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,6 @@ import java.util.List;
  * @author wdz
  */
 public abstract class BaseBindRecyclerViewAdapter extends RecyclerView.Adapter<BaseBindRecyclerViewAdapter.BaseViewHolder> {
-    private Context mContext;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
     /**
@@ -81,8 +84,8 @@ public abstract class BaseBindRecyclerViewAdapter extends RecyclerView.Adapter<B
 
 
 
-    public BaseBindRecyclerViewAdapter(Context mContext, List list) {
-        this.mContext = mContext;
+    public BaseBindRecyclerViewAdapter( List list) {
+
         this.mList =list;
     }
 
@@ -94,9 +97,6 @@ public abstract class BaseBindRecyclerViewAdapter extends RecyclerView.Adapter<B
         return mList;
     }
 
-    public Context getContext() {
-        return mContext;
-    }
 
 
     @Override
@@ -116,14 +116,14 @@ public abstract class BaseBindRecyclerViewAdapter extends RecyclerView.Adapter<B
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewDataBinding viewDataBinding = null;
         if(viewType == VIEW_TYPE_EMPTY){
-            viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), getEmptyLayoutId(), parent, false);
+            viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), getEmptyLayoutId(), parent, false);
 
         }
         else if(viewType == VIEW_TYPE_HEAD){
-            viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), getHeadLayoutId(), parent, false);
+            viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), getHeadLayoutId(), parent, false);
         }
         else if(viewType == VIEW_TYPE_NORMAL){
-            viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), getLayoutId(), parent, false);
+            viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), getLayoutId(), parent, false);
         }
         return viewDataBinding == null? null:new BaseViewHolder(viewDataBinding.getRoot());
     }
@@ -177,7 +177,6 @@ public abstract class BaseBindRecyclerViewAdapter extends RecyclerView.Adapter<B
             return position;
         }
     }
-
 
 
     /**

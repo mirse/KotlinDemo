@@ -2,9 +2,14 @@ package com.wdz.module_article.adapter
 
 import android.content.Context
 import android.widget.TextView
+import androidx.databinding.ViewDataBinding
+import com.wdz.common.base.adapter.BaseRecyclerViewAdapter
 import com.wdz.common.base.adapter.SingleTypeAdapter
+import com.wdz.common.databind.SingleBindTypeAdapter
 import com.wdz.common.net.response.TreeResponse
 import com.wdz.module_article.R
+import com.wdz.module_article.databinding.ItemRecyclerSystemBinding
+import com.wdz.module_article.databinding.ItemRecyclerSystemBindingImpl
 
 /**
 
@@ -14,9 +19,8 @@ import com.wdz.module_article.R
 
  */
 class SystemAdapter(
-    mContext: Context,
     list: MutableList<TreeResponse>
-) : SingleTypeAdapter<TreeResponse>(mContext, list) {
+) : SingleBindTypeAdapter<TreeResponse>(list) {
     override fun getLayoutId(): Int {
         return R.layout.item_recycler_system
     }
@@ -29,11 +33,23 @@ class SystemAdapter(
         return 0
     }
 
-    override fun bindData(holder: BaseViewHolder?, data: TreeResponse?, position: Int) {
-        val title = holder?.getView(R.id.tv_title) as TextView
-        val content = holder.getView(R.id.tv_content) as TextView
+
+
+    override fun bindData(
+        binding: ViewDataBinding?,
+        holder: BaseViewHolder?,
+        data: TreeResponse?,
+        position: Int
+    ) {
+
+        val databinding = binding as? ItemRecyclerSystemBinding
+        //val binding = DataBindingUtil.getBinding<RecyclerItemMainArticleBindBinding>(holder.itemView)
+        if (databinding != null) {
+            databinding.treeResponse = data
+        }
+
+        val content = holder?.getView(R.id.tv_content) as TextView
         if (data != null) {
-            title.text = data.name
             val string = StringBuilder()
             for (i in data.children.indices) {
                 // TODO: 2021/3/8 kotlin字符串拼接方法
@@ -48,7 +64,5 @@ class SystemAdapter(
             content.text = string
 
         }
-
-
     }
 }

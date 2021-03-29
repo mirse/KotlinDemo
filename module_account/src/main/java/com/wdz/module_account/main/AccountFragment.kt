@@ -9,10 +9,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.wdz.common.MyApplication
 import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.mvvm.BaseMvvmFragment
+
+import com.wdz.common.mvvm.kotlin.BaseKVmFragment
 import com.wdz.common.net.HttpRequestStatus
-import com.wdz.common.net.base.BaseResponse
-import com.wdz.common.net.bean.NetRequestStatus
+
 import com.wdz.common.net.response.LoginResponse
 import com.wdz.common.util.Log
 import com.wdz.common.view.dialog.CommonDialogFragment
@@ -24,11 +24,14 @@ import org.jetbrains.anko.toast
 import java.util.*
 
 @Route(path = ARouterConstant.FRAGMENT_ACCOUNT)
-public class AccountFragment : BaseMvvmFragment<AccountViewModel>(),
+public class AccountFragment : BaseKVmFragment(),
     View.OnClickListener {
     private val TAG = this::class.simpleName
     private var userInfo: LoginResponse? = null
     private var dialog:CommonDialogFragment? = null
+
+    private val vm by getVm<AccountViewModel>()
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_account
     }
@@ -38,41 +41,45 @@ public class AccountFragment : BaseMvvmFragment<AccountViewModel>(),
     }
 
     override fun initView() {
+        (viewDataBinding as FragmentAccountBinding).run {
+            //绑定数据
+            model = vm
+            activity?.let { vm.initModel(it) }
+        }
         cl_user_info.setOnClickListener(this)
     }
 
     override fun initData() {
 
         //userInfo状态监听
-        (activity?.application as MyApplication).uerInfo.observe(this,object:Observer<LoginResponse>{
-            override fun onChanged(t: LoginResponse?) {
-                Log.i(TAG,"t:"+t.toString())
+        (activity?.application as MyApplication).uerInfo.observe(this,
+            Observer<LoginResponse> { t ->
+                Log.i(TAG, "t:$t")
                 userInfo = t
                 val name = if (userInfo != null) userInfo?.nickname else "user name"
                 tv_name.text = name
-            }
+            })
 
-        })
         //退出账号状态监听
-        vm.logoutStatus.observe(this,object: Observer<NetRequestStatus<BaseResponse.DataBean>>{
-            override fun onChanged(t: NetRequestStatus<BaseResponse.DataBean>?) {
-                if (t!=null){
-                    if (t.requestStatus == HttpRequestStatus.REQUEST_SUCCESS){
-                        toast("退出账号成功")
-                        (activity?.application as MyApplication).setUserInfo(null)
-                        hideLoading()
-                        dialog?.dismiss()
-                    } else if (t.requestStatus == HttpRequestStatus.REQUEST_FAIL){
-                        toast("退出账号失败:"+t.errorMsg)
-                        hideLoading()
-                        dialog?.dismiss()
-                    }
-                    else if (t.requestStatus == HttpRequestStatus.REQUESTING){
-                        showLoading()
-                    }
+        vm.httpLiveData.observe(this, Observer {
+            when(it){
+                HttpRequestStatus.REQUESTING -> {
+                    showLoading()
+                }
+                HttpRequestStatus.REQUEST_SUCCESS -> {
+                    toast("退出账号成功")
+                    (activity?.application as MyApplication).setUserInfo(null)
+                    hideLoading()
+                    dialog?.dismiss()
+                }
+                HttpRequestStatus.REQUEST_FAIL -> {
+                    toast("退出账号失败:"+it.msg)
+                    hideLoading()
+                    dialog?.dismiss()
                 }
             }
         })
+
     }
 
 
@@ -103,10 +110,6 @@ public class AccountFragment : BaseMvvmFragment<AccountViewModel>(),
                 vm.logoutUser()
             }
             .show()
-    }
-
-    override fun vmToDataBinding() {
-        (viewDataBinding as FragmentAccountBinding).model = vm
     }
 
     override fun isUseDataBinding(): Boolean {
