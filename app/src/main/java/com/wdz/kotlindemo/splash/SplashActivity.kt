@@ -5,10 +5,11 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.launcher.ARouter
-import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.util.MmkvUtils
-import com.wdz.common.MyApplication
+
 import com.wdz.kotlindemo.R
+import com.wdz.ktcommon.MyApplication
+import com.wdz.ktcommon.constant.ARouterConstant
+import com.wdz.ktcommon.utils.getLoginUser
 
 class SplashActivity : AppCompatActivity() {
 
@@ -16,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val loginUser = MmkvUtils.getLoginUser()
+        val loginUser = getLoginUser()
         if (loginUser!=null){
             (application as MyApplication).setUserInfo(loginUser)
         }

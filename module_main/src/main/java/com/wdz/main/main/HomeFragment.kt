@@ -5,10 +5,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.wdz.common.constant.ARouterConstant
 
-import com.wdz.common.mvvm.kotlin.BaseKVmFragment
-import com.wdz.common.net.HttpRequestStatus
+import com.wdz.ktcommon.base.BaseKVmFragment
+import com.wdz.ktcommon.constant.ARouterConstant
+import com.wdz.ktcommon.http.HttpRequestStatus
 import com.wdz.main.R
 import com.wdz.main.databinding.FragmentHomeBinding
 import com.wdz.main.main.adapter.MyHomeAdapter
@@ -85,9 +85,9 @@ class HomeFragment : BaseKVmFragment(), View.OnClickListener {
                 if (t != null) {
                     mainArticles.clear()
                     mainArticles.addAll(t)
-                    homeAdapter.notifyItemRangeChanged(0,mainArticles.size)
+                    //homeAdapter.notifyItemRangeChanged(0,mainArticles.size)
                     // TODO: 2021/3/29 使用 RecycleView + SwipeRefreshLayout 刷新时,使用notifyDataSetChange会闪烁
-                    //homeAdapter.notifyDataSetChanged()
+                    homeAdapter.notifyDataSetChanged()
                 }
             })
         vm.otherPageArticleList.observe(this,

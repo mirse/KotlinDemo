@@ -48,6 +48,9 @@ android {
     dataBinding {
         enabled = true
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -70,7 +73,8 @@ dependencies {
     implementation rootProject.ext.dependencies.viewpager2
 
     implementation rootProject.ext.dependencies.tencent_mmkv
-    implementation project(path: ':common')
+
+    implementation project(path: ':kt_common')
     implementation project(path: ':module_account')
     implementation project(path: ':module_article')
     implementation project(path: ':module_main')

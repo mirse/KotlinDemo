@@ -1,20 +1,18 @@
 package com.wdz.kotlindemo.main
 
-import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.wdz.common.MyApplication
-import com.wdz.common.constant.ARouterConstant
 
-import com.wdz.common.mvvm.kotlin.BaseKVmActivity
+
 import com.wdz.kotlindemo.FragmentAdapter
 import com.wdz.kotlindemo.R
 import com.wdz.kotlindemo.databinding.ActivityMainBinding
-import com.wdz.module_account.databinding.ActivityLoginBinding
-import com.wdz.module_account.login.LoginViewModel
+import com.wdz.ktcommon.base.BaseKVmActivity
+import com.wdz.ktcommon.constant.ARouterConstant
+
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.tab_buttom.*
 @Route(path = ARouterConstant.ACTIVITY_MAIN)
