@@ -15,6 +15,7 @@ import com.wdz.common.net.response.TreeResponse
 class SystemModel: BaseModel() {
 
     fun getSystem(onGetTreeListener: OnGetTreeListener){
+        // TODO: 2021/4/2 内存泄漏
         NetManager.getInstance().getTree(object: BaseObserver<List<TreeResponse>>(){
             override fun onRequestSuccess(t: List<TreeResponse>?) {
                 if (t!=null){

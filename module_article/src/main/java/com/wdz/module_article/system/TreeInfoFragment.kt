@@ -1,6 +1,7 @@
 package com.wdz.module_article.system
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ class TreeInfoFragment(private val cid: Int, private val type: Int) : BaseKVmFra
     override fun getLayoutId(): Int {
         return R.layout.fragment_tree_info
     }
+
 
     override fun initView() {
         (viewDataBinding as FragmentTreeInfoBinding).run {

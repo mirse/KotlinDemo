@@ -1,5 +1,6 @@
 package com.wdz.module_article.system
 
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -41,6 +42,11 @@ class TreeInfoActivity : BaseMvvmActivity<TreeInfoViewModel>() {
 
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("TreeInfoViewModel", javaClass.name+"onDestroy: ")
     }
 
     override fun initData() {

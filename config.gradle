@@ -128,6 +128,8 @@ ext{
             auto_dispose:                    'com.uber.autodispose:autodispose:0.6.1',
 
             //startUp-可在应用启动时简单、高效地初始化组件。
-            startUp:                         "androidx.startup:startup-runtime:1.0.0"
+            startUp:                         "androidx.startup:startup-runtime:1.0.0",
+
+            viewmodel_ktx:                   "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     ]
 }

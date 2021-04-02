@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.wdz.ktcommon.http.HttpRequestStatus
+import com.wdz.ktcommon.http.repository.NetRepository
 
 /**
 
@@ -17,6 +18,7 @@ abstract class BaseMvvmViewModel<M: BaseModel>: ViewModel() {
 
     protected var model: M? = null
     protected var lifecycleOwner: LifecycleOwner? = null
+    protected val netRepository by lazy { NetRepository() }
 
     /**
      * http请求时的状态变化liveData

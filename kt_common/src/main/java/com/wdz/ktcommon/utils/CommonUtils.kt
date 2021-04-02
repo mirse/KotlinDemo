@@ -70,3 +70,16 @@ fun getLoginUser(): LoginResponse? {
     val mmkv = MMKV.defaultMMKV()
     return mmkv.decodeParcelable<LoginResponse>("loginResponse", LoginResponse::class.java)
 }
+
+/**
+ * 获取statusBar高度
+ */
+fun getStatusBarHeight(context: Context): Int {
+    var height = 0
+    val resourceId =
+        context.resources.getIdentifier("status_bar_height", "dimen", "android")
+    if (resourceId > 0) {
+        height = context.resources.getDimensionPixelSize(resourceId)
+    }
+    return height
+}

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.wdz.common.net.response.MainListResponse
+
 import com.wdz.main.R
 import com.wdz.main.main.bean.MainArticle
 

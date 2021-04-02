@@ -31,7 +31,7 @@ class HomeViewModel: BaseMvvmViewModel<HomeModel>(){
     var articleList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
     var mainPageArticleList = MutableLiveData<MutableList<MainArticle>>()
     var otherPageArticleList = MutableLiveData<MutableList<MainArticle>>()
-    val netRepository by lazy { NetRepository() }
+
 
     public override fun initModel(context: Context?) {
         model = HomeModel()

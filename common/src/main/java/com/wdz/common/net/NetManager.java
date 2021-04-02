@@ -6,8 +6,13 @@ import android.util.Log;
 import android.webkit.CookieManager;
 
 import androidx.databinding.BaseObservable;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.AutoDisposeConverter;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 import com.wdz.common.net.api.ApiService;
 import com.wdz.common.net.base.BaseResponse;
 import com.wdz.common.net.http.AddCookiesInterceptor;
@@ -106,6 +111,11 @@ public class NetManager {
                 .build();
 
         apiService = retrofit.create(ApiService.class);
+    }
+
+    private  <T> AutoDisposeConverter<T> bindAutoDispose(LifecycleOwner lifecycleOwner) {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider
+                .from(lifecycleOwner, Lifecycle.Event.ON_DESTROY));
     }
 
 

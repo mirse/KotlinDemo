@@ -5,6 +5,7 @@ package com.wdz.ktcommon.http.coroutines
 import com.wdz.ktcommon.base.BaseResp
 import com.wdz.ktcommon.http.response.CollectArticleResponse
 import com.wdz.ktcommon.http.response.MainListResponse
+import com.wdz.ktcommon.response.LoginResponse
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -112,42 +113,42 @@ interface NetService {
 //        @Query("cid") cid: Int
 //    ): Single<BaseResponse<ProjectInfoResponse?>?>?
 //
-//    //5、登录与注册
-//    //5、登录与注册
-//    /**
-//     * 登录
-//     * @param username
-//     * @param password
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("user/login")
-//    fun login(
-//        @Field("username") username: String?,
-//        @Field("password") password: String?
-//    ): Single<BaseResponse<com.wdz.common.net.response.LoginResponse?>?>?
-//
-//
-//    /**
-//     * 注册
-//     * @param username
-//     * @param password
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("user/register")
-//    fun register(
-//        @Field("username") username: String?,
-//        @Field("password") password: String?,
-//        @Field("repassword") repassword: String?
-//    ): Single<BaseResponse<ResponseBody?>?>?
-//
-//    /**
-//     * 退出
-//     */
-//    @GET("user/logout/json")
-//    fun logout(): Single<BaseResponse<DataBean?>?>?
-//
+    //5、登录与注册
+    //5、登录与注册
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/login")
+    suspend fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): BaseResp<LoginResponse>
+
+
+    /**
+     * 注册
+     * @param username
+     * @param password
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/register")
+    suspend fun register(
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("repassword") repassword: String
+    ): BaseResp<ResponseBody>
+
+    /**
+     * 退出
+     */
+    @GET("user/logout/json")
+    suspend fun logout(): BaseResp<Nothing>
+
     //6、收藏
 
     //6、收藏

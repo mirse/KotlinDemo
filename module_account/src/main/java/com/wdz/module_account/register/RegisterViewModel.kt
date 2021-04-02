@@ -7,11 +7,16 @@ import android.view.View
 import android.widget.CompoundButton
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.wdz.common.mvvm.BaseMvvmViewModel
-import com.wdz.common.net.HttpRequestStatus
+import androidx.lifecycle.viewModelScope
+
+
 import com.wdz.common.net.response.LoginResponse
+import com.wdz.ktcommon.base.BaseMvvmViewModel
+import com.wdz.ktcommon.base.HttpResult
+import com.wdz.ktcommon.http.HttpRequestStatus
 import com.wdz.module_account.login.LoginModel
 import com.wdz.module_account.login.bean.RegisterStatus
+import kotlinx.coroutines.launch
 
 public class RegisterViewModel: BaseMvvmViewModel<RegisterModel>() {
     var registerStatus: MutableLiveData<RegisterStatus> = MutableLiveData();
@@ -21,54 +26,44 @@ public class RegisterViewModel: BaseMvvmViewModel<RegisterModel>() {
     var pwd:String = ""
     var rePwd:String = ""
     var isLoginNext:Boolean = false
-    override fun initModel(context: Context) {
+    public override fun initModel(context: Context?) {
         model = RegisterModel()
     }
     fun register(v: View){
-        mRegisterStatus.requestStatus = HttpRequestStatus.REQUESTING
-        registerStatus.postValue(mRegisterStatus)
-        model.register(userName,pwd,rePwd,object : RegisterModel.RegisterListener{
-            override fun registerSuccess() {
-                //注册成功，继续登录
-                if (isLoginNext){
-                   loginNext()
+        httpLiveData.postValue(HttpRequestStatus.REQUESTING)
+        viewModelScope.launch {
+            val result = netRepository.register(userName,pwd,rePwd)
+            when(result){
+                is HttpResult.Success -> {
+                    //注册成功，继续登录
+                    if (isLoginNext){
+                        loginNext()
+                    }
+                    else{
+                        httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg("注册成功"))
+                    }
                 }
-                else{
-                    mRegisterStatus.requestStatus = HttpRequestStatus.REQUEST_SUCCESS
-                    registerStatus.postValue(mRegisterStatus)
+                is HttpResult.Error -> {
+                    httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg("注册失败：${result.exception.message}"))
                 }
             }
+        }
 
-            override fun registerFail(errorMsg: String) {
-                mRegisterStatus.requestStatus = HttpRequestStatus.REQUEST_FAIL
-                mRegisterStatus.errorMsg = errorMsg
-                registerStatus.postValue(mRegisterStatus)
-            }
-        })
     }
 
     /*
     * 注册成功直接登录账号
     */
-    private fun loginNext() {
-        model.login(userName,pwd,object:LoginModel.LoginListener{
-            override fun loginSuccess(t: LoginResponse?) {
-                mRegisterStatus.isLogin = true
-                mRegisterStatus.requestStatus = HttpRequestStatus.REQUEST_SUCCESS
-                if (t != null) {
-                    mRegisterStatus.loginResponse = t
-                }
-                registerStatus.postValue(mRegisterStatus)
+    private suspend fun loginNext() {
+        val result = netRepository.login(userName, pwd)
+        when(result){
+            is HttpResult.Success -> {
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg("登录成功"))
             }
-
-            override fun loginFail(errorMsg: String) {
-                mRegisterStatus.isLogin = true
-                mRegisterStatus.loginErrorMsg = errorMsg;
-                mRegisterStatus.requestStatus = HttpRequestStatus.REQUEST_FAIL
-                registerStatus.postValue(mRegisterStatus)
+            is HttpResult.Error -> {
+                httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg("登录失败：${result.exception.message}"))
             }
-
-        })
+        }
     }
 
 

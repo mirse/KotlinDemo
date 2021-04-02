@@ -1,6 +1,7 @@
 package com.wdz.module_article.system
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
@@ -25,16 +26,23 @@ import kotlin.reflect.KClass
 
  */
 class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
+    private val TAG = this::class.simpleName
     var treeInfoList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
     var wxList = MutableLiveData<List<WxResponse>>()
     var categoryList = MutableLiveData<List<ProjectResponse>>()
     public override fun initModel(context: Context?) {
         model = TreeInfoModel()
+        Log.i(TAG, ":init ")
     }
     init {
 
-
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.i(TAG, "onCleared: ")
+    }
+
 
     fun getTreeInfo(cid:Int): LiveData<PagedList<MainArticle>> {
         val treeInfoSourceFactory = BaseSourceFactory(cid,(PositionTreeInfoDataSource::class as KClass<Any>))

@@ -29,7 +29,7 @@ class MyApplication: Application() {
         context = applicationContext
     }
 
-    fun setUserInfo(loginResponse: LoginResponse) {
+    fun setUserInfo(loginResponse: LoginResponse?) {
         this.loginResponse = loginResponse
         loginResponseMutableLiveData.postValue(loginResponse)
     }

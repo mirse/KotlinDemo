@@ -13,22 +13,31 @@ import java.util.*
  * 通用adapter定义normalItem与emptyItem
  * @author wdz
  */
-abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
-    RecyclerView.Adapter<BaseBindRecyclerViewAdapter.BaseViewHolder>() {
-    private var onItemClickListener: OnItemClickListener? =
-        null
-    private var onItemLongClickListener: OnItemLongClickListener? =
-        null
+abstract class BaseBindRecyclerViewAdapter(private var list: List<*>) : RecyclerView.Adapter<BaseBindRecyclerViewAdapter.BaseViewHolder>() {
+    private var onItemClickListener: OnItemClickListener? = null
+    private var onItemLongClickListener: OnItemLongClickListener? = null
 
-    /**
-     * 返回数据源
-     * @return
-     */
-    /**
-     * 数据源
-     */
-    protected var data: List<*> = ArrayList<Any>()
+    companion object {
+        /**
+         * 普通item布局
+         */
+        const val VIEW_TYPE_NORMAL = 1
 
+        /**
+         * 空布局
+         */
+        const val VIEW_TYPE_EMPTY = 2
+
+        /**
+         * 带标题布局
+         */
+        const val VIEW_TYPE_TITLE = 3
+
+        /**
+         * 头布局
+         */
+        const val VIEW_TYPE_HEAD = 4
+    }
     /**
      * 获取layoutId
      *
@@ -58,20 +67,18 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
      * @param position 点击位置
      */
     abstract fun onBindViewHolder(
-        binding: ViewDataBinding?,
-        viewHolder: BaseViewHolder?,
+        binding: ViewDataBinding,
+        viewHolder: BaseViewHolder,
         type: Int,
-        data: Any?,
+        data: Any,
         position: Int
     )
 
     override fun getItemViewType(position: Int): Int {
-        if (data.isEmpty() && emptyLayoutId != 0) {
+        if (list.isEmpty() && emptyLayoutId != 0) {
             return VIEW_TYPE_EMPTY
         }
-        return if (position == 0 && headLayoutId != 0) {
-            VIEW_TYPE_HEAD
-        } else VIEW_TYPE_NORMAL
+        return if (position == 0 && headLayoutId != 0) { VIEW_TYPE_HEAD } else VIEW_TYPE_NORMAL
     }
 
     override fun onCreateViewHolder(
@@ -79,31 +86,33 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
         viewType: Int
     ): BaseViewHolder {
         var viewDataBinding: ViewDataBinding? = null
-        if (viewType == VIEW_TYPE_EMPTY) {
-            viewDataBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                emptyLayoutId,
-                parent,
-                false
-            )
-        } else if (viewType == VIEW_TYPE_HEAD) {
-            viewDataBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                headLayoutId,
-                parent,
-                false
-            )
-        } else if (viewType == VIEW_TYPE_NORMAL) {
-            viewDataBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                layoutId,
-                parent,
-                false
-            )
+        when (viewType) {
+            VIEW_TYPE_EMPTY -> {
+                viewDataBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    emptyLayoutId,
+                    parent,
+                    false
+                )
+            }
+            VIEW_TYPE_HEAD -> {
+                viewDataBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    headLayoutId,
+                    parent,
+                    false
+                )
+            }
+            VIEW_TYPE_NORMAL -> {
+                viewDataBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    layoutId,
+                    parent,
+                    false
+                )
+            }
         }
-        return if (viewDataBinding == null) BaseViewHolder(null) else BaseViewHolder(
-            viewDataBinding.root
-        )
+        return if (viewDataBinding == null) BaseViewHolder(null) else BaseViewHolder(viewDataBinding.root)
     }
 
     override fun onBindViewHolder(
@@ -114,25 +123,26 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
         val binding = DataBindingUtil.getBinding<ViewDataBinding>(holder.itemView)
         if (type != VIEW_TYPE_EMPTY && type != VIEW_TYPE_HEAD) {
             val realPosition = getRealPosition(position)
-            val `object` = data[realPosition]!!
-            onBindViewHolder(binding, holder, type, data[realPosition], realPosition)
+            val data = list[realPosition]
 
-            //标题不添加点击事件
-            if (type != VIEW_TYPE_TITLE) {
-                holder.itemView.setOnClickListener {
-                    if (onItemClickListener != null) {
-                        onItemClickListener!!.onClickNormal(`object`, realPosition)
-                    }
+            data?.run {
+                binding?.run {
+                    onBindViewHolder(binding, holder, type, data, realPosition)
                 }
-                //全部都加上长按监听
-                holder.itemView.isLongClickable = true
-                holder.itemView.setOnLongClickListener { v ->
-                    if (onItemLongClickListener != null) {
-                        onItemLongClickListener!!.onLongClick(`object`, realPosition, v)
+                //标题不添加点击事件
+                if (type != VIEW_TYPE_TITLE) {
+                    holder.itemView.setOnClickListener {
+                        onItemClickListener?.onClickNormal(data, realPosition)
                     }
-                    true
+                    //全部都加上长按监听
+                    holder.itemView.isLongClickable = true
+                    holder.itemView.setOnLongClickListener { v ->
+                        onItemLongClickListener?.onLongClick(data, realPosition, v)
+                        true
+                    }
                 }
             }
+
         }
     }
 
@@ -141,7 +151,7 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
      * @param position
      * @return
      */
-    fun getRealPosition(position: Int): Int {
+    private fun getRealPosition(position: Int): Int {
         return if (position > 0 && headLayoutId != 0) {
             position - 1
         } else {
@@ -158,7 +168,7 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
          * @param object
          * @param position
          */
-        fun onClickNormal(`object`: Any?, position: Int)
+        fun onClickNormal(data: Any, position: Int)
     }
 
     interface OnItemLongClickListener {
@@ -169,9 +179,9 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
          * @param view
          */
         fun onLongClick(
-            `object`: Any?,
+            data: Any,
             position: Int,
-            view: View?
+            view: View
         )
     }
 
@@ -189,7 +199,7 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
     }
 
     override fun getItemCount(): Int {
-        var itemCount = data.size
+        var itemCount = list.size
         if (0 != emptyLayoutId && itemCount == 0) {
             //总数0变为1
             return 1
@@ -199,16 +209,9 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
         return itemCount
     }
 
-    internal inner class HeadViewHolder(itemView: View) :
-        BaseViewHolder(itemView)
-
-    internal inner class EmptyViewHolder(itemView: View) :
-        BaseViewHolder(itemView)
-
     open inner class BaseViewHolder(itemView: View?) :
         RecyclerView.ViewHolder(itemView!!) {
-        private val views: SparseArray<View?>
-
+        private val views: SparseArray<View?> = SparseArray()
         /**
          * 获取id所对应的控件
          *
@@ -224,34 +227,9 @@ abstract class BaseBindRecyclerViewAdapter(list: List<*>) :
             return view
         }
 
-        init {
-            views = SparseArray()
-        }
     }
 
-    companion object {
-        /**
-         * 普通item布局
-         */
-        const val VIEW_TYPE_NORMAL = 1
 
-        /**
-         * 空布局
-         */
-        const val VIEW_TYPE_EMPTY = 2
 
-        /**
-         * 带标题布局
-         */
-        const val VIEW_TYPE_TITLE = 3
 
-        /**
-         * 头布局
-         */
-        const val VIEW_TYPE_HEAD = 4
-    }
-
-    init {
-        data = list
-    }
 }

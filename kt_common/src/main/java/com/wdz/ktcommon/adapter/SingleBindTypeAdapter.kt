@@ -1,20 +1,19 @@
 package com.wdz.ktcommon.adapter
 
 import androidx.databinding.ViewDataBinding
-import java.util.*
 
-abstract class SingleBindTypeAdapter<T>(list: List<T>) :
-    BaseBindRecyclerViewAdapter(list) {
-    private var mList: List<T> = ArrayList()
+abstract class SingleBindTypeAdapter<T>(mList: List<T>) : BaseBindRecyclerViewAdapter(mList) {
+    private val TAG = this::class.simpleName
+
     override fun onBindViewHolder(
-        binding: ViewDataBinding?,
-        holder: BaseViewHolder?,
+        binding: ViewDataBinding,
+        viewHolder: BaseViewHolder,
         type: Int,
-        data: Any?,
+        data: Any,
         position: Int
     ) {
         if (type == VIEW_TYPE_NORMAL) {
-            bindData(binding, holder, data as T?, position)
+            bindData(binding, viewHolder, data, position)
         }
     }
 
@@ -22,17 +21,10 @@ abstract class SingleBindTypeAdapter<T>(list: List<T>) :
      * 绑定数据源
      */
     abstract fun bindData(
-        binding: ViewDataBinding?,
-        holder: BaseViewHolder?,
-        data: T?,
+        binding: ViewDataBinding,
+        holder: BaseViewHolder,
+        data: Any,
         position: Int
     )
 
-    companion object {
-        private const val TAG = "SingleTypeAdapter"
-    }
-
-    init {
-        mList = list
-    }
 }

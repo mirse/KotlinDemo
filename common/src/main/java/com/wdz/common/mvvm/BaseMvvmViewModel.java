@@ -12,6 +12,7 @@ public abstract class BaseMvvmViewModel<M extends BaseModel> extends ViewModel{
 
     protected M model;
     protected LifecycleOwner lifecycleOwner;
+
     /**
      * http请求时的状态变化liveData
      */

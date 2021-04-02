@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="topLeftRadius" format="dimension"/>
+    <attr name="topRightRadius" format="dimension"/>
+    <attr name="bottomLeftRadius" format="dimension"/>
+    <attr name="bottomRightRadius" format="dimension"/>
+    <attr name="frameWidth" format="dimension"/>
+    <attr name="frameColor" format="color"/>
+    <attr name="type">
+        <enum name="circle" value="0" />
+        <enum name="roundRect" value="1" />
+    </attr>
+
+
+    <declare-styleable name="RoundImageView">
+        <attr name="topLeftRadius"/>
+        <attr name="topRightRadius"/>
+        <attr name="bottomLeftRadius"/>
+        <attr name="bottomRightRadius"/>
+        <attr name="frameWidth"/>
+        <attr name="frameColor"/>
+        <attr name="type"/>
+    </declare-styleable>
+
+    <declare-styleable name="CommonTitleBar">
+        <!--    背景    -->
+        <attr name="background_color" format="color"/>
+        <!--    标题       -->
+        <attr name="title" format="string"/>
+        <!--    标题颜色     -->
+        <attr name="title_color" format="color"/>
+        <!--    标题文字大小   -->
+        <attr name="title_size" format="dimension"/>
+        <!--    标题样式    -->
+        <attr name="title_style">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+        </attr>
+        <!--    图标      -->
+        <attr name="icon_back" format="reference"/>
+        <attr name="icon_left" format="reference"/>
+        <attr name="icon_right" format="reference"/>
+        <attr name="icon_close" format="reference"/>
+        <!--  右侧文本      -->
+        <attr name="text_right" format="string"/>
+
+    </declare-styleable>
+
+</resources>

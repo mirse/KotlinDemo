@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.wdz.ktcommon.view.LoadingDialog
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -25,7 +26,7 @@ import io.reactivex.disposables.Disposable
 abstract class BaseKVmActivity: AppCompatActivity() {
     private val TAG = this::class.simpleName
     private val mColor = 0
-    //private var mLoadingDialog: LoadingDialog ?= null
+    private var mLoadingDialog: LoadingDialog?= null
     private var compositeDisposable: CompositeDisposable? = null
 
     /**
@@ -88,21 +89,21 @@ abstract class BaseKVmActivity: AppCompatActivity() {
         clearDisposable()
     }
 
-//    /**
-//     * 显示loading加载框
-//     */
-//    fun showLoading(){
-//        if (mLoadingDialog == null){
-//            mLoadingDialog = LoadingDialog(this)
-//        }
-//        mLoadingDialog?.show()
-//    }
-//    /**
-//     * 隐藏loading加载框
-//     */
-//    fun hideLoading(){
-//        mLoadingDialog?.dismiss()
-//    }
+    /**
+     * 显示loading加载框
+     */
+    fun showLoading(){
+        if (mLoadingDialog == null){
+            mLoadingDialog = LoadingDialog(this)
+        }
+        mLoadingDialog?.show()
+    }
+    /**
+     * 隐藏loading加载框
+     */
+    fun hideLoading(){
+        mLoadingDialog?.dismiss()
+    }
     /**
      * 设置状态栏透明
      */

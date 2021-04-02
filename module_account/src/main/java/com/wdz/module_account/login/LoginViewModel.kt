@@ -5,33 +5,48 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.wdz.common.mvvm.BaseMvvmViewModel
-import com.wdz.common.net.HttpRequestStatus
-import com.wdz.common.net.response.LoginResponse
+import androidx.lifecycle.viewModelScope
+
+import com.wdz.ktcommon.base.BaseMvvmViewModel
+import com.wdz.ktcommon.base.HttpResult
+import com.wdz.ktcommon.http.HttpRequestStatus
 
 import com.wdz.module_account.login.bean.RegisterStatus
+import kotlinx.coroutines.launch
 
 public class LoginViewModel: BaseMvvmViewModel<LoginModel>(){
     private val TAG = this::class.simpleName
-//    var loginStatus:MutableLiveData<LoginStatus> = MutableLiveData();
-//    var mLoginStatus:LoginStatus = LoginStatus()
+
     var userName:String = ""
     var pwd:String = ""
-    public override fun initModel(context: Context) {
+    public override fun initModel(context: Context?) {
         model = LoginModel()
     }
 
     fun login(v:View){
         httpLiveData.postValue(HttpRequestStatus.REQUESTING)
-        model.login(userName,pwd,object :LoginModel.LoginListener{
-            override fun loginSuccess(t: LoginResponse?) {
-                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(t))
+        viewModelScope.launch {
+            val result = netRepository.login(userName, pwd)
+            when(result){
+                is HttpResult.Success -> {
+                    httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(result.data))
+                }
+                is HttpResult.Error -> {
+                    val errorMsg = (result as HttpResult.Error).exception.message
+                    httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg(errorMsg))
+                }
             }
+        }
 
-            override fun loginFail(errorMsg: String) {
-                httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg(errorMsg))
-            }
-        })
+//        model.login(userName,pwd,object :LoginModel.LoginListener{
+//            override fun loginSuccess(t: LoginResponse?) {
+//                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(t))
+//            }
+//
+//            override fun loginFail(errorMsg: String) {
+//                httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg(errorMsg))
+//            }
+//        })
     }
 
     val userTextWatch = object : TextWatcher {
@@ -63,5 +78,6 @@ public class LoginViewModel: BaseMvvmViewModel<LoginModel>(){
         }
 
     }
+
 
 }

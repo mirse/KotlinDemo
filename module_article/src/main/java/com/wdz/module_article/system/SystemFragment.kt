@@ -41,6 +41,7 @@ class SystemFragment : BaseKVmFragment() {
 
     }
 
+
     override fun initView() {
         (viewDataBinding as FragmentSystemBinding).run {
             //绑定数据

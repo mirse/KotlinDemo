@@ -2,6 +2,7 @@ package com.wdz.common.mvvm.kotlin
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,8 @@ abstract class BaseKVmFragment: Fragment() {
         super.onCreate(savedInstanceState)
         init()
     }
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {

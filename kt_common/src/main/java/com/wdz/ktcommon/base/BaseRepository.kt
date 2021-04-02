@@ -24,7 +24,13 @@ open class BaseRepository {
      */
     fun <T : Any> executeResponse(resp: BaseResp<T>):HttpResult<T>{
         return if (resp.code == 0){
-            HttpResult.Success(resp.data)
+            if (resp.errorMsg.isBlank()){
+                HttpResult.Success(resp.data)
+            }
+            else{
+                HttpResult.Error(IOException(resp.errorMsg))
+            }
+
         } else{
             HttpResult.Error(IOException(resp.errorMsg))
         }

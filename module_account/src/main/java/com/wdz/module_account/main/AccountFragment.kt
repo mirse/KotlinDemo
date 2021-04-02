@@ -1,27 +1,26 @@
 package com.wdz.module_account.main
 
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.wdz.common.MyApplication
+
+
 import com.wdz.common.constant.ARouterConstant
 
-import com.wdz.common.mvvm.kotlin.BaseKVmFragment
-import com.wdz.common.net.HttpRequestStatus
 
-import com.wdz.common.net.response.LoginResponse
+
+
 import com.wdz.common.util.Log
 import com.wdz.common.view.dialog.CommonDialogFragment
+import com.wdz.ktcommon.MyApplication
+import com.wdz.ktcommon.base.BaseKVmFragment
+import com.wdz.ktcommon.http.HttpRequestStatus
+import com.wdz.ktcommon.response.LoginResponse
 import com.wdz.module_account.R
 import com.wdz.module_account.databinding.FragmentAccountBinding
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.toast
-import java.util.*
 
 @Route(path = ARouterConstant.FRAGMENT_ACCOUNT)
 public class AccountFragment : BaseKVmFragment(),
@@ -52,7 +51,7 @@ public class AccountFragment : BaseKVmFragment(),
     override fun initData() {
 
         //userInfo状态监听
-        (activity?.application as MyApplication).uerInfo.observe(this,
+        (activity?.application as MyApplication).getUerInfo().observe(this,
             Observer<LoginResponse> { t ->
                 Log.i(TAG, "t:$t")
                 userInfo = t
@@ -76,6 +75,9 @@ public class AccountFragment : BaseKVmFragment(),
                     toast("退出账号失败:"+it.msg)
                     hideLoading()
                     dialog?.dismiss()
+                }
+                else -> {
+
                 }
             }
         })
