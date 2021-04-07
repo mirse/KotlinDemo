@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         tools:context=".main.HomeFragment">
 
-        <com.wdz.common.view.CommonTitleBar
+        <com.wdz.ktcommon.view.CommonTitleBar
             android:id="@+id/commonTitleBar"
             android:layout_width="match_parent"
             android:layout_height="40dp"

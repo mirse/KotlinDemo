@@ -10,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.wdz.ktcommon.base.BaseMvvmViewModel
 import com.wdz.ktcommon.base.HttpResult
 import com.wdz.ktcommon.http.HttpRequestStatus
+import com.wdz.ktcommon.http.repository.NetRepository
+import com.wdz.ktcommon.utils.setLoginUser
 
 import com.wdz.module_account.login.bean.RegisterStatus
 import kotlinx.coroutines.launch
@@ -19,16 +21,17 @@ public class LoginViewModel: BaseMvvmViewModel<LoginModel>(){
 
     var userName:String = ""
     var pwd:String = ""
-    public override fun initModel(context: Context?) {
+    public override fun initModel(context: Context) {
         model = LoginModel()
     }
 
     fun login(v:View){
         httpLiveData.postValue(HttpRequestStatus.REQUESTING)
         viewModelScope.launch {
-            val result = netRepository.login(userName, pwd)
+            val result = NetRepository.login(userName, pwd)
             when(result){
                 is HttpResult.Success -> {
+                    setLoginUser(result.data)
                     httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(result.data))
                 }
                 is HttpResult.Error -> {
@@ -38,15 +41,7 @@ public class LoginViewModel: BaseMvvmViewModel<LoginModel>(){
             }
         }
 
-//        model.login(userName,pwd,object :LoginModel.LoginListener{
-//            override fun loginSuccess(t: LoginResponse?) {
-//                httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg(t))
-//            }
-//
-//            override fun loginFail(errorMsg: String) {
-//                httpLiveData.postValue(HttpRequestStatus.REQUEST_FAIL.setMsg(errorMsg))
-//            }
-//        })
+
     }
 
     val userTextWatch = object : TextWatcher {

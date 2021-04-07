@@ -78,6 +78,8 @@ ext{
             rxjava2:                         "io.reactivex.rxjava2:rxjava:2.1.7",// 必要rxjava2依赖
             room_guava:                      "androidx.room:room-guava:${versions["roomGuavaVersion"]}",
             room_testing:                    "androidx.room:room-testing:${versions["roomTestingVersion"]}",
+            //kotlin for room
+            room_compiler_kt:                "androidx.room:room-compiler:${versions["roomCompilerVersion"]}",
             rxandroid:                       "io.reactivex.rxjava2:rxandroid:${versions["rxandroidVersion"]}",
             retrofit:                        "com.squareup.retrofit2:retrofit:${versions["retrofitVersion"]}",
             retrofit2_rxjava2_adapter:       "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${versions["retrofit2Rxjava2AdapterVersion"]}",

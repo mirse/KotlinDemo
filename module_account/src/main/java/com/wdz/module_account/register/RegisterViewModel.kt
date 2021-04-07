@@ -11,9 +11,12 @@ import androidx.lifecycle.viewModelScope
 
 
 import com.wdz.common.net.response.LoginResponse
+import com.wdz.common.util.MmkvUtils
 import com.wdz.ktcommon.base.BaseMvvmViewModel
 import com.wdz.ktcommon.base.HttpResult
 import com.wdz.ktcommon.http.HttpRequestStatus
+import com.wdz.ktcommon.http.repository.NetRepository
+import com.wdz.ktcommon.utils.setLoginUser
 import com.wdz.module_account.login.LoginModel
 import com.wdz.module_account.login.bean.RegisterStatus
 import kotlinx.coroutines.launch
@@ -26,13 +29,13 @@ public class RegisterViewModel: BaseMvvmViewModel<RegisterModel>() {
     var pwd:String = ""
     var rePwd:String = ""
     var isLoginNext:Boolean = false
-    public override fun initModel(context: Context?) {
+    public override fun initModel(context: Context) {
         model = RegisterModel()
     }
     fun register(v: View){
         httpLiveData.postValue(HttpRequestStatus.REQUESTING)
         viewModelScope.launch {
-            val result = netRepository.register(userName,pwd,rePwd)
+            val result = NetRepository.register(userName,pwd,rePwd)
             when(result){
                 is HttpResult.Success -> {
                     //注册成功，继续登录
@@ -55,9 +58,10 @@ public class RegisterViewModel: BaseMvvmViewModel<RegisterModel>() {
     * 注册成功直接登录账号
     */
     private suspend fun loginNext() {
-        val result = netRepository.login(userName, pwd)
+        val result = NetRepository.login(userName, pwd)
         when(result){
             is HttpResult.Success -> {
+                setLoginUser(result.data)
                 httpLiveData.postValue(HttpRequestStatus.REQUEST_SUCCESS.setMsg("登录成功"))
             }
             is HttpResult.Error -> {

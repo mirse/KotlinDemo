@@ -32,10 +32,17 @@ class ArticleFragment : BaseKVmFragment() {
     var wxAuthorList = mutableListOf<WxResponse>()
     val list = mutableListOf<Int>()
     private val vm by getVm<TreeInfoViewModel>()
-    private val mAdapter by lazy {
-        ViewPager2Adapter(this.childFragmentManager,lifecycle,
-            TYPE_VX_ARTICLE, list)
-    }
+
+    // TODO: 2021/4/7 ViewPager2 IllegalArgumentException,由于fragment销毁viewpager时，adapter并没有释放，导致fragment重建时
+    //新的viewpager不能和adapter进行绑定，抛出异常
+    //viewPager切换时，fragment会执行onDestroyView,不会销毁当前的页面所有成员变量还在
+
+
+    private lateinit var mAdapter:ViewPager2Adapter
+//    private val mAdapter by lazy {
+//        ViewPager2Adapter(this.childFragmentManager,lifecycle,
+//            TYPE_VX_ARTICLE, list)
+//    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tree_info
@@ -51,6 +58,8 @@ class ArticleFragment : BaseKVmFragment() {
             model = vm
             activity?.let { vm.initModel(it) }
         }
+        mAdapter = ViewPager2Adapter(this.childFragmentManager,lifecycle,
+            TYPE_VX_ARTICLE, list)
         viewPager.adapter = mAdapter
     }
 

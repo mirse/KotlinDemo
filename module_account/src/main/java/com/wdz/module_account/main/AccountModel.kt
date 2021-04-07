@@ -6,6 +6,7 @@ import com.wdz.common.net.NetManager
 import com.wdz.common.net.base.BaseResponse
 import com.wdz.common.util.MmkvUtils
 import com.wdz.ktcommon.base.BaseModel
+import com.wdz.ktcommon.utils.clearLoginUser
 
 
 public class AccountModel: BaseModel(){
@@ -13,7 +14,7 @@ public class AccountModel: BaseModel(){
     fun logoutUser(logoutListener: LogoutListener){
         NetManager.getInstance().logout(object: BaseObserver<BaseResponse.DataBean>() {
             override fun onRequestSuccess(t: BaseResponse.DataBean?) {
-                MmkvUtils.clearLoginUser()
+                clearLoginUser()
                 logoutListener.logoutSuccess(BaseResponse.DataBean())
             }
 

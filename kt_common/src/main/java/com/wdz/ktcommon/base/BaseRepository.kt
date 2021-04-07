@@ -26,8 +26,8 @@ open class BaseRepository {
         return if (resp.code == 0){
             if (resp.errorMsg.isBlank()){
                 HttpResult.Success(resp.data)
-            }
-            else{
+
+            } else{
                 HttpResult.Error(IOException(resp.errorMsg))
             }
 

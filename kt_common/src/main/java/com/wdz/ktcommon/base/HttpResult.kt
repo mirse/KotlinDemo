@@ -13,7 +13,7 @@ import java.lang.Exception
 // TODO: 2021/3/30 sealed密封类
 sealed class HttpResult<out T:Any> {
    
-    data class Success<out T:Any>(val data:T):HttpResult<T>()
+    data class Success<out T:Any>(val data:T?):HttpResult<T>()
     data class Error(val exception: Exception):HttpResult<Nothing>()
 
     override fun toString(): String {

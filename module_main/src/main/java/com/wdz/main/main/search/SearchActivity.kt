@@ -11,23 +11,30 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver
-import com.wdz.common.base.adapter.BaseRecyclerViewAdapter
-import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.mvvm.BaseMvvmActivity
-import com.wdz.common.room.entity.History
-import com.wdz.common.util.DisplayUtils
+
+
+
+import com.wdz.ktcommon.adapter.BaseBindRecyclerViewAdapter
+import com.wdz.ktcommon.base.BaseKVmActivity
+import com.wdz.ktcommon.constant.ARouterConstant
+import com.wdz.ktcommon.room.entity.History
+import com.wdz.ktcommon.utils.dpToPx
 import com.wdz.main.R
 import com.wdz.main.databinding.ActivitySearchBinding
+import com.wdz.main.main.HomeViewModel
 import com.wdz.main.main.adapter.SearchAdapter
 import com.wdz.main.main.adapter.SearchHistoryAdapter
 import kotlinx.android.synthetic.main.activity_search.*
 
 @Route(path = ARouterConstant.ACTIVITY_SEARCH)
-class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
+class SearchActivity : BaseKVmActivity() {
     var hotKeyList = mutableListOf<String>()
     var searchHistoryList = mutableListOf<History>()
     lateinit var searchAdapter: SearchAdapter
     lateinit var searchHistoryAdapter: SearchHistoryAdapter
+    private val binding by dataBinding<ActivitySearchBinding>()
+    private val vm by getVm<SearchViewModel>()
+
     override fun isTransparentBar(): Boolean {
         return true
     }
@@ -40,11 +47,13 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
         return R.layout.activity_search
     }
 
-    override fun vmToDataBinding() {
-        (viewDataBinding as ActivitySearchBinding).model = vm
-    }
-
     override fun initView() {
+        (binding as ActivitySearchBinding).run {
+            model = vm
+            vm.initModel(this@SearchActivity)
+
+        }
+
         val chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
             .setMaxViewsInRow(3)
             .setGravityResolver(object : IChildGravityResolver {
@@ -68,21 +77,21 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
             .withLastRow(true)
             .build()
         rv_search.layoutManager = chipsLayoutManager
-        searchAdapter = SearchAdapter(this, hotKeyList)
+        searchAdapter = SearchAdapter(hotKeyList)
         rv_search.addItemDecoration(
             SpacingItemDecoration(
-                DisplayUtils.dpToPx(10),
-                DisplayUtils.dpToPx(10)
+                dpToPx(10),
+                dpToPx(10)
             )
         )
         rv_search.adapter = searchAdapter
 
         rv_history.layoutManager = searchHistorychipsLayoutManager
-        searchHistoryAdapter = SearchHistoryAdapter(this, searchHistoryList)
+        searchHistoryAdapter = SearchHistoryAdapter(searchHistoryList)
         rv_history.addItemDecoration(
             SpacingItemDecoration(
-                DisplayUtils.dpToPx(10),
-                DisplayUtils.dpToPx(10)
+                dpToPx(10),
+                dpToPx(10)
             )
         )
         rv_history.adapter = searchHistoryAdapter
@@ -91,26 +100,27 @@ class SearchActivity : BaseMvvmActivity<SearchViewModel>() {
         * 搜索历史的点击事件
         */
         searchHistoryAdapter.setOnClickListener(object :
-            BaseRecyclerViewAdapter.OnItemClickListener {
-            override fun onClickNormal(`object`: Any?, position: Int) {
-                if (`object` is History) {
+            BaseBindRecyclerViewAdapter.OnItemClickListener {
+            override fun onClickNormal(data: Any, position: Int) {
+                if (data is History) {
                     //跳转至搜索详情界面
                     ARouter.getInstance().build(ARouterConstant.ACTIVITY_SEARCH_INFO)
-                        .withString("searchName", `object`.searchTitle)
+                        .withString("searchName", data.searchTitle)
                         .navigation()
                 }
             }
         })
 
-        searchAdapter.setOnClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener{
-            override fun onClickNormal(`object`: Any?, position: Int) {
+        searchAdapter.setOnClickListener(object : BaseBindRecyclerViewAdapter.OnItemClickListener{
+
+
+            override fun onClickNormal(data: Any, position: Int) {
                 //点击热搜词
-                if (`object` is String){
+                if (data is String){
                     ARouter.getInstance().build(ARouterConstant.ACTIVITY_SEARCH_INFO)
-                        .withString("searchName", `object`)
+                        .withString("searchName", data)
                         .navigation()
                 }
-
             }
 
         })

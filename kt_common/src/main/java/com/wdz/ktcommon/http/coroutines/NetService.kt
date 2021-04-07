@@ -4,6 +4,7 @@ package com.wdz.ktcommon.http.coroutines
 
 import com.wdz.ktcommon.base.BaseResp
 import com.wdz.ktcommon.http.response.CollectArticleResponse
+import com.wdz.ktcommon.http.response.HotKeyResponse
 import com.wdz.ktcommon.http.response.MainListResponse
 import com.wdz.ktcommon.response.LoginResponse
 import io.reactivex.Single
@@ -37,13 +38,13 @@ interface NetService {
 //    @GET("friend/json")
 //    fun getFriend(): Single<BaseResponse<FriendResponse?>?>?
 //
-//    /**
-//     * 热搜词
-//     * @return
-//     */
-//    @GET("hotkey/json")
-//    fun getHotKey(): Single<BaseResponse<List<HotKeyResponse?>?>?>?
-//
+    /**
+     * 热搜词
+     * @return
+     */
+    @GET("hotkey/json")
+    suspend fun getHotKey(): BaseResp<List<HotKeyResponse>>
+
 //    /**
 //     * 置顶文章
 //     * @return
@@ -147,7 +148,7 @@ interface NetService {
      * 退出
      */
     @GET("user/logout/json")
-    suspend fun logout(): BaseResp<Nothing>
+    suspend fun logout(): BaseResp<ResponseBody>
 
     //6、收藏
 
@@ -228,34 +229,33 @@ interface NetService {
 //    @POST("lg/collect/deletetool/json")
 //    fun deleteWeb(@Path("id") id: Int): Single<BaseResponse<DataBean?>?>?
 
-//    //7、搜索
-//    //7、搜索
-//    /**
-//     * todo
-//     * GET:
-//     * @path 把传递的参数直接拼在url后面，配合{}使用
-//     * @Query 把key-value拼接在url后面，不使用{}
-//     * @QueryMap 与 @Query差不多，参数多的时候使用
-//     *
-//     * POST:
-//     * 标记类：
-//     * @Field/@FieldMap一般配合@FormUrlEncoded使用
-//     * @Multipart与@Post使用，做文件的上传
-//     * @Streaming 大文件的下载
-//     *
-//     * @Body适用于post请求，将请求参数放到请求体中
-//     * 搜索
-//     * @param page
-//     * @param k
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("article/query/{page}/json")
-//    fun query(
-//        @Path(value = "page") page: Int,
-//        @Field("k") k: String?
-//    ): Single<BaseResponse<CollectArticleResponse?>?>?
-//
+    //7、搜索
+    /**
+     * todo
+     * GET:
+     * @path 把传递的参数直接拼在url后面，配合{}使用
+     * @Query 把key-value拼接在url后面，不使用{}
+     * @QueryMap 与 @Query差不多，参数多的时候使用
+     *
+     * POST:
+     * 标记类：
+     * @Field/@FieldMap一般配合@FormUrlEncoded使用
+     * @Multipart与@Post使用，做文件的上传
+     * @Streaming 大文件的下载
+     *
+     * @Body适用于post请求，将请求参数放到请求体中
+     * 搜索
+     * @param page
+     * @param k
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("article/query/{page}/json")
+    suspend fun query(
+        @Path(value = "page") page: Int,
+        @Field("k") k: String
+    ): BaseResp<CollectArticleResponse>
+
 //    //10、广场
 //    //10、广场
 //    /**

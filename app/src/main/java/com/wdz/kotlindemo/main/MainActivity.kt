@@ -101,23 +101,23 @@ class MainActivity : BaseKVmActivity(), View.OnClickListener {
             val id = p0.id;
             if (R.id.ll_tab_1 == id){
                 selectBottomTab(0)
-                viewPager2.currentItem = 0;
+                viewPager2.setCurrentItem(0,false)
             }
             else if (R.id.ll_tab_2 == id){
                 selectBottomTab(1)
-                viewPager2.currentItem = 1;
+                viewPager2.setCurrentItem(1,false)
             }
             else if (R.id.ll_tab_3 == id){
                 selectBottomTab(2)
-                viewPager2.currentItem = 2;
+                viewPager2.setCurrentItem(2,false)
             }
             else if (R.id.ll_tab_4 == id){
                 selectBottomTab(3)
-                viewPager2.currentItem = 3;
+                viewPager2.setCurrentItem(3,false)
             }
             else if (R.id.ll_tab_5 == id){
                 selectBottomTab(4)
-                viewPager2.currentItem = 4;
+                viewPager2.setCurrentItem(4,false)
             }
         }
     }

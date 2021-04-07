@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.mvvm.BaseMvvmActivity
+
+import com.wdz.ktcommon.base.BaseKVmActivity
+import com.wdz.ktcommon.constant.ARouterConstant
 import com.wdz.main.R
 import com.wdz.main.databinding.ActivitySearchBinding
 import com.wdz.main.databinding.ActivitySearchInfoBinding
@@ -23,13 +24,16 @@ import kotlinx.android.synthetic.main.activity_search_info.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 @Route(path = ARouterConstant.ACTIVITY_SEARCH_INFO)
-class SearchInfoActivity : BaseMvvmActivity<SearchInfoViewModel>() {
+class SearchInfoActivity : BaseKVmActivity() {
     private val TAG = this::class.simpleName
 
     @Autowired(name = "searchName")
     lateinit var searchName: String
     private lateinit var searchInfoAdapter: SearchInfoAdapter
     private var mainArticles = listOf<MainArticle>()
+
+    private val binding by dataBinding<ActivitySearchInfoBinding>()
+    private val vm by getVm<SearchInfoViewModel>()
 
     override fun isTransparentBar(): Boolean {
         return true
@@ -43,13 +47,16 @@ class SearchInfoActivity : BaseMvvmActivity<SearchInfoViewModel>() {
         return R.layout.activity_search_info;
     }
 
-    override fun vmToDataBinding() {
-        (viewDataBinding as ActivitySearchInfoBinding).model = vm
-    }
+
 
     override fun initView() {
+        (binding as ActivitySearchInfoBinding).run {
+            model = vm
+            vm.initModel(this@SearchInfoActivity)
+
+        }
         rv_search_info.layoutManager = LinearLayoutManager(this)
-        searchInfoAdapter = SearchInfoAdapter(mainArticles,object: DiffUtil.ItemCallback<MainArticle>() {
+        searchInfoAdapter = SearchInfoAdapter(object: DiffUtil.ItemCallback<MainArticle>() {
             override fun areItemsTheSame(oldItem: MainArticle, newItem: MainArticle): Boolean {
                 return oldItem.link == newItem.link
             }

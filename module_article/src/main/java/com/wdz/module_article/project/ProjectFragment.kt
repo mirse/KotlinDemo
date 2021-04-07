@@ -27,10 +27,12 @@ import kotlinx.android.synthetic.main.activity_tree_info.*
 class ProjectFragment : BaseKVmFragment() {
     private val vm by getVm<TreeInfoViewModel>()
     val list = mutableListOf<Int>()
-    private val mAdapter by lazy {
-        ViewPager2Adapter(this.childFragmentManager,lifecycle,
-            TYPE_PROJECT, list)
-    }
+    private lateinit var mAdapter:ViewPager2Adapter
+//    private val mAdapter by lazy {
+//        ViewPager2Adapter(this.childFragmentManager,lifecycle,
+//            TYPE_PROJECT, list)
+//    }
+
     override fun getLayoutId(): Int {
         return R.layout.activity_tree_info
     }
@@ -45,7 +47,8 @@ class ProjectFragment : BaseKVmFragment() {
             model = vm
             activity?.let { vm.initModel(it) }
         }
-
+        mAdapter = ViewPager2Adapter(this.childFragmentManager,lifecycle,
+            TYPE_PROJECT, list)
         viewPager.adapter = mAdapter
     }
 

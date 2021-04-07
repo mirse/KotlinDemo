@@ -8,10 +8,13 @@ import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
 import com.wdz.ktcommon.base.BaseRepository
 import com.wdz.ktcommon.base.HttpResult
 import com.wdz.ktcommon.http.RetrofitManager
+import com.wdz.ktcommon.http.response.CollectArticleResponse
+import com.wdz.ktcommon.http.response.HotKeyResponse
 import com.wdz.ktcommon.http.response.MainListResponse
 import com.wdz.ktcommon.response.LoginResponse
 import okhttp3.ResponseBody
 import org.json.JSONException
+import retrofit2.http.Field
 import java.io.IOException
 import java.lang.RuntimeException
 import java.net.ConnectException
@@ -24,7 +27,12 @@ import java.net.SocketException
  * @Date 2021/3/30 15:12
 
  */
-class NetRepository: BaseRepository() {
+object NetRepository: BaseRepository() {
+    /**
+     * 首页相关
+     * @param page Int
+     * @return HttpResult<MainListResponse>
+     */
     suspend fun getArticle(page: Int): HttpResult<MainListResponse> {
         return try {
             executeResponse(RetrofitManager.service.getArticle(page))
@@ -32,6 +40,18 @@ class NetRepository: BaseRepository() {
             HttpResult.Error(IOException(getErrorType(e)))
         }
     }
+    /**
+     * 热搜词
+     * @return
+     */
+    suspend fun getHotKey(): HttpResult<List<HotKeyResponse>> {
+        return try {
+            executeResponse(RetrofitManager.service.getHotKey())
+        } catch (e:Exception){
+            HttpResult.Error(IOException(getErrorType(e)))
+        }
+    }
+
 
 
     /**
@@ -75,9 +95,20 @@ class NetRepository: BaseRepository() {
         }
     }
 
-    suspend fun logout(): HttpResult<Nothing> {
+    suspend fun logout(): HttpResult<Any> {
         return try {
             executeResponse(RetrofitManager.service.logout())
+        } catch (e:Exception){
+            HttpResult.Error(IOException(getErrorType(e)))
+        }
+    }
+
+    /**
+     * 搜索
+     */
+    suspend fun query(page: Int,k: String):HttpResult<CollectArticleResponse>{
+        return try {
+            executeResponse(RetrofitManager.service.query(page,k))
         } catch (e:Exception){
             HttpResult.Error(IOException(getErrorType(e)))
         }

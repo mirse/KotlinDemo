@@ -5,21 +5,16 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class LoginResponse : Parcelable {
-    var isAdmin = false
-    var chapterTops: List<String> = mutableListOf()
-    var coinCount = 0
-    var collectIds: List<String> = mutableListOf()
-    var email: String? = null
-    var icon: String? = null
-    var id = 0
-    var nickname: String? = null
-    var password: String? = null
-    var publicName: String? = null
-    var token: String? = null
-    var type = 0
-    var username: String? = null
-
-
-
-}
+data class LoginResponse(var isAdmin: Boolean,
+                         var chapterTops: List<String>,
+                         var coinCount: Int,
+                         var collectIds: List<String>,
+                         var email: String,
+                         var icon: String,
+                         var id: Int,
+                         var nickname: String,
+                         var password: String,
+                         var publicName: String,
+                         var token: String,
+                         var type: Int,
+                         var username: String) : Parcelable

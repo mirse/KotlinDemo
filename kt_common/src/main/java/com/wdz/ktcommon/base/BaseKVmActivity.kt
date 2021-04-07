@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.alibaba.android.arouter.launcher.ARouter
 import com.wdz.ktcommon.view.LoadingDialog
 
 import io.reactivex.disposables.CompositeDisposable
@@ -59,6 +60,7 @@ abstract class BaseKVmActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ARouter.getInstance().inject(this)
         setTransparentBar()
         initView()
         initData()

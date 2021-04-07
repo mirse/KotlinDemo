@@ -20,7 +20,7 @@ import com.wdz.main.main.bean.MainArticle
  * @Date 2021/2/19 16:13
 
  */
-class SearchInfoAdapter(val mainArticles:List<MainArticle>,diffCallback: DiffUtil.ItemCallback<MainArticle>):
+class SearchInfoAdapter(diffCallback: DiffUtil.ItemCallback<MainArticle>):
 PagedListAdapter<MainArticle,SearchInfoAdapter.MyViewHolder>(diffCallback){
 
 

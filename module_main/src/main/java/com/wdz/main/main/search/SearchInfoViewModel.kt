@@ -1,16 +1,15 @@
 package com.wdz.main.main.search
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ComputableLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.wdz.common.base.room.DatabaseOperationListener
-import com.wdz.common.mvvm.BaseMvvmViewModel
-import com.wdz.common.net.response.HotKeyResponse
-import com.wdz.common.net.response.MainListResponse
-import com.wdz.common.room.entity.History
+
+import com.wdz.ktcommon.base.BaseMvvmViewModel
 import com.wdz.main.main.HomeModel
 import com.wdz.main.main.bean.MainArticle
 
@@ -24,10 +23,11 @@ import java.util.*
  * @Date 2021/1/18 11:53
 
  */
-class SearchInfoViewModel:BaseMvvmViewModel<SearchInfoModel>(){
+class SearchInfoViewModel: BaseMvvmViewModel<SearchInfoModel>(){
+    private val TAG = this::class.simpleName
     var articleList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
 
-    override fun initModel(context: Context?) {
+    public override fun initModel(context: Context) {
         model = SearchInfoModel()
     }
 
@@ -42,9 +42,10 @@ class SearchInfoViewModel:BaseMvvmViewModel<SearchInfoModel>(){
     }
 
     fun  getSearchList(searchName:String):LiveData<PagedList<MainArticle>>{
-        val searchDataSourceFactory = SearchDataSourceFactory(searchName);
+        val searchDataSourceFactory = SearchDataSourceFactory(searchName)
         searchDataSourceFactory.create()
         articleList = LivePagedListBuilder<Int, MainArticle>(searchDataSourceFactory, 20).build()
+        Log.i(TAG, "getSearchList: "+articleList)
         return articleList
     }
 }

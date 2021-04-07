@@ -17,8 +17,8 @@ import com.wdz.ktcommon.http.repository.NetRepository
 abstract class BaseMvvmViewModel<M: BaseModel>: ViewModel() {
 
     protected var model: M? = null
-    protected var lifecycleOwner: LifecycleOwner? = null
-    protected val netRepository by lazy { NetRepository() }
+
+    //protected val netRepository by lazy { NetRepository() }
 
     /**
      * http请求时的状态变化liveData
@@ -26,19 +26,9 @@ abstract class BaseMvvmViewModel<M: BaseModel>: ViewModel() {
     var httpLiveData: MutableLiveData<HttpRequestStatus> =
         MutableLiveData()
 
-    protected abstract fun initModel(context: Context?)
+    protected abstract fun initModel(context: Context)
 
-//    /**
-//     * 设置lifecycleOwner
-//     * @param lifecycleOwner
-//     */
-//    fun setLifecycleOwner(lifecycleOwner: LifecycleOwner?) {
-//        this.lifecycleOwner = lifecycleOwner
-//    }
-//
-//    fun getLifecycleOwner(): LifecycleOwner? {
-//        return lifecycleOwner
-//    }
+
 //
 //    fun getHttpLiveData(): MutableLiveData<HttpRequestStatus>? {
 //        return httpLiveData

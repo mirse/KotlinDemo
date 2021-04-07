@@ -16,28 +16,29 @@ import kotlinx.android.synthetic.main.title_bar_common.view.*
  * 通用titleBar，高度自适应，宽度match
  * @author wdz
  */
-class CommonTitleBar(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+class CommonTitleBar : ConstraintLayout {
     private var onClickListener: OnClickListener? = null
     private var typedArray: TypedArray? = null
 
+    constructor(context: Context):super(context){
+        initView(context, null)
+    }
 
-    init {
+    constructor(context: Context,attrs: AttributeSet):super(context,attrs){
         initView(context, attrs)
     }
+
+    constructor(context: Context,attrs: AttributeSet,defStyleAttr:Int):super(context,attrs,defStyleAttr){
+        initView(context, attrs)
+    }
+
 
     /**
      * 加载视图
      * @param context
      * @param attrs
      */
-    private fun initView(
-        context: Context,
-        attrs: AttributeSet?
-    ) {
+    private fun initView(context: Context, attrs: AttributeSet?) {
         initUi(context)
         initStyle(context, attrs)
     }

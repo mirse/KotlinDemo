@@ -20,16 +20,24 @@ import com.wdz.module_article.databinding.ActivityTreeInfoBinding
 import com.wdz.module_article.databinding.FragmentTreeInfoBinding
 import kotlinx.android.synthetic.main.fragment_tree_info.*
 
-
-class TreeInfoFragment(private val cid: Int, private val type: Int) : BaseKVmFragment() {
+// TODO: 2021/4/7 could not find Fragment constructor fragment需要一个无参的构造函数
+class TreeInfoFragment() : BaseKVmFragment() {
     private var treeInfoAdapter: TreeInfoAdapter ?= null
     private var categoryInfoAdapter: CategoryInfoAdapter ?= null
     private val vm by getVm<TreeInfoViewModel>()
+    private var cid = 0;
+    private var type = 0;
+    constructor(cid: Int,type: Int):this(){
+        this.cid = cid;
+        this.type = type;
+    }
+
     companion object{
         val TYPE_TREE_ARTICLE = 1
         val TYPE_VX_ARTICLE = 2
         val TYPE_PROJECT = 3
     }
+
 
 
     override fun isUseDataBinding(): Boolean {

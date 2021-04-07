@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 /**
  * 通用adapter定义normalItem与emptyItem
@@ -190,7 +189,7 @@ abstract class BaseBindRecyclerViewAdapter(private var list: List<*>) : Recycler
      *
      * @param listener
      */
-    fun setOnClickListener(listener: OnItemClickListener?) {
+    fun setOnClickListener(listener: OnItemClickListener) {
         onItemClickListener = listener
     }
 

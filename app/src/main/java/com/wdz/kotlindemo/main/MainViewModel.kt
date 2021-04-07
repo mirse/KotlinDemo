@@ -11,7 +11,7 @@ import com.wdz.module_account.login.LoginModel
 public class MainViewModel: BaseMvvmViewModel<MainModel>() {
 
 
-    public override fun initModel(context: Context?) {
+    public override fun initModel(context: Context) {
 
     }
 

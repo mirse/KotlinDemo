@@ -2,15 +2,15 @@ package com.wdz.main.main.search
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
-import com.wdz.common.base.room.DatabaseOperationListener
-import com.wdz.common.mvvm.BaseModel
-import com.wdz.common.net.BaseObserver
-import com.wdz.common.net.NetManager
-import com.wdz.common.net.response.CollectArticleResponse
-import com.wdz.common.net.response.HotKeyResponse
-import com.wdz.common.net.response.MainListResponse
-import com.wdz.common.room.entity.History
-import com.wdz.common.room.repository.HistoryRepository
+
+
+
+
+
+import com.wdz.ktcommon.base.BaseModel
+import com.wdz.ktcommon.room.base.DatabaseOperationListener
+import com.wdz.ktcommon.room.entity.History
+import com.wdz.ktcommon.room.repository.HistoryRepository
 import com.wdz.main.main.bean.MainArticle
 
 /**
@@ -30,43 +30,43 @@ class SearchModel(context: Context): BaseModel() {
     * 获取热搜词
     */
     fun getHotKey(getHotKeyListener:GetHotKeyListener){
-        NetManager.getInstance().getHotKey(object:BaseObserver<List<HotKeyResponse>>(){
-            override fun onRequestSuccess(t: List<HotKeyResponse>?) {
-                val mList = mutableListOf<String>()
-                if (t!=null){
-                    for (i in t.indices){
-                        val name = t.get(i).name
-                        mList.add(name)
-                    }
-                }
-
-                getHotKeyListener.getHotKeySuccess(mList)
-
-            }
-
-            override fun onRequestError(errorCode: Int, errorMsg: String?) {
-
-            }
-
-            override fun onRequestFailure(errorMsg: String?) {
-
-            }
-
-        })
+//        NetManager.getInstance().getHotKey(object:BaseObserver<List<HotKeyResponse>>(){
+//            override fun onRequestSuccess(t: List<HotKeyResponse>?) {
+//                val mList = mutableListOf<String>()
+//                if (t!=null){
+//                    for (i in t.indices){
+//                        val name = t.get(i).name
+//                        mList.add(name)
+//                    }
+//                }
+//
+//                getHotKeyListener.getHotKeySuccess(mList)
+//
+//            }
+//
+//            override fun onRequestError(errorCode: Int, errorMsg: String?) {
+//
+//            }
+//
+//            override fun onRequestFailure(errorMsg: String?) {
+//
+//            }
+//
+//        })
     }
 
     /*
      * 获取搜索历史
      */
-    fun getSearchHistory(lifecycleOwner:LifecycleOwner,databaseOperationListener:DatabaseOperationListener<History>){
-        HistoryRepository.getInstance(context,lifecycleOwner).getAllHistory(databaseOperationListener)
+    fun getSearchHistory(databaseOperationListener: DatabaseOperationListener<History>){
+        HistoryRepository.getInstance(context)?.getAllHistory(databaseOperationListener)
     }
 
     /*
    * 保存搜索历史
    */
-    fun saveSearchHistory(searchHistory: History,lifecycleOwner:LifecycleOwner,databaseOperationListener:DatabaseOperationListener<History>){
-        HistoryRepository.getInstance(context,lifecycleOwner).insertItems(databaseOperationListener,searchHistory)
+    fun saveSearchHistory(searchHistory: History,databaseOperationListener:DatabaseOperationListener<History>){
+        HistoryRepository.getInstance(context)?.insertItems(databaseOperationListener,searchHistory)
     }
 
     interface GetHotKeyListener{

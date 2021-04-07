@@ -4,14 +4,15 @@ import android.content.Context
 import androidx.lifecycle.ComputableLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import com.wdz.common.base.room.DatabaseOperationListener
-import com.wdz.common.mvvm.BaseMvvmViewModel
-import com.wdz.common.net.response.HotKeyResponse
-import com.wdz.common.net.response.MainListResponse
-import com.wdz.common.room.entity.History
+import androidx.lifecycle.viewModelScope
+
+import com.wdz.ktcommon.base.BaseMvvmViewModel
+import com.wdz.ktcommon.base.HttpResult
+import com.wdz.ktcommon.http.repository.NetRepository
+import com.wdz.ktcommon.room.base.DatabaseOperationListener
+import com.wdz.ktcommon.room.entity.History
 import com.wdz.main.main.bean.MainArticle
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -21,48 +22,66 @@ import java.util.*
  * @Date 2021/1/18 11:53
 
  */
-class SearchViewModel:BaseMvvmViewModel<SearchModel>(){
+class SearchViewModel: BaseMvvmViewModel<SearchModel>(){
 
     val hotKeyList = MutableLiveData<List<String>>()
     val searchHistoryList = MutableLiveData<MutableList<History>>()
-    override fun initModel(context:Context) {
+    public override fun initModel(context:Context) {
         model = SearchModel(context)
 
     }
 
     fun getHotKey(){
-        model.getHotKey(object : SearchModel.GetHotKeyListener{
-            override fun getHotKeySuccess(response: List<String>?) {
-                hotKeyList.postValue(response)
+        viewModelScope.launch {
+            val result = NetRepository.getHotKey()
+            when(result){
+                is HttpResult.Success ->{
+                    val mList = mutableListOf<String>()
+                    result.data?.run {
+                        for (i in indices){
+                            val name = get(i).name
+                            mList.add(name)
+                        }
+                    }
+
+                    hotKeyList.postValue(mList)
+                }
+                is HttpResult.Error ->{
+
+                }
             }
-        })
+
+        }
+
     }
 
 
 
     fun getSearchHistory(){
-        model.getSearchHistory(getLifecycleOwner(),object: DatabaseOperationListener<History>{
-            override fun onSuccess(items: MutableList<History>?) {
+        model?.getSearchHistory(object: DatabaseOperationListener<History> {
+            override fun onFailure() {
+
+            }
+            override fun onSuccess(items: List<History>?) {
                 val list = items?.toMutableList()
                 searchHistoryList.postValue(list)
             }
-
-            override fun onFailure() {
-
-            }
         })
+
     }
 
     fun saveSearchHistory(searchHistory: History){
-        model.saveSearchHistory(searchHistory,getLifecycleOwner(),object:DatabaseOperationListener<History>{
-            override fun onSuccess(items: MutableList<History>?) {
-
-            }
+        model?.saveSearchHistory(searchHistory,object:DatabaseOperationListener<History>{
 
             override fun onFailure() {
 
             }
 
+            override fun onSuccess(items: List<History>?) {
+
+            }
+
         })
+
     }
 }
