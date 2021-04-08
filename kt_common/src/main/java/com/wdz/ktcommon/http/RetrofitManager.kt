@@ -35,9 +35,10 @@ object RetrofitManager: BaseRetrofitClient() {
        // 配置缓存
         builder.cache(cache)
         builder
+            // TODO: 2021/4/8 使用缓存可能会导致收藏状态未及时更新
             //设置request和response Cache
             .addInterceptor(RequestInterceptor(isNetWorkAvailable(MyApplication.context)))
-            .addInterceptor(NetCacheInterceptor())
+            //.addInterceptor(NetCacheInterceptor())
             .addInterceptor(AddCookiesInterceptor())
             .addInterceptor(ReceivedCookiesInterceptor())
     }

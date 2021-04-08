@@ -9,10 +9,11 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.wdz.common.constant.ARouterConstant
 
-import com.wdz.common.mvvm.kotlin.BaseKVmFragment
-import com.wdz.common.net.response.WxResponse
+import com.wdz.ktcommon.base.BaseKVmFragment
+import com.wdz.ktcommon.constant.ARouterConstant
+import com.wdz.ktcommon.response.WxResponse
+
 import com.wdz.module_article.R
 import com.wdz.module_article.adapter.ViewPager2Adapter
 

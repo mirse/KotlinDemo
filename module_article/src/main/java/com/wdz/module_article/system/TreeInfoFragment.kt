@@ -10,7 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wdz.common.mvvm.kotlin.BaseKVmFragment
+
+import com.wdz.ktcommon.base.BaseKVmFragment
 import com.wdz.module_article.R
 
 import com.wdz.module_article.adapter.CategoryInfoAdapter

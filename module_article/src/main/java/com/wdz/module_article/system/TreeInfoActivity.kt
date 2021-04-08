@@ -6,9 +6,11 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.mvvm.BaseMvvmActivity
-import com.wdz.common.net.response.TreeResponse
+import com.wdz.ktcommon.base.BaseKVmActivity
+
+import com.wdz.ktcommon.constant.ARouterConstant
+import com.wdz.ktcommon.response.TreeResponse
+
 import com.wdz.module_article.R
 
 import com.wdz.module_article.adapter.ViewPager2Adapter
@@ -16,11 +18,13 @@ import com.wdz.module_article.databinding.ActivityTreeInfoBinding
 import kotlinx.android.synthetic.main.activity_tree_info.*
 
 @Route(path = ARouterConstant.ACTIVITY_TREE_INFO)
-class TreeInfoActivity : BaseMvvmActivity<TreeInfoViewModel>() {
+class TreeInfoActivity : BaseKVmActivity() {
     private val TAG = this::class.simpleName
     @Autowired(name = "systemFragment")
-    lateinit var treeResponse :TreeResponse
+    lateinit var treeResponse : TreeResponse
 
+    private val vm by getVm<TreeInfoViewModel>()
+    private val binding by dataBinding<ActivityTreeInfoBinding>()
 
     override fun isTransparentBar(): Boolean {
         return true
@@ -34,14 +38,11 @@ class TreeInfoActivity : BaseMvvmActivity<TreeInfoViewModel>() {
         return R.layout.activity_tree_info
     }
 
-    override fun vmToDataBinding() {
-        (viewDataBinding as ActivityTreeInfoBinding).model = vm
-    }
-
     override fun initView() {
-
-
-
+        (binding as ActivityTreeInfoBinding).run {
+            model = vm
+            vm.initModel(this@TreeInfoActivity)
+        }
     }
 
     override fun onDestroy() {

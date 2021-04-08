@@ -4,11 +4,17 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.wdz.common.mvvm.BaseMvvmViewModel
-import com.wdz.common.net.response.ProjectResponse
-import com.wdz.common.net.response.WxResponse
+
+import com.wdz.ktcommon.base.BaseMvvmViewModel
+
+
+import com.wdz.ktcommon.base.HttpResult
+import com.wdz.ktcommon.http.repository.NetRepository
+import com.wdz.ktcommon.http.response.ProjectResponse
+import com.wdz.ktcommon.response.WxResponse
 import com.wdz.main.main.paging.PositionCategoryDataSource
 
 import com.wdz.main.main.paging.PositionTreeInfoDataSource
@@ -16,6 +22,7 @@ import com.wdz.main.main.paging.PositionWxArticleDataSource
 
 import com.wdz.module_article.bean.MainArticle
 import com.wdz.module_article.paging.BaseSourceFactory
+import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
 /**
@@ -30,7 +37,7 @@ class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
     var treeInfoList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
     var wxList = MutableLiveData<List<WxResponse>>()
     var categoryList = MutableLiveData<List<ProjectResponse>>()
-    public override fun initModel(context: Context?) {
+    public override fun initModel(context: Context) {
         model = TreeInfoModel()
         Log.i(TAG, ":init ")
     }
@@ -63,11 +70,17 @@ class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
     * 获取微信作者列表
     */
     fun getWx(): MutableLiveData<List<WxResponse>> {
-        model.getArticle(object :TreeInfoModel.OnGetWxListener{
-            override fun onGetWxSuccess(response: List<WxResponse>) {
-                wxList.postValue(response)
+        viewModelScope.launch {
+            val result = NetRepository.getWxList()
+            when(result){
+                is HttpResult.Success ->{
+                    wxList.postValue(result.data)
+                }
+                is HttpResult.Error ->{
+
+                }
             }
-        })
+        }
         return wxList
     }
 
@@ -75,12 +88,24 @@ class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
     * 获取项目分类列表
     */
     fun getCategory(): MutableLiveData<List<ProjectResponse>> {
-        model.getCategory(object :TreeInfoModel.OnCategoryListener{
-            override fun onCategorySuccess(response: List<ProjectResponse>) {
-                categoryList.postValue(response)
-            }
+        viewModelScope.launch {
+            val result = NetRepository.getProjectTree()
+            when(result){
+                is HttpResult.Success ->{
+                    categoryList.postValue(result.data)
+                }
+                is HttpResult.Error ->{
 
-        })
+                }
+            }
+        }
+
+//        model.getCategory(object :TreeInfoModel.OnCategoryListener{
+//            override fun onCategorySuccess(response: List<ProjectResponse>) {
+//                categoryList.postValue(response)
+//            }
+//
+//        })
         return categoryList
     }
 

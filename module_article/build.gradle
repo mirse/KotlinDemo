@@ -96,8 +96,9 @@ dependencies {
     //glide
     implementation rootProject.ext.dependencies.glide
     annotationProcessor rootProject.ext.dependencies.glide_compiler
+    implementation rootProject.ext.dependencies.viewmodel_ktx
 
-    implementation project(path: ':common')
+    implementation project(path: ':kt_common')
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.10"
 }
 

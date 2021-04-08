@@ -11,12 +11,12 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.wdz.common.base.adapter.BaseRecyclerViewAdapter
-import com.wdz.common.constant.ARouterConstant
-import com.wdz.common.databind.BaseBindRecyclerViewAdapter
 
-import com.wdz.common.mvvm.kotlin.BaseKVmFragment
-import com.wdz.common.net.response.TreeResponse
+import com.wdz.ktcommon.adapter.BaseBindRecyclerViewAdapter
+import com.wdz.ktcommon.base.BaseKVmFragment
+import com.wdz.ktcommon.constant.ARouterConstant
+import com.wdz.ktcommon.response.TreeResponse
+
 import com.wdz.module_article.R
 import com.wdz.module_article.adapter.SystemAdapter
 import com.wdz.module_article.databinding.FragmentSystemBinding
@@ -53,14 +53,18 @@ class SystemFragment : BaseKVmFragment() {
             adapter = mAdapter
         }
 
-        mAdapter.setOnClickListener(BaseBindRecyclerViewAdapter.OnItemClickListener { `object`, position ->
-            if (`object` is TreeResponse) {
+        mAdapter.setOnClickListener(object : BaseBindRecyclerViewAdapter.OnItemClickListener{
+            override fun onClickNormal(data: Any, position: Int) {
                 //跳转至搜索详情界面
                 ARouter.getInstance().build(ARouterConstant.ACTIVITY_TREE_INFO)
-                    .withParcelable("systemFragment", `object`)
+                    .withObject("systemFragment", data as TreeResponse)
                     .navigation()
             }
+
         })
+
+
+
     }
 
     override fun initData() {

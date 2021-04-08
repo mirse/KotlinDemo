@@ -3,10 +3,10 @@ package com.wdz.ktcommon.http.coroutines
 
 
 import com.wdz.ktcommon.base.BaseResp
-import com.wdz.ktcommon.http.response.CollectArticleResponse
-import com.wdz.ktcommon.http.response.HotKeyResponse
-import com.wdz.ktcommon.http.response.MainListResponse
+import com.wdz.ktcommon.http.response.*
 import com.wdz.ktcommon.response.LoginResponse
+import com.wdz.ktcommon.response.TreeResponse
+import com.wdz.ktcommon.response.WxResponse
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -24,20 +24,20 @@ interface NetService {
     @GET("article/list/{page}/json")
     suspend fun getArticle(@Path("page") page: Int): BaseResp<MainListResponse>
 
-//    /**
-//     * 首页banner
-//     * @return
-//     */
-//    @GET("banner/json")
-//    suspend fun getBanner(): BaseResp<BannerResponse>
+    /**
+     * 首页banner
+     * @return
+     */
+    @GET("banner/json")
+    suspend fun getBanner(): BaseResp<BannerResponse>
 
-//    /**
-//     * 常用网站
-//     * @return
-//     */
-//    @GET("friend/json")
-//    fun getFriend(): Single<BaseResponse<FriendResponse?>?>?
-//
+    /**
+     * 常用网站
+     * @return
+     */
+    @GET("friend/json")
+    suspend fun getFriend(): BaseResp<FriendResponse>
+
     /**
      * 热搜词
      * @return
@@ -45,75 +45,75 @@ interface NetService {
     @GET("hotkey/json")
     suspend fun getHotKey(): BaseResp<List<HotKeyResponse>>
 
-//    /**
-//     * 置顶文章
-//     * @return
-//     */
-//    @GET("article/top/json")
-//    fun getTopArticle(): Single<BaseResponse<TopArticleResponse?>?>?
-//
-//    //2、体系
-//    //2、体系
-//    /**
-//     * 体系数据
-//     * @return
-//     */
-//    @GET("tree/json")
-//    fun getTree(): Single<BaseResponse<List<TreeResponse?>?>?>?
-//
-//    /**
-//     * 体系下的文章
-//     * @param page
-//     * @param cid
-//     * @return
-//     */
-//    @GET("article/list/{page}/json")
-//    fun getTreeArticle(
-//        @Path("page") page: Int,
-//        @Query("cid") cid: Int
-//    ): Single<BaseResponse<TreeArticleResponse?>?>?
-//
-//    /**
-//     * 按照作者昵称搜索文章
-//     * @param page
-//     * @param author
-//     * @return
-//     */
-//    @GET("article/list/{page}}/json?author={author}}")
-//    fun getTreeArticleByAuthor(
-//        @Path("page") page: Int,
-//        @Path("author") author: String?
-//    ): Single<BaseResponse<TreeArticleResponse?>?>?
-//
-//    //3、导航数据
-//    //3、导航数据
-//    /**
-//     * 导航数据
-//     * @return
-//     */
-//    @GET("navi/json")
-//    fun getNavi(): Single<BaseResponse<NaviResponse?>?>?
-//
-//    //4、项目
-//
-//    //4、项目
-//    /**
-//     * 项目分类
-//     * @return
-//     */
-//    @GET("project/tree/json")
-//    fun getProjectTree(): Single<BaseResponse<List<ProjectResponse?>?>?>?
-//
-//    /**
-//     * 项目列表数据
-//     * @return
-//     */
-//    @GET("project/list/{page}/json")
-//    fun getProjectInfo(
-//        @Path("page") page: Int,
-//        @Query("cid") cid: Int
-//    ): Single<BaseResponse<ProjectInfoResponse?>?>?
-//
+    /**
+     * 置顶文章
+     * @return
+     */
+    @GET("article/top/json")
+    suspend fun getTopArticle(): BaseResp<TopArticleResponse>
+
+    //2、体系
+    //2、体系
+    /**
+     * 体系数据
+     * @return
+     */
+    @GET("tree/json")
+    suspend fun getTree(): BaseResp<List<TreeResponse>>
+
+    /**
+     * 体系下的文章
+     * @param page
+     * @param cid
+     * @return
+     */
+    @GET("article/list/{page}/json")
+    suspend fun getTreeArticle(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): BaseResp<TreeArticleResponse>
+
+    /**
+     * 按照作者昵称搜索文章
+     * @param page
+     * @param author
+     * @return
+     */
+    @GET("article/list/{page}}/json?author={author}}")
+    suspend fun getTreeArticleByAuthor(
+        @Path("page") page: Int,
+        @Path("author") author: String?
+    ): BaseResp<TreeArticleResponse>
+
+    //3、导航数据
+    //3、导航数据
+    /**
+     * 导航数据
+     * @return
+     */
+    @GET("navi/json")
+    suspend fun getNavi(): BaseResp<NaviResponse>
+
+    //4、项目
+
+    //4、项目
+    /**
+     * 项目分类
+     * @return
+     */
+    @GET("project/tree/json")
+    suspend fun getProjectTree(): BaseResp<List<ProjectResponse>>
+
+    /**
+     * 项目列表数据
+     * @return
+     */
+    @GET("project/list/{page}/json")
+    suspend fun getProjectInfo(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): BaseResp<ProjectInfoResponse>
+
     //5、登录与注册
     //5、登录与注册
     /**
@@ -202,32 +202,32 @@ interface NetService {
     @GET("lg/collect/usertools/json")
     suspend fun collectWebList(): BaseResp<Nothing>
 
-//    /**
-//     * 收藏网址
-//     * @return
-//     */
-//    @POST("lg/collect/addtool/json")
-//    fun collectWeb(
-//        @Path("name") name: String?,
-//        @Path("link") link: String?
-//    ): Single<BaseResponse<CollectWebResponse?>?>?
-//
-//    /**
-//     * 编辑收藏网址
-//     * @return
-//     */
-//    @POST("lg/collect/updatetool/json")
-//    fun updateWeb(
-//        @Path("id") id: Int,
-//        @Path("originId") originId: Int
-//    ): Single<BaseResponse<CollectWebResponse?>?>?
-//
-//    /**
-//     * 删除收藏网址
-//     * @return
-//     */
-//    @POST("lg/collect/deletetool/json")
-//    fun deleteWeb(@Path("id") id: Int): Single<BaseResponse<DataBean?>?>?
+    /**
+     * 收藏网址
+     * @return
+     */
+    @POST("lg/collect/addtool/json")
+    suspend fun collectWeb(
+        @Path("name") name: String?,
+        @Path("link") link: String?
+    ): BaseResp<CollectWebResponse>
+
+    /**
+     * 编辑收藏网址
+     * @return
+     */
+    @POST("lg/collect/updatetool/json")
+    suspend fun updateWeb(
+        @Path("id") id: Int,
+        @Path("originId") originId: Int
+    ): BaseResp<CollectWebResponse>
+
+    /**
+     * 删除收藏网址
+     * @return
+     */
+    @POST("lg/collect/deletetool/json")
+    suspend fun deleteWeb(@Path("id") id: Int): BaseResp<Nothing>
 
     //7、搜索
     /**
@@ -256,85 +256,85 @@ interface NetService {
         @Field("k") k: String
     ): BaseResp<CollectArticleResponse>
 
-//    //10、广场
-//    //10、广场
-//    /**
-//     * 广场列表数据
-//     * @return
-//     */
-//    @GET("user_article/list/{page}}/json")
-//    fun getUserArticle(@Path("page") page: Int): Single<BaseResponse<CollectArticleResponse?>?>?
-//
-//    /**
-//     * 分享人对应列表数据
-//     * @return
-//     */
-//    @GET("user/{userId}}/share_articles/{page}}/json")
-//    fun getShareArticle(
-//        @Path("userId") userId: Int,
-//        @Path("page") page: Int
-//    ): Single<BaseResponse<ShareArticleResponse?>?>?
-//
-//    /**
-//     * 自己的分享的文章列表
-//     * @return
-//     */
-//    @GET("user/lg/private_articles/{page}}/json")
-//    fun getPrivateArticle(@Path("page") page: Int): Single<BaseResponse<ShareArticleResponse?>?>?
-//
-//    /**
-//     * 删除自己分享的文章
-//     * @return
-//     */
-//    @POST("lg/user_article/delete/{id}}/json")
-//    fun deleteShareArticle(@Path("id") id: Int): Single<BaseResponse<DataBean?>?>?
-//
-//    /**
-//     * 分享文章
-//     * @return
-//     */
-//    @POST("lg/user_article/add/json")
-//    fun addUserArticle(
-//        @Path("title") title: String?,
-//        @Path("link") link: String?
-//    ): Single<BaseResponse<DataBean?>?>?
-//
-//    //11、问答
-//    //11、问答
-//    /**
-//     * 问答
-//     * @return
-//     */
-//    @GET("wenda/list/{pageId}}/json")
-//    fun getAnswer(@Path("pageId") pageId: String?): Single<BaseResponse<CollectArticleResponse?>?>?
-//
-//    //12、公众号tab
-//    //12、公众号tab
-//    /**
-//     * 获取公众号列表
-//     * @return
-//     */
-//    @GET("wxarticle/chapters/json")
-//    fun getWxList(): Single<BaseResponse<List<WxResponse?>?>?>?
-//
-//    /**
-//     * 查看某个公众号历史数据
-//     * @return
-//     */
-//    @GET("wxarticle/list/{id}/{page}/json")
-//    fun getWxArticle(
-//        @Path("id") id: Int,
-//        @Path("page") page: Int
-//    ): Single<BaseResponse<CollectArticleResponse?>?>?
-//
-//    /**
-//     * 在某个公众号中搜索历史文章
-//     * @return
-//     */
-//    @GET("wxarticle/list/{id}/{page}/json?k={k}")
-//    fun searchWxArticle(
-//        @Path("id") id: Int,
-//        @Path("page") page: Int,
-//        @Path("k") k: String?
-//    ): Single<BaseResponse<CollectArticleResponse?>?>?
+    //10、广场
+    //10、广场
+    /**
+     * 广场列表数据
+     * @return
+     */
+    @GET("user_article/list/{page}}/json")
+    suspend fun getUserArticle(@Path("page") page: Int): BaseResp<CollectArticleResponse>
+
+    /**
+     * 分享人对应列表数据
+     * @return
+     */
+    @GET("user/{userId}}/share_articles/{page}}/json")
+    suspend fun getShareArticle(
+        @Path("userId") userId: Int,
+        @Path("page") page: Int
+    ): BaseResp<ShareArticleResponse>
+
+    /**
+     * 自己的分享的文章列表
+     * @return
+     */
+    @GET("user/lg/private_articles/{page}}/json")
+    suspend fun getPrivateArticle(@Path("page") page: Int): BaseResp<ShareArticleResponse>
+
+    /**
+     * 删除自己分享的文章
+     * @return
+     */
+    @POST("lg/user_article/delete/{id}}/json")
+    suspend fun deleteShareArticle(@Path("id") id: Int): BaseResp<Nothing>
+
+    /**
+     * 分享文章
+     * @return
+     */
+    @POST("lg/user_article/add/json")
+    suspend fun addUserArticle(
+        @Path("title") title: String?,
+        @Path("link") link: String?
+    ): BaseResp<Nothing>
+
+    //11、问答
+    //11、问答
+    /**
+     * 问答
+     * @return
+     */
+    @GET("wenda/list/{pageId}}/json")
+    suspend fun getAnswer(@Path("pageId") pageId: String?): BaseResp<CollectArticleResponse>
+
+    //12、公众号tab
+    //12、公众号tab
+    /**
+     * 获取公众号列表
+     * @return
+     */
+    @GET("wxarticle/chapters/json")
+    suspend fun getWxList(): BaseResp<List<WxResponse>>
+
+    /**
+     * 查看某个公众号历史数据
+     * @return
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    suspend fun getWxArticle(
+        @Path("id") id: Int,
+        @Path("page") page: Int
+    ): BaseResp<CollectArticleResponse>
+
+    /**
+     * 在某个公众号中搜索历史文章
+     * @return
+     */
+    @GET("wxarticle/list/{id}/{page}/json?k={k}")
+    suspend fun searchWxArticle(
+        @Path("id") id: Int,
+        @Path("page") page: Int,
+        @Path("k") k: String?
+    ): BaseResp<CollectArticleResponse>
 }

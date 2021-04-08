@@ -3,10 +3,16 @@ package com.wdz.module_article.system
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.wdz.common.mvvm.BaseMvvmViewModel
-import com.wdz.common.net.response.TreeResponse
+
+import com.wdz.ktcommon.base.BaseMvvmViewModel
+
+import com.wdz.ktcommon.base.HttpResult
+import com.wdz.ktcommon.http.repository.NetRepository
+import com.wdz.ktcommon.response.TreeResponse
+import kotlinx.coroutines.launch
 
 /**
 
@@ -18,17 +24,28 @@ import com.wdz.common.net.response.TreeResponse
 class SystemViewModel: BaseMvvmViewModel<SystemModel>() {
     val tree = MutableLiveData<List<TreeResponse>>()
 
-    public override fun initModel(context: Context?) {
+    public override fun initModel(context: Context) {
         model = SystemModel()
     }
 
 
     fun getSystem(){
-        model.getSystem(object : SystemModel.OnGetTreeListener{
-            override fun onGetTreeSuccess(response: List<TreeResponse>) {
-                tree.postValue(response)
-            }
+        viewModelScope.launch {
+            val result = NetRepository.getTree()
+            when(result){
+                is HttpResult.Success ->{
+                    tree.postValue(result.data)
+                }
+                is HttpResult.Error ->{
 
-        })
+                }
+            }
+        }
+//        model.getSystem(object : SystemModel.OnGetTreeListener{
+//            override fun onGetTreeSuccess(response: List<TreeResponse>) {
+//                tree.postValue(response)
+//            }
+//
+//        })
     }
 }

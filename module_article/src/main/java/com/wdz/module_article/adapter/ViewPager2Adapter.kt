@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.wdz.common.net.response.TreeResponse
+
 import com.wdz.module_article.system.TreeInfoFragment
 
 // TODO: 2021/3/18 FragmentPagerAdapter(Fragment对象会一直存在内存中) - FragmentStateAdapter
