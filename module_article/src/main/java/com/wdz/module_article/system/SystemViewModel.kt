@@ -1,5 +1,6 @@
 package com.wdz.module_article.system
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +22,7 @@ import kotlinx.coroutines.launch
  * @Date 2021/3/8 14:46
 
  */
-class SystemViewModel: BaseMvvmViewModel<SystemModel>() {
+class SystemViewModel(application: Application) : BaseMvvmViewModel<SystemModel>(application) {
     val tree = MutableLiveData<List<TreeResponse>>()
 
     public override fun initModel(context: Context) {

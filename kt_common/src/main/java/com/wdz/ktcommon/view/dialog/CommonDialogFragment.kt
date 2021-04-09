@@ -7,6 +7,11 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.Guideline
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.wdz.ktcommon.R
@@ -67,12 +72,17 @@ class CommonDialogFragment: DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.dialog_fragment_common, container, false)
-        initView()
+        initView(view)
         dialog?.window?.attributes?.windowAnimations = anim
         return view
     }
 
-    private fun initView() {
+    private fun initView(view: View) {
+        val guideline = view.findViewById<Guideline>(R.id.guideline)
+        val tv_cancel = view.findViewById<TextView>(R.id.tv_cancel)
+        val tv_sure = view.findViewById<TextView>(R.id.tv_sure)
+        val frameLayout = view.findViewById<FrameLayout>(R.id.frameLayout)
+
         if (negativeButtonText.isBlank()){
             guideline.setGuidelinePercent(0F)
             tv_cancel.visibility = View.GONE
@@ -103,12 +113,16 @@ class CommonDialogFragment: DialogFragment() {
         when(dialogType){
             DIALOG_TYPE_MESSAGE -> {
                 val view = layoutInflater.inflate(R.layout.dialog_fragment_message, null)
+                val tv_title = view.findViewById<TextView>(R.id.tv_title)
+                val tv_message = view.findViewById<TextView>(R.id.tv_message)
                 tv_title.text = title
                 tv_message.text = message
                 frameLayout.addView(view)
             }
             DIALOG_TYPE_EDIT_TEXT -> {
                 val view = layoutInflater.inflate(R.layout.dialog_fragment_edittext, null)
+                val tv_title = view.findViewById<TextView>(R.id.tv_title)
+                val et_message = view.findViewById<EditText>(R.id.et_message)
                 tv_title.text = title
                 et_message.hint = hint
                 tv_sure.isEnabled = false
@@ -131,6 +145,8 @@ class CommonDialogFragment: DialogFragment() {
             }
             DIALOG_TYPE_IMAGE -> {
                 val view = layoutInflater.inflate(R.layout.dialog_fragment_image, null)
+                val tv_message = view.findViewById<TextView>(R.id.tv_message)
+                val iv_icon = view.findViewById<ImageView>(R.id.iv_icon)
                 tv_message.text = message
                 iv_icon.setImageResource(icon)
                 frameLayout.addView(view)
@@ -171,8 +187,8 @@ class CommonDialogFragment: DialogFragment() {
             return this
         }
 
-        fun setMessage(message: String): MessageDialogFragmentBuilder {
-            commonDialogFragment.message = message
+        override fun setMessage(s: String): CommonDialogBuilder {
+            commonDialogFragment.message = s
             return this
         }
 
@@ -227,6 +243,11 @@ class CommonDialogFragment: DialogFragment() {
             commonDialogFragment.title = title
             return this
         }
+        override fun setMessage(s: String): EditTextDialogFragmentBuilder {
+            commonDialogFragment.message = s
+            return this
+        }
+
 
         override fun setPositiveButtonText(
             positiveButtonText: String,
@@ -286,6 +307,7 @@ class CommonDialogFragment: DialogFragment() {
         }
 
 
+
     }
 
     /**
@@ -301,7 +323,7 @@ class CommonDialogFragment: DialogFragment() {
             return this
         }
 
-        fun setMessage(message: String): ImageDialogFragmentBuilder {
+        override fun setMessage(message: String): ImageDialogFragmentBuilder {
             commonDialogFragment.message = message
             return this
         }

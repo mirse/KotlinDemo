@@ -59,7 +59,7 @@ class SearchModel(context: Context): BaseModel() {
      * 获取搜索历史
      */
     fun getSearchHistory(databaseOperationListener: DatabaseOperationListener<History>){
-        HistoryRepository.getInstance(context)?.getAllHistory(databaseOperationListener)
+        //HistoryRepository.getInstance(context)?.getAllHistory(databaseOperationListener)
     }
 
     /*

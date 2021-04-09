@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.wdz.common.view.RoundImageView
+            <com.wdz.ktcommon.view.RoundImageView
                 android:id="@+id/roundImageView"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"

@@ -1,22 +1,18 @@
 package com.wdz.module_account.main
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 
-
-import com.wdz.common.constant.ARouterConstant
-
-
-
-
-import com.wdz.common.util.Log
-import com.wdz.common.view.dialog.CommonDialogFragment
 import com.wdz.ktcommon.MyApplication
 import com.wdz.ktcommon.base.BaseKVmFragment
+import com.wdz.ktcommon.constant.ARouterConstant
 import com.wdz.ktcommon.http.HttpRequestStatus
 import com.wdz.ktcommon.response.LoginResponse
+import com.wdz.ktcommon.view.dialog.CommonDialogBuilder
+import com.wdz.ktcommon.view.dialog.CommonDialogFragment
 import com.wdz.module_account.R
 import com.wdz.module_account.databinding.FragmentAccountBinding
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -27,7 +23,7 @@ public class AccountFragment : BaseKVmFragment(),
     View.OnClickListener {
     private val TAG = this::class.simpleName
     private var userInfo: LoginResponse? = null
-    private var dialog:CommonDialogFragment? = null
+    private var dialog: CommonDialogFragment? = null
 
     private val vm by getVm<AccountViewModel>()
 
@@ -102,16 +98,24 @@ public class AccountFragment : BaseKVmFragment(),
     }
 
     private fun showLogoutDialog() {
-        dialog = CommonDialogFragment.MessageDialogFragmentBuilder(activity)
-            .setTitle("提示")
-            .setMessage("退出账号？")
-            .setNegativeButtonText("取消") {
+        activity?.run {
+            dialog = CommonDialogFragment.MessageDialogFragmentBuilder(this)
+                .setTitle("提示")
+                .setMessage("退出账号？")
+                .setNegativeButtonText("取消",object :CommonDialogBuilder.OnClickListener{
+                    override fun onClick(commonDialogFragment: CommonDialogFragment?) {
 
-            }
-            .setPositiveButtonText("确定") {
-                vm.logoutUser()
-            }
-            .show()
+                    }
+                })
+                .setPositiveButtonText("确定",object :CommonDialogBuilder.OnClickListener{
+                    override fun onClick(commonDialogFragment: CommonDialogFragment?) {
+                        vm.logoutUser()
+                    }
+
+                })
+                .show()
+        }
+
     }
 
     override fun isUseDataBinding(): Boolean {

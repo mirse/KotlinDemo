@@ -9,6 +9,12 @@ abstract class CommonDialogBuilder {
     abstract fun setTitle(title: String): CommonDialogBuilder
 
     /**
+     * 设置文字消息
+     * @param s String
+     * @return CommonDialogFragment
+     */
+    abstract fun setMessage(s: String): CommonDialogBuilder
+    /**
      * 设置右侧按钮文本
      * @param positiveButtonText 右侧文本
      * @param onClickListener 点击监听事件
@@ -48,6 +54,7 @@ abstract class CommonDialogBuilder {
      * @return
      */
     abstract fun show(): CommonDialogFragment
+
 
     /**
      * 常规dialog点击监听

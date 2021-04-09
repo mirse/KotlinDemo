@@ -1,5 +1,6 @@
 package com.wdz.module_account.register
 
+import android.app.Application
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,20 +11,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 
-import com.wdz.common.net.response.LoginResponse
-import com.wdz.common.util.MmkvUtils
+
 import com.wdz.ktcommon.base.BaseMvvmViewModel
 import com.wdz.ktcommon.base.HttpResult
 import com.wdz.ktcommon.http.HttpRequestStatus
 import com.wdz.ktcommon.http.repository.NetRepository
 import com.wdz.ktcommon.utils.setLoginUser
 import com.wdz.module_account.login.LoginModel
-import com.wdz.module_account.login.bean.RegisterStatus
+
 import kotlinx.coroutines.launch
 
-public class RegisterViewModel: BaseMvvmViewModel<RegisterModel>() {
-    var registerStatus: MutableLiveData<RegisterStatus> = MutableLiveData();
-    var mRegisterStatus:RegisterStatus = RegisterStatus()
+public class RegisterViewModel(application: Application) : BaseMvvmViewModel<RegisterModel>(
+    application
+) {
+
 
     var userName:String = ""
     var pwd:String = ""

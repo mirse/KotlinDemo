@@ -1,6 +1,8 @@
 package com.wdz.ktcommon.base
 
+import android.app.Application
 import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,11 +16,10 @@ import com.wdz.ktcommon.http.repository.NetRepository
  * @Date 2021/3/31 13:38
 
  */
-abstract class BaseMvvmViewModel<M: BaseModel>: ViewModel() {
+abstract class BaseMvvmViewModel<M: BaseModel>(application: Application) : AndroidViewModel(application) {
 
     protected var model: M? = null
 
-    //protected val netRepository by lazy { NetRepository() }
 
     /**
      * http请求时的状态变化liveData
@@ -29,8 +30,4 @@ abstract class BaseMvvmViewModel<M: BaseModel>: ViewModel() {
     protected abstract fun initModel(context: Context)
 
 
-//
-//    fun getHttpLiveData(): MutableLiveData<HttpRequestStatus>? {
-//        return httpLiveData
-//    }
 }

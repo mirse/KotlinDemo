@@ -1,6 +1,7 @@
 package com.wdz.ktcommon.room.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.wdz.ktcommon.room.base.BaseDao
@@ -13,6 +14,9 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlin.jvm.Throws
 
 /**
@@ -20,13 +24,14 @@ import kotlin.jvm.Throws
  * @Date 2021/2/7 10:09
  */
 class HistoryRepository(context: Context) : BaseRepository<History, HistoryDao>() {
+    private val TAG = this::class.simpleName
     init {
         mDao = BaseDatabase.getInstance(context)?.historyDao()
     }
 
     companion object {
         private var mInstance: HistoryRepository? = null
-        fun getInstance(context: Context, ): HistoryRepository? {
+        fun getInstance(context: Context): HistoryRepository? {
             if (mInstance == null) {
                 synchronized(HistoryRepository::class.java) {
                     if (mInstance == null) {
@@ -40,14 +45,9 @@ class HistoryRepository(context: Context) : BaseRepository<History, HistoryDao>(
 
 
 
-    fun getAllHistory(databaseOperationListener: DatabaseOperationListener<History>) {
-        mDao?.run {
-            execute<List<History>, Any>(loadAllHistory(), object : Consumer<List<History>> {
-                override fun accept(histories: List<History>) {
-                    databaseOperationListener.onSuccess(histories)
-                }
-            })
-        }
+    fun getAllHistory(): Flow<List<History>>? {
+
+        return mDao?.loadAllHistory()
 
     }
 

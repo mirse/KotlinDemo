@@ -98,4 +98,9 @@ dependencies {
     kapt rootProject.ext.dependencies.room_compiler_kt
     implementation rootProject.ext.dependencies.room_rxjava2
 
+    //start-up
+    implementation rootProject.ext.dependencies.startUp
+
+    implementation "androidx.room:room-ktx:2.2.6"
+
 }

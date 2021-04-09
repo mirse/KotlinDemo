@@ -1,5 +1,6 @@
 package com.wdz.module_article.system
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -32,7 +33,7 @@ import kotlin.reflect.KClass
  * @Date 2021/3/9 9:08
 
  */
-class TreeInfoViewModel: BaseMvvmViewModel<TreeInfoModel>() {
+class TreeInfoViewModel(application: Application) : BaseMvvmViewModel<TreeInfoModel>(application) {
     private val TAG = this::class.simpleName
     var treeInfoList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
     var wxList = MutableLiveData<List<WxResponse>>()

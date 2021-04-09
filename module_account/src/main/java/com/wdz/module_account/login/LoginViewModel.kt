@@ -1,5 +1,6 @@
 package com.wdz.module_account.login
 
+import android.app.Application
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,10 +14,9 @@ import com.wdz.ktcommon.http.HttpRequestStatus
 import com.wdz.ktcommon.http.repository.NetRepository
 import com.wdz.ktcommon.utils.setLoginUser
 
-import com.wdz.module_account.login.bean.RegisterStatus
 import kotlinx.coroutines.launch
 
-public class LoginViewModel: BaseMvvmViewModel<LoginModel>(){
+public class LoginViewModel(application: Application) : BaseMvvmViewModel<LoginModel>(application){
     private val TAG = this::class.simpleName
 
     var userName:String = ""

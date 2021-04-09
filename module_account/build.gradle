@@ -99,5 +99,5 @@ dependencies {
 
     implementation rootProject.ext.dependencies.viewmodel_ktx
     implementation project(path: ':kt_common')
-    implementation project(path: ':common')
+
 }

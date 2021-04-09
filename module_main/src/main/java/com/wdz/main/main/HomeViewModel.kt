@@ -1,5 +1,6 @@
 package com.wdz.main.main
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ComputableLiveData
@@ -26,7 +27,7 @@ import java.lang.reflect.Proxy
  * @Date 2021/1/18 11:53
 
  */
-class HomeViewModel: BaseMvvmViewModel<HomeModel>(){
+class HomeViewModel(application: Application) : BaseMvvmViewModel<HomeModel>(application){
     private val TAG = this::class.simpleName
     var mainPageArticleList = MutableLiveData<MutableList<MainArticle>>()
     var otherPageArticleList = MutableLiveData<MutableList<MainArticle>>()

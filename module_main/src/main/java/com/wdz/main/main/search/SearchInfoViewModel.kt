@@ -1,5 +1,6 @@
 package com.wdz.main.main.search
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ComputableLiveData
@@ -23,7 +24,7 @@ import java.util.*
  * @Date 2021/1/18 11:53
 
  */
-class SearchInfoViewModel: BaseMvvmViewModel<SearchInfoModel>(){
+class SearchInfoViewModel(application: Application) : BaseMvvmViewModel<SearchInfoModel>(application){
     private val TAG = this::class.simpleName
     var articleList: LiveData<PagedList<MainArticle>> = MutableLiveData<PagedList<MainArticle>>()
 

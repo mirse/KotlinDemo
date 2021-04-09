@@ -5,6 +5,7 @@ import androidx.room.Query
 import com.wdz.ktcommon.room.base.BaseDao
 import com.wdz.ktcommon.room.entity.History
 import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @Author dezhi.wang
@@ -13,5 +14,5 @@ import io.reactivex.Flowable
 @Dao
 interface HistoryDao : BaseDao<History> {
     @Query("SELECT * FROM HISTORY_TAB")
-    fun loadAllHistory(): Flowable<List<History>>
+    fun loadAllHistory(): Flow<List<History>>
 }

@@ -7,17 +7,17 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.jakewharton.rxbinding3.widget.textChanges
 
-import com.wdz.common.constant.ARouterConstant
+
 import com.wdz.ktcommon.MyApplication
 
 import com.wdz.ktcommon.base.BaseKVmActivity
+import com.wdz.ktcommon.constant.ARouterConstant
 import com.wdz.ktcommon.http.HttpRequestStatus
 import com.wdz.ktcommon.response.LoginResponse
 import com.wdz.module_account.R
 import com.wdz.module_account.databinding.ActivityLoginBinding
 import com.wdz.module_account.databinding.ActivityRegisterBinding
 import com.wdz.module_account.login.LoginViewModel
-import com.wdz.module_account.login.bean.RegisterStatus
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction

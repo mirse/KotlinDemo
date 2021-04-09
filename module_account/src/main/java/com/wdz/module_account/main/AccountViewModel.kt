@@ -1,10 +1,11 @@
 package com.wdz.module_account.main
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wdz.common.net.base.BaseResponse
+
 
 
 import com.wdz.ktcommon.base.BaseMvvmViewModel
@@ -15,7 +16,9 @@ import com.wdz.ktcommon.utils.clearLoginUser
 import kotlinx.coroutines.launch
 
 
-public class AccountViewModel: BaseMvvmViewModel<AccountModel>() {
+public class AccountViewModel(application: Application) : BaseMvvmViewModel<AccountModel>(
+    application
+) {
 
     public override fun initModel(context: Context) {
         model = AccountModel()

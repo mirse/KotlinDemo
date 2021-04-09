@@ -8,13 +8,9 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.jakewharton.rxbinding3.widget.textChanges
 
-
-import com.wdz.common.constant.ARouterConstant
-
-import com.wdz.common.mvvm.kotlin.BaseKVmActivity
-
-
 import com.wdz.ktcommon.MyApplication
+import com.wdz.ktcommon.base.BaseKVmActivity
+import com.wdz.ktcommon.constant.ARouterConstant
 import com.wdz.ktcommon.http.HttpRequestStatus
 import com.wdz.ktcommon.response.LoginResponse
 import com.wdz.module_account.R
